@@ -3,8 +3,9 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: []
+  styleUrls: ['./main.component.css']
 })
 export class MainComponent {
+  public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
   constructor () {}
 }

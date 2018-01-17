@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {AuthGuard} from './guards/auth.guard';
-import {AuthInterceptor} from './interceptors/auth.interceptor';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {UnauthorizedGuard} from './guards/unauthorized.guard';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
 
 @NgModule({
   imports: [],
@@ -15,8 +15,7 @@ import {UnauthorizedGuard} from './guards/unauthorized.guard';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
-  ]
+    }]
 })
 export class SharedModule {
 }

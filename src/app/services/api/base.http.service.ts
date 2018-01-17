@@ -4,10 +4,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
-import {environment} from '../../../environments/environment';
-import {IResultInfo} from '../../shared/models/success-response.model';
-import {AuthService} from '../auth.service';
 
 @Injectable()
 export abstract class BaseHttpService {

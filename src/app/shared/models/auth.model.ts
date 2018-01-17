@@ -1,13 +1,10 @@
 export interface ILoginData {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface ILoginSuccessResponse {
-  bearerToken: string;
-  refreshToken: string;
-  bearerExpires: number;
-  refreshExpires: number;
+  token: string;
 }
 
 export interface IEmail {

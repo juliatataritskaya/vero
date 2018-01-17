@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-start-page',
+  selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: []
 })
-export class AuthComponent{
+export class AuthComponent {
   constructor () {}
 }

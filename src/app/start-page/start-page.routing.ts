@@ -1,22 +1,10 @@
 import {Routes} from '@angular/router';
-import {RegistrationComponent} from './registration/registration.component';
-import {LoginComponent} from './login/login.component';
-import {ForgotPasswordComponent} from './forgot_password/forgot-password.component';
-import {SetNewPasswordComponent} from './set-new-password/set-new-passwordcomponent';
+import {StartPageComponent} from './start-page.component';
+import {LoginRoutes} from '../auth/login/login.routes';
+import {RegistrationRoutes} from '../auth/registration/registration.routes';
 
-export const AuthRoutes: Routes = [{
-  path: 'registration',
-  component: RegistrationComponent
-}, {
-  path: 'login',
-  component: LoginComponent
-}, {
-  path: 'forgot-password',
-  component: ForgotPasswordComponent
-}, {
-  path: 'set-new-password',
-  component: SetNewPasswordComponent
-}, {
-  path: '**',
-  redirectTo: 'login'
-}];
+export const StartPageRoutes: Routes = [
+  {path: '', component: StartPageComponent, pathMatch: 'full'},
+  {
+    path: 'start-page', component: StartPageComponent
+  }];

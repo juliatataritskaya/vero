@@ -9,7 +9,7 @@ export class UnauthorizedGuard implements CanActivate {
 
   canActivate (): Observable<boolean> | boolean {
     if (localStorage.getItem('access_token')) {
-      this.router.navigate(['/main/dashboard']);
+      this.router.navigate(['/main']);
       return false;
     } else {
       return true;

@@ -8,19 +8,8 @@ export interface IUser extends INewUser {
   id: number;
 }
 
-export interface IUserWithCustomerProfile extends IUser {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  createdAt: number;
-  updatedAt: number;
-}
-
 export const userRole = {
-  admin: 'admin',
-  customer: 'customer',
-  preCustomer: 'preCustomer',
-  guest: 'guest'
+  superAdmin: 'superAdmin',
+  superManager: 'superManager',
+  manager: 'manager'
 };
