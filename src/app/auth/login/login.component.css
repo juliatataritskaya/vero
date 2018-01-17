@@ -1,0 +1,16 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.loginForm-contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.loginForm-fieldsContainer .mat-form-field {
+  width: 100%;
+}
