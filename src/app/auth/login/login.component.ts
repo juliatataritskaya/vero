@@ -11,8 +11,6 @@ import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.c
 })
 export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
   loginForm: FormGroup;
-  email: string;
-  password: string;
 
   constructor (private authService: AuthService, private router: Router, private fb: FormBuilder) {
     super({
@@ -35,13 +33,18 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     this.createLoginForm();
   }
 
-  public onLoginHandler(email, password): void {
+  public onLoginHandler(): void {
     if (!this.loginForm.valid) {
       this.showError('Login data in invalid, please check it.');
       return;
     }
-    this.router.navigate(['/main']);
-    const loginData = this.loginForm.value;
+    const formObject = this.loginForm.value;
+    const loginData = new FormData();
+    for (const key in formObject) {
+      if (formObject.hasOwnProperty(key)) {
+       loginData.append(key, formObject[key]);
+     }
+    }
     this.authService.loginUser(loginData).then(() => {
       this.router.navigate(['/main']);
     }, error => {

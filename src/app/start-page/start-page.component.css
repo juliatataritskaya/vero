@@ -1,8 +1,8 @@
-.masthead{
+.masthead {
   width: 100%;
   text-align: center;
   color: black;
-  background-image: url(../../assets/img/bg-2.png);
+  background-image: url(../../assets/img/koln-pfp-architekten.jpg);
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -15,37 +15,34 @@
   position: relative;
 }
 
-.intro-text{
+.intro-text {
   margin-top: -80px;
 }
 
-.intro-text h2{
+.intro-text h2 {
   font-family: "Open Sans", sans-serif;
   line-height: 70px;
   vertical-align: middle;
   font-size: 60px;
 }
 
-.intro-text h3{
+.intro-text h3 {
   font-family: "Lato", sans-serif;
 }
 
-.intro-text h2 span{
-  white-space: nowrap;
+.intro-text h2 span {
   font-weight: 600;
   font-size: 80px;
 }
 
 .intro-text a {
-  padding: 18px 30px;
+  padding: 12px 17px;
   /*background-color: #ee4b28;*/
   /*border-color: #ee4b28;*/
-  background-color: whitesmoke;
-  border: none;
+  background-color: #5c5cb5;
+  border: 2px solid #5c5cb5;
   /*border: 3px solid black;*/
-  color: black;
-
-  border-radius: 300px;
+  color: white;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 20px;
@@ -53,29 +50,35 @@
   width: 200px;
 }
 
-.intro-text a:hover{
-  background-color: white;
-  color: #000;
+.intro-text a:hover {
+  background-color: #5151b0;
+  border: 2px solid #5151b0;
+  color: white;
 }
 
-.logo-box{
+.logo-box {
   height: 100px;
   /*background-color: rgba(255, 255, 255, 0.7);*/
 }
 
-.logo{
+.logo {
   margin-left: 10%;
 }
 
-
-footer{
-  height: 50px;
+footer {
+  height: 70px;
   /*background-color: rgba(255, 255, 255, 0.9);*/
-  padding-top: 10px;
+  padding-top: 20px;
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
-  color:white;
+  color: black;
   vertical-align: middle;
+  size: 20px;
+}
+
+footer h6 {
+  font-size: 20px;
+  font-weight: 500;
 }

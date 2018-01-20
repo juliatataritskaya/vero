@@ -1,6 +1,5 @@
 <div class="navbar navbar-inverse">
   <div class="navbar-header">
-    <a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>
 
     <ul class="nav navbar-nav visible-xs-block">
       <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
@@ -13,12 +12,19 @@
     </ul>
 
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right icons-list">
       <li class="dropdown dropdown-user">
         <a class="dropdown-toggle" data-toggle="dropdown">
-          <img src="assets/images/placeholder.jpg" alt="">
-          <span>Victoria</span>
+          <span>{{userName}}</span>
+          <i class="caret"></i>
         </a>
+
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a><i class="icon-user-plus"></i> My profile</a></li>
+          <li class="divider"></li>
+          <li><a><i class="icon-cog5"></i> Account settings</a></li>
+          <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -40,9 +46,8 @@
         <div class="sidebar-user">
           <div class="category-content">
             <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
               <div class="media-body">
-                <span class="media-heading text-semibold">Victoria Baker</span>
+                <span class="media-heading text-semibold">{{userName}}</span>
                 <div class="text-size-mini text-muted">
                   <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
                 </div>
@@ -51,7 +56,7 @@
               <div class="media-right media-middle">
                 <ul class="icons-list">
                   <li>
-                    <a href="#"><i class="icon-cog3"></i></a>
+                    <a><i class="icon-cog3"></i></a>
                   </li>
                 </ul>
               </div>
@@ -65,8 +70,9 @@
         <div class="sidebar-category sidebar-category-visible">
           <div class="category-content no-padding">
             <ul class="navigation navigation-main navigation-accordion">
-              <li class="active"><a routerLink=""><i class="icon-home4"></i> <span>Companies</span></a></li>
-              <li class=""><a><i class="icon-home4"></i> <span>Users</span></a></li>
+              <li *ngFor="let link of linkItems"><a routerLink="{{link.routerLink}}">
+                <i class="{{link.icon}}"></i><span>{{link.name}}</span></a>
+              </li>
             </ul>
           </div>
         </div>
@@ -96,18 +102,11 @@
 
         <!-- Dashboard content -->
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-12">
                <router-outlet></router-outlet>
           </div>
         </div>
         <!-- /dashboard content -->
-
-
-        <!-- Footer -->
-        <div class="footer text-muted">
-          &copy; 2017. <a href="#">Vero VR</a>
-        </div>
-        <!-- /footer -->
 
       </div>
       <!-- /content area -->
@@ -120,3 +119,22 @@
 
 </div>
 <!-- /page container -->
+
+<!-- MESSAGE BOX-->
+<div id="messageBoxModal" class="modal message-box animated fadeIn" role="dialog">
+  <div class="mb-container">
+    <div class="mb-middle">
+      <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+      <div class="mb-content">
+        <p>Are you sure you want to log out?</p>
+        <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="onHandleLogout()">Yes</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

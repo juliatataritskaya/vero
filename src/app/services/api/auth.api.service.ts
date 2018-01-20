@@ -13,7 +13,7 @@ export class AuthApiService extends BaseHttpService {
     super(http);
   }
 
-  public postLogin (loginData: ILoginData): Promise<ILoginSuccessResponse> {
+  public postLogin (loginData: any): Promise<ILoginSuccessResponse> {
     return new Promise((resolve, reject) => {
       this.post(AuthApiService.loginUrl, {}, loginData)
         .subscribe(result => {

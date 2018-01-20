@@ -3,6 +3,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {UnauthorizedGuard} from './guards/unauthorized.guard';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {RolesGuard} from './guards/roles.guard';
 
 @NgModule({
   imports: [],
@@ -11,6 +12,7 @@ import {AuthInterceptor} from './interceptors/auth.interceptor';
   providers: [
     AuthGuard,
     UnauthorizedGuard,
+    RolesGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

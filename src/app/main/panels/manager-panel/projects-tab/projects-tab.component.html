@@ -1,0 +1,92 @@
+<div>
+  <table id="projects_table" class="table table-striped table-bordered table-hover no-footer">
+  </table>
+</div>
+<div>
+  <div class="col-lg-3 col-centered">
+    <button type="submit" class="btn btn-block" (click)="isClickOnCreateProject = !isClickOnCreateProject">Create new project</button>
+  </div>
+</div>
+
+<div *ngIf="isClickOnCreateProject">
+  <form class="form-horizontal col-lg-12" [formGroup]="projectForm">
+    <div class="col-lg-12">
+      <div class="col-lg-3 col-sm-12">
+        <label>Project name:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="text" formControlName="name" title=""/>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="col-lg-3 col-sm-12">
+        <label>Project description:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <textarea type="text" formControlName="description" title=""></textarea>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <div class="col-lg-3 col-sm-12">
+        <label>Project logo:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="file" formControlName="logo" title="" (change)="onFileChange($event, 'logo')"/>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <div class="col-lg-3 col-sm-12">
+        <label>Project photos:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="file" formControlName="photos" multiple title="" (change)="onUpdateFiles($event)"/>
+      </div>
+      <div class="photo-container col-lg-12" *ngIf="projectPhotos.length != 0">
+        <img *ngFor="let photo of projectPhotos" src="{{photo}}" width="100px" height="70px" (click)="deleteProjectPhoto($event)" title="Click if you want delete it">
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="col-lg-3 col-sm-12">
+        <label>Youtube link:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="text" formControlName="youtube" title=""/>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <div class="col-lg-3 col-sm-12">
+        <label>Project plan:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="file" formControlName="plan" title="" (change)="onFileChange($event, 'plan')"/>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <div class="col-lg-3 col-sm-12">
+        <label>AR model:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="file" formControlName="armodel" title="" (change)="onFileChange($event, 'armodel')"/>
+      </div>
+    </div>
+
+    <div class="col-lg-12 ">
+      <div class="col-lg-3 col-sm-12">
+        <label>360 &deg; photos:</label>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <input type="file" formControlName="photos360" multiple title="" (change)="onUpdate360Files($event)"/>
+      </div>
+      <div class="photo-container col-lg-12" *ngIf="photos360.length != 0">
+        <img *ngFor="let photo of photos360" src="{{photo}}" width="100px" height="70px" (click)="deletePhoto360($event)" title="Click if you want delete it">
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div class="col-lg-3 col-centered">
+        <button type="submit" class="btn btn-block" (click)="onSaveHandler($event)">save</button>
+      </div>
+    </div>
+  </form>
+</div>
+

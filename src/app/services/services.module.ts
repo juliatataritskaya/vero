@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {AuthService} from './auth.service';
 import {AuthApiService} from './api/auth.api.service';
+import {ManagerApiService} from './api/manager.api.service';
+import {ManagerService} from './manager.service';
 
 @NgModule({
   imports: [],
@@ -8,7 +10,9 @@ import {AuthApiService} from './api/auth.api.service';
   exports: [],
   providers: [
     AuthService,
-    AuthApiService
+    AuthApiService,
+    ManagerApiService,
+    ManagerService
   ]
 })
 export class ServicesModule {

@@ -20,8 +20,6 @@
  * ---------------------------------------------------------------------------- */
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../css/icons/glyphicons/glyphicons-halflings-regular.eot');
-  src: url('../css/icons/glyphicons/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../css/icons/glyphicons/glyphicons-halflings-regular.woff2') format('woff2'), url('../css/icons/glyphicons/glyphicons-halflings-regular.woff') format('woff'), url('../css/icons/glyphicons/glyphicons-halflings-regular.ttf') format('truetype'), url('../css/icons/glyphicons/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   font-size: 16px;
@@ -1122,6 +1120,7 @@ input[type="time"],
 input[type="week"],
 input[type="url"],
 input[type="tel"],
+input[type="file"],
 textarea {
   -webkit-appearance: none;
 }
@@ -1971,7 +1970,6 @@ input[class*=bg-] + .form-control-feedback {
   margin-top: -1px;
 }
 .caret:after {
-  content: '\e9c5';
   font-family: 'icomoon';
   display: block;
   font-size: 16px;
@@ -3780,7 +3778,7 @@ li + .dropdown-header.highlight,
     background-color: rgba(0, 0, 0, 0.1);
     color: #fff;
   }
-  .navbar-inverse .navbar-nav .open .dropdown-menu a:not(.label-flat):not(.badge-flat):not(.disabled > a) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu a:not(.label-flat):not(.badge-flat):not(.disabled a) {
     color: #fff;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
@@ -5998,7 +5996,6 @@ a.list-group-item-danger:focus {
   overflow-x: auto;
 }
 .panel.has-bg-image {
-  background-image: url(../images/backgrounds/panel_bg.png);
 }
 .panel-flat > .panel-heading + .table,
 .panel-flat > .panel-heading + .table-responsive {

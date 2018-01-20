@@ -4,3 +4,50 @@
 .page-container{
   height: 100%;
 }
+.page-header{
+  margin-top: 5px;
+}
+
+.message-box .mb-container {
+  position: absolute;
+  left: 0px;
+  top: 35%;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 20px;
+  width: 100%;
+}
+
+.message-box {
+  display: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+.message-box .mb-container .mb-middle .mb-title {
+  width: 100%;
+  float: left;
+  padding: 10px 0px 0px;
+  font-size: 31px;
+  font-weight: 400;
+  line-height: 36px;
+}
+
+.message-box .mb-container .mb-middle {
+  width: 50%;
+  left: 25%;
+  position: relative;
+  color: #FFF;
+}
+
+.btn-primary{
+  background-color: #5c5cb5;
+  border-color: #5c5cb5;
+}
+
+.btn-logout{
+  border-radius: 0;
+}

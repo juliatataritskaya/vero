@@ -4,7 +4,7 @@
 }
 
 .login-cover {
-  background: url('../../../assets/img/pexels-photo-302769.png') top center no-repeat;
+  background: url(../../../assets/img/bg.png) top center no-repeat #a9a9ab;
   background-size: cover;
   height: 100%;
 }
@@ -14,8 +14,12 @@
 }
 
 .form-group button {
-  background-color: #f05f40;
+  background-color: #5c5cb5;
   color: white;
+}
+
+.form-group button:hover {
+  background-color: #5151b0;
 }
 
 .logo {
@@ -33,4 +37,8 @@ small {
 
 .alert {
   padding: 8px;
+}
+
+h5{
+  font-weight: 700;
 }

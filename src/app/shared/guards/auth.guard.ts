@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
   constructor (private router: Router) {}
 
   canActivate (): Observable<boolean> | boolean {
-    if (localStorage.getItem('access_token')) {
+    if (localStorage.getItem('token')) {
       return true;
     } else {
       this.router.navigate(['/start-page']);

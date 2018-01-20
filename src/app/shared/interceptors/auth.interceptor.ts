@@ -17,7 +17,9 @@ export class AuthInterceptor implements HttpInterceptor {
         } else {
           authHeader = AuthService.ACCESS_TOKEN;
         }
-      const authReq = req.clone({headers: req.headers.set('Authorization', authHeader)});
+      let headers = req.headers.set('Authorization', authHeader);
+      // headers = headers.set('Content-Type', 'multipart/form-data');
+      const authReq = req.clone({headers: headers});
 
       return Observable.create(observer => {
         next.handle(authReq).subscribe(event => {
@@ -27,8 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
         });
       });
     } else {
-      let headers = req.headers.set('Content-Type', 'application/form-data');
-      headers = headers.set('Access-Control-Allow-Origin', '*');
+      let headers = req.headers.set('Access-Control-Allow-Origin', '*');
 
       const proceedReq = req.clone({headers});
       return next.handle(proceedReq);
