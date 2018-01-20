@@ -29,9 +29,8 @@ export class MainComponent implements OnInit {
         break;
       case 'Manager':
         this.linkItems = [
-          { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-person'},
-          { name: 'Editor', routerLink: 'managerpanel/editor', icon: 'icon-person'},
-          { name: 'Managers', routerLink: 'managerpanel/manager', icon: 'icon-person'}
+          { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
+          { name: 'Managers', routerLink: 'managerpanel/managers', icon: 'icon-person'}
         ];
         break;
       default:

@@ -100,6 +100,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onSaveHandler(): void {
+    this.isClickOnCreateProject = false;
     // if (!this.loginForm.valid) {
     //   this.showError('Login data in invalid, please check it.');
     //   return;

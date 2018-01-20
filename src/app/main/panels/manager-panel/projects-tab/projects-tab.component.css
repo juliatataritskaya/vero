@@ -1,71 +1,3 @@
-/*.btn-default:hover,*/
-/*.btn-default:focus,*/
-/*.btn-default:active,*/
-/*.btn-default.active,*/
-/*.open > .dropdown-toggle.btn-default {*/
-  /*background-color: #F5F5F5;*/
-  /*border-color: #DDD;*/
-/*}*/
-/*.btn-primary {*/
-  /*background-color: #1b1e24;*/
-  /*border-color: #1b1e24;*/
-/*}*/
-/*.btn-primary:hover,*/
-/*.btn-primary:focus,*/
-/*.btn-primary:active,*/
-/*.btn-primary.active,*/
-/*.open > .dropdown-toggle.btn-primary {*/
-  /*background-color: #101215;*/
-  /*border-color: #101215;*/
-/*}*/
-/*.btn-primary[disabled],*/
-/*.btn-primary.disabled {*/
-  /*background: #313641;*/
-  /*border-color: #2c313b;*/
-/*}*/
-
-.btn .fa,
-.btn .glyphicon {
-  font-size: 14px;
-  margin-right: 5px;
-}
-
-.input-group-addon {
-  border-color: #1b1e24;
-  background-color: #1b1e24;
-  font-size: 13px;
-  padding: 0px 10px;
-  line-height: 28px;
-  color: #FFF;
-  text-align: center;
-  min-width: 36px;
-}
-
-/*!*.input-group-btn {*!*/
-  /*!*vertical-align: bottom;*!*/
-/*!*}*!*/
-/*!*.form-group:last-child {*!*/
-  /*!*margin-bottom: 0;*!*/
-/*!*}*!*/
-
-
-/*.file_upload input[type=file] {*/
-  /*filter: alpha(opacity=0);*/
-  /*cursor: pointer;*/
-/*}*/
-
-/*.file_upload span{*/
-  /*color: white !important;*/
-/*}*/
-
-/*.input-group textarea{*/
-  /*border-radius: 4px;*/
-/*}*/
-
-/*.input-group{*/
-  /*width: 100%;*/
-/*}*/
-
 input:not([type="file"]), textarea{
   border: 1px solid #9d9d9d;
   border-radius: 5px;
@@ -87,5 +19,26 @@ input, textarea{
 }
 
 form{
+  margin-top: 30px;
+}
+
+.list-projects{
+  padding: 20px;
+}
+
+.action-buttons-group{
   margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+button {
+  color: white;
+  background-color: #5c5cb5;
+  border-color: #5c5cb5;
+}
+
+button:hover, button:active {
+  color: white;
+  background-color: #5151b0;
+  border-color: #5151b0;
 }

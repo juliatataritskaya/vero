@@ -5,13 +5,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ManagerPanelComponent} from './manager-panel.component';
 import {ManagerPanelRoutes} from './manager-panel.routing';
 import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
-import {EditorTabComponent} from './editor-projects-tab/editor-tab.component';
+import {ManagersTabComponent} from './managers-tab/managers-tab.component';
 
 @NgModule({
   declarations: [
     ManagerPanelComponent,
     ProjectsTabComponent,
-    EditorTabComponent
+    ManagersTabComponent
   ],
   imports: [
     FormsModule,
