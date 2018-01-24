@@ -22,27 +22,6 @@ $(function() {
     $('body').addClass('no-transitions');
 
 
-
-    // ========================================
-    //
-    // Content area height
-    //
-    // ========================================
-
-
-    // Calculate min height
-    function containerHeight() {
-        var availableHeight = $(window).height() - $('.page-container').offset().top - $('.navbar-fixed-bottom').outerHeight();
-
-        $('.page-container').attr('style', 'min-height:' + availableHeight + 'px');
-    }
-
-    // Initialize
-    containerHeight();
-
-
-
-
     // ========================================
     //
     // Heading elements
@@ -126,7 +105,7 @@ $(function() {
     $('.panel [data-action=reload]').click(function (e) {
         e.preventDefault();
         var block = $(this).parent().parent().parent().parent().parent();
-        $(block).block({ 
+        $(block).block({
             message: '<i class="icon-spinner2 spinner"></i>',
             overlayCSS: {
                 backgroundColor: '#fff',
@@ -144,7 +123,7 @@ $(function() {
         // For demo purposes
         window.setTimeout(function () {
            $(block).unblock();
-        }, 2000); 
+        }, 2000);
     });
 
 
@@ -152,7 +131,7 @@ $(function() {
     $('.category-title [data-action=reload]').click(function (e) {
         e.preventDefault();
         var block = $(this).parent().parent().parent().parent();
-        $(block).block({ 
+        $(block).block({
             message: '<i class="icon-spinner2 spinner"></i>',
             overlayCSS: {
                 backgroundColor: '#000',
@@ -171,15 +150,15 @@ $(function() {
         // For demo purposes
         window.setTimeout(function () {
            $(block).unblock();
-        }, 2000); 
-    }); 
+        }, 2000);
+    });
 
 
     // Light sidebar categories
     $('.sidebar-default .category-title [data-action=reload]').click(function (e) {
         e.preventDefault();
         var block = $(this).parent().parent().parent().parent();
-        $(block).block({ 
+        $(block).block({
             message: '<i class="icon-spinner2 spinner"></i>',
             overlayCSS: {
                 backgroundColor: '#fff',
@@ -197,8 +176,8 @@ $(function() {
         // For demo purposes
         window.setTimeout(function () {
            $(block).unblock();
-        }, 2000); 
-    }); 
+        }, 2000);
+    });
 
 
 
@@ -224,8 +203,6 @@ $(function() {
         $(this).parents('.category-title').toggleClass('category-collapsed');
         $(this).toggleClass('rotate-180');
 
-        containerHeight(); // adjust page height
-
         $categoryCollapse.slideToggle(150);
     });
 
@@ -249,8 +226,6 @@ $(function() {
         $(this).parents('.panel').toggleClass('panel-collapsed');
         $(this).toggleClass('rotate-180');
 
-        containerHeight(); // recalculate page height
-
         $panelCollapse.slideToggle(150);
     });
 
@@ -264,8 +239,6 @@ $(function() {
         e.preventDefault();
         var $panelClose = $(this).parent().parent().parent().parent().parent();
 
-        containerHeight(); // recalculate page height
-
         $panelClose.slideUp(150, function() {
             $(this).remove();
         });
@@ -276,8 +249,6 @@ $(function() {
     $('.category-title [data-action=close]').click(function (e) {
         e.preventDefault();
         var $categoryClose = $(this).parent().parent().parent().parent();
-
-        containerHeight(); // recalculate page height
 
         $categoryClose.slideUp(150, function() {
             $(this).remove();
@@ -309,7 +280,7 @@ $(function() {
     // Add active state to all dropdown parent levels
     $('.dropdown-menu:not(.dropdown-content), .dropdown-menu:not(.dropdown-content) .dropdown-submenu').has('li.active').addClass('active').parents('.navbar-nav .dropdown:not(.language-switch), .navbar-nav .dropup:not(.language-switch)').addClass('active');
 
-    
+
 
     // Main navigation tooltips positioning
     // -------------------------
@@ -338,7 +309,7 @@ $(function() {
         }
     });
 
-        
+
     // Alternate navigation
     $('.navigation-alt').find('li').has('ul').children('a').on('click', function (e) {
         e.preventDefault();
@@ -350,7 +321,7 @@ $(function() {
         if ($('.navigation-alt').hasClass('navigation-accordion')) {
             $(this).parent('li').not('.disabled').siblings(':has(.has-ul)').removeClass('active').children('ul').slideUp(200);
         }
-    }); 
+    });
 
 
 
@@ -382,13 +353,6 @@ $(function() {
     $(document).on('click', '.navigation .disabled a', function (e) {
         e.preventDefault();
     });
-
-
-    // Adjust page height on sidebar control button click
-    $(document).on('click', '.sidebar-control', function (e) {
-        containerHeight();
-    });
-
 
     // Hide main sidebar in Dual Sidebar
     $(document).on('click', '.sidebar-main-hide', function (e) {
@@ -454,7 +418,7 @@ $(function() {
 
         // Opposite sidebar visibility
         $('body').toggleClass('sidebar-opposite-visible');
-        
+
         // If visible
         if ($('body').hasClass('sidebar-opposite-visible')) {
 
@@ -562,8 +526,7 @@ $(function() {
 
     $(window).on('resize', function() {
         setTimeout(function() {
-            containerHeight();
-            
+
             if($(window).width() <= 768) {
 
                 // Add mini sidebar indicator
