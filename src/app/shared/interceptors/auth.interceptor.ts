@@ -1,8 +1,13 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {
+  HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
+  HttpResponse
+} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '../../services/auth.service';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,16 +23,17 @@ export class AuthInterceptor implements HttpInterceptor {
           authHeader = AuthService.ACCESS_TOKEN;
         }
       let headers = req.headers.set('Authorization', authHeader);
-      // headers = headers.set('Content-Type', 'multipart/form-data');
       const authReq = req.clone({headers: headers});
 
-      return Observable.create(observer => {
-        next.handle(authReq).subscribe(event => {
+      return next.handle(authReq)
+        .do(event => {
           if (event instanceof HttpResponse) {
-            observer.next(event);
+            return Observable.create(event);
           }
+        })
+        .catch(response => {
+          return Observable.throw(response);
         });
-      });
     } else {
       let headers = req.headers.set('Access-Control-Allow-Origin', '*');
 

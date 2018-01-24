@@ -3,6 +3,7 @@ import {AuthService} from './auth.service';
 import {AuthApiService} from './api/auth.api.service';
 import {ManagerApiService} from './api/manager.api.service';
 import {ManagerService} from './manager.service';
+import {RedirectService} from './redirect.service';
 
 @NgModule({
   imports: [],
@@ -12,7 +13,8 @@ import {ManagerService} from './manager.service';
     AuthService,
     AuthApiService,
     ManagerApiService,
-    ManagerService
+    ManagerService,
+    RedirectService
   ]
 })
 export class ServicesModule {

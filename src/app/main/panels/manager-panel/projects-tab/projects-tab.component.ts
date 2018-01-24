@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angul
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
 import {ManagerService} from '../../../../services/manager.service';
+import {RedirectService} from "../../../../services/redirect.service";
 declare var UnityLoader: any;
 declare var UnityProgress: any;
 
@@ -40,7 +41,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   testProjectData = [];
 
-  constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService) {
+  constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService, private redirectService: RedirectService) {
     super({
       name: '',
       description: '',
@@ -95,7 +96,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       });
       callback();
     }, error => {
-      console.log(error);
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
     });
   }
 
