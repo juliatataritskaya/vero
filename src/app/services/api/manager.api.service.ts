@@ -7,16 +7,19 @@ import {IProject} from '../../shared/models/project.model';
 
 @Injectable()
 export class ManagerApiService extends BaseHttpService {
-  private static createProjectUrl = environment.serverUrl + '/api/createProject';
   private static getAllProjectsUrl = environment.serverUrl + '/api/getProjectList';
+  private static postAddProjectInfoUrl = environment.serverUrl + '/api/AddProjectInfo';
+  private static postAddProjectPhotosUrl = environment.serverUrl + '/api/AddProjectPhotos';
+  private static postAddProjectPlanUrl = environment.serverUrl + '/api/AddProjectPlan';
+  private static postAddProjectArUrl = environment.serverUrl + '/api/AddProjectAr';
 
   constructor (protected http: HttpClient) {
     super(http);
   }
 
-  public postCreateProject (projectData: any): Promise<IResultInfo> {
+  public getAllProjects (): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.createProjectUrl, {}, projectData)
+      this.get(ManagerApiService.getAllProjectsUrl, {})
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -25,9 +28,42 @@ export class ManagerApiService extends BaseHttpService {
     });
   }
 
-  public getAllProjects (): Promise<any> {
+  public postAddProjectInfo (projectData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.get(ManagerApiService.getAllProjectsUrl, {})
+      this.post(ManagerApiService.postAddProjectInfoUrl, {}, projectData)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postAddProjectPhotos (projectPhotos: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.post(ManagerApiService.postAddProjectPhotosUrl, {}, projectPhotos)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postAddProjectPlan (projectPlan: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.post(ManagerApiService.postAddProjectPlanUrl, {}, projectPlan)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postAddProjectAr (projectAr: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.post(ManagerApiService.postAddProjectArUrl, {}, projectAr)
         .subscribe(result => {
           resolve(result);
         }, error => {

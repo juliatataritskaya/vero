@@ -9,7 +9,7 @@
 
 <div class="action-buttons-group">
   <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" (click)="isClickOnCreateProject = true">Create new project</button>
+    <button type="submit" class="btn btn-block" (click)="isClickOnCreateProject = true" (click)="selectedProject = null" (click)="onClearForm()">Create new project</button>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
     <button type="submit" class="btn btn-block" *ngIf="selectedProject" (click)="onEditProject()">Edit project</button>
@@ -17,7 +17,7 @@
 </div>
 
 
-<div *ngIf="isClickOnCreateProject" class="panel-wrapper animated fadeInRight">
+<div *ngIf="isClickOnCreateProject || isClickOnEditProject" class="panel-wrapper animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
       <div class="panel with-nav-tabs panel-default">
@@ -59,7 +59,7 @@
                     <div class="col-lg-8 col-sm-12">
                       <input type="file" title="" (change)="onFileChange($event, 'logo')"/>
                       <p *ngIf="logo[0]">{{logo[0].name}}</p>
-                      <input type="hidden" name="fileHidden" formControlName="miniImageUrl"/>
+                      <input type="hidden" name="fileHidden" formControlName="logo"/>
                     </div>
                   </div>
                   <div class="col-lg-12 ">
@@ -98,9 +98,26 @@
                       <label>AR model:</label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
-                      <input type="file" title="" (change)="onFileChange($event, 'armodel')"/>
-                      <p *ngIf="armodel[0]">{{armodel[0].name}}</p>
-                      <input type="hidden" name="fileHidden" formControlName="armodel" />
+                      <div>
+                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
+                          <label>Object :</label>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                          <input type="file" title="" (change)="onFileChange($event, 'armodel-obj')"/>
+                          <p *ngIf="armodelObj[0]">{{armodelObj[0].name}}</p>
+                          <input type="hidden" name="fileHidden" formControlName="armodelObj" />
+                        </div>
+                      </div>
+                      <div>
+                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
+                          <label>Material :</label>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                          <input type="file" title="" (change)="onFileChange($event, 'armodel-mtl')"/>
+                          <p *ngIf="armodelMtl[0]">{{armodelMtl[0].name}}</p>
+                          <input type="hidden" name="fileHidden" formControlName="armodelMtl" />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -116,24 +133,11 @@
                                       margin-bottom: 5px;"></rl-tag-input>
                     </div>
                   </div>
-
-                  <div class="col-lg-12 ">
-                    <div class="col-lg-3 col-sm-12">
-                      <label>Name of rooms: </label>
-                    </div>
-                    <div class="col-lg-8 col-sm-12">
-                      <rl-tag-input [(ngModel)]="typesRooms" [ngModelOptions]="{standalone: true}" placeholder="Enter types of rooms"
-                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
-                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
-                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
-                                      margin-bottom: 5px;"></rl-tag-input>
-                    </div>
-                  </div>
                   <div class="col-lg-12 wrapper-form-buttons">
                     <div class="form-buttons">
-                      <button class="btn col-lg-2 col-md-2" (click)="onSaveHandler($event)">Save</button>
+                      <button class="btn col-lg-2 col-md-2" data-toggle="modal" data-target="#infoBox" (click)="onSaveHandler($event)">Save</button>
                       <button class="btn col-lg-2 col-md-2" (click)="onClearForm()">Clear form</button>
-                      <button class="btn col-lg-2 col-md-2" (click)="isClickOnCreateProject = false">Cancel</button>
+                      <button class="btn col-lg-2 col-md-2" (click)="isClickOnCreateProject = false" (click)="isClickOnEditProject = false">Cancel</button>
                     </div>
                   </div>
                 </form>
@@ -213,6 +217,24 @@
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="addNewImgRoom(nameRoom, interior, dayTime)">Add</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="infoBox" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <div *ngIf="!infoMessage">
+          <img src="../../../../../assets/img/loading.gif"/>
+        </div>
+        <div *ngIf="infoMessage">
+          <h2>{{infoMessage}}</h2>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Ok</button>
         </div>
       </div>
     </div>

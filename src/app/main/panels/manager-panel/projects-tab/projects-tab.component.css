@@ -178,3 +178,10 @@ input[type=file]{
   padding-right: 15px;
   padding-left: 15px;
 }
+
+#infoBox .mb-container{
+  text-align: center;
+}
+#infoBox .mb-container button{
+  margin-top: 20px;
+}

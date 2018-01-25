@@ -8,19 +8,50 @@ export class ManagerService {
   constructor (private managerApi: ManagerApiService) {
   }
 
-  public createProject (projectData: any): Promise<string> {
+  public getAllProjects (): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postCreateProject(projectData).then(result => {
-        resolve('Project was created');
+      this.managerApi.getAllProjects().then(result => {
+        resolve(result);
       }, error => {
         reject(error);
       });
     });
   }
 
-  public getAllProjects (): Promise<any> {
+  public addProjectInfo (projectData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.getAllProjects().then(result => {
+      this.managerApi.postAddProjectInfo(JSON.stringify(projectData)).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public addProjectPhotos (projectPhotos: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.postAddProjectPhotos(projectPhotos).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public addProjectPlan (projectPlan: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.postAddProjectPlan(projectPlan).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public addProjectAr (projectAr: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(projectAr);
+      this.managerApi.postAddProjectAr(projectAr).then(result => {
         resolve(result);
       }, error => {
         reject(error);
