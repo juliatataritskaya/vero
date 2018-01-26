@@ -12,6 +12,7 @@ export class ManagerApiService extends BaseHttpService {
   private static postAddProjectPhotosUrl = environment.serverUrl + '/api/AddProjectPhotos';
   private static postAddProjectPlanUrl = environment.serverUrl + '/api/AddProjectPlan';
   private static postAddProjectArUrl = environment.serverUrl + '/api/AddProjectAr';
+  private static postAddRoomUrl = environment.serverUrl + '/api/AddRoom';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -64,6 +65,17 @@ export class ManagerApiService extends BaseHttpService {
   public postAddProjectAr (projectAr: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.post(ManagerApiService.postAddProjectArUrl, {}, projectAr)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postAddRoom (roomData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.post(ManagerApiService.postAddRoomUrl, {}, roomData)
         .subscribe(result => {
           resolve(result);
         }, error => {

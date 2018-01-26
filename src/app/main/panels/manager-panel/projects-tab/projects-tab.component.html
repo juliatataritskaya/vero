@@ -126,11 +126,24 @@
                       <label>Interior styles: </label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
-                      <rl-tag-input [(ngModel)]="styles" [ngModelOptions]="{standalone: true}" placeholder="Enter interior styles"
+                      <rl-tag-input [(ngModel)]="styles" [ngModelOptions]="{standalone: true}" placeholder="Enter interior styles ... "
                                     style="border: 1px solid #9d9d9d; border-radius: 5px;
                                     box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
                                      padding-bottom: 0; padding-left: 5px; margin-top: 5px;
-                                      margin-bottom: 5px;"></rl-tag-input>
+                                      margin-bottom: 5px;" ></rl-tag-input>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Names of rooms: </label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <rl-tag-input [(ngModel)]="typesRooms" [ngModelOptions]="{standalone: true}" placeholder="Enter names of rooms ... "
+                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
+                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
+                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
+                                      margin-bottom: 5px;" ></rl-tag-input>
                     </div>
                   </div>
                   <div class="col-lg-12 wrapper-form-buttons">
@@ -193,13 +206,13 @@
           <div class="form-group">
             <label  for="interior">Interior style: </label>
             <select id="interior" name="interior" class="form-control" [(ngModel)]="interior" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let style of testProjectData.styles" value="{{style}}">{{style}}</option>
+              <option *ngFor="let style of savedProjectData.styles" value="{{style.id}}">{{style.style}}</option>
             </select>
           </div>
           <div class="form-group">
             <label for="nameRoom">Types room</label>
             <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let typeRoom of testProjectData.typesRooms" value="{{typeRoom}}">{{typeRoom}}</option>
+              <option *ngFor="let typeRoom of savedProjectData.nameOfRooms" value="{{typeRoom.id}}">{{typeRoom.style}}</option>
             </select>
           </div>
           <div class="form-group">

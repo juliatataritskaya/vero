@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
 import {ManagerService} from '../../../../services/manager.service';
 import {RedirectService} from '../../../../services/redirect.service';
+import {environment} from "../../../../../environments/environment";
+
 
 @Component({
   selector: 'app-projects-tab',
@@ -39,9 +41,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   @Input() projects: any;
   @Output() shipmentSelected: EventEmitter<any> = new EventEmitter();
 
-  testProjectData = [];
+  savedProjectData = [];
 
-  constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService, private redirectService: RedirectService) {
+  constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService,
+              private redirectService: RedirectService) {
     super({
       name: '',
       description: '',
@@ -133,6 +136,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
       this.selectedProject = this.projects[indexes[0]];
+      console.log(this.selectedProject);
       this.shipmentSelected.emit(this.projects[indexes[0]]);
     });
     this.tableWidget.on('deselect', () => {
@@ -158,18 +162,26 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       return;
     }
 
+    if (this.styles.length > 3) {
+      this.infoMessage = 'Max count interior styles are 3';
+      return;
+    }
+
     projectData.miniImageUrl = this.miniImageUrl;
     projectData.planImg = this.plan;
     projectData.armodelObjImg = this.armodelObj;
     projectData.armodelMtlImg = this.armodelMtl;
     projectData.projectPhotos = this.projectPhotos;
+    console.log(this.styles, this.typesRooms);
     this.managerService.addProjectInfo({
       project: {
         name: projectData.name,
         description: projectData.description, videoUrl: projectData.videoUrl,
-        miniImageUrl: projectData.miniImageUrl
+        miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms
       }, error: null
     }).then((result) => {
+      this.savedProjectData = result.project;
+      localStorage.setItem('projectId', result.project.id);
       this.addProjectPhotos(result, () => {
         this.addProjectPlan(result, projectData.planImg, () => {
           this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
@@ -178,7 +190,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     }, error => {
       this.infoMessage = 'Something wrong, please try again.';
     });
-    this.testProjectData = projectData;
     this.onClearForm();
   }
 
@@ -227,12 +238,33 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       name: this.selectedProject['name'],
       description: this.selectedProject['description'],
       videoUrl: this.selectedProject['videoUrl'],
+      plan: this.selectedProject['planInfo'].imageUrl,
+      miniImageUrl: this.selectedProject['miniImageUrl'],
+      armodelObj: this.selectedProject['arObjectInfo'].url,
+      armodelMtl: this.selectedProject['miniImageUrl'].MtlUrl,
+      photos: this.selectedProject['imageUrls'].length + 'files',
+      // styles: this.styles,
+      // typesRooms: this.nameOfRooms,
     });
+    const photosLinks = this.selectedProject['imageUrls'].map(photo =>
+      environment.serverUrl + photo);
+    this.plan[0] = { name: environment.serverUrl + this.selectedProject['planInfo'].imageUrl };
+    this.logo[0] = { name : environment.serverUrl + this.selectedProject['miniImageUrl']};
+    this.armodelMtl[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].MtlUrl};
+    this.armodelObj[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].url};
+    this.projectPhotos = photosLinks;
+    // this.styles = this.selectedProject['styles'];
+    // this.typesRooms = this.selectedProject['nameOfRooms'];
     localStorage.setItem('projectId', this.selectedProject['id']);
   }
 
-  public onUpdateFiles(result, controlName) {
-    this.projectForm.controls['photos'].setValue(this.projectPhotos ? this.projectPhotos.length + ' files' : '');
+  public onUpdateFiles(result) {
+    if (this.projectPhotos.length + result.target.files.length > 15) {
+      $('#infoBox').modal('show');
+      this.infoMessage = 'Max length is 15 photos';
+      return;
+    }
+    this.projectForm.controls['photos'].setValue(this.projectPhotos ? this.projectPhotos.length + result.target.files.length + ' files' : '');
     const tgt = result.target || window.event.srcElement,
       files = tgt.files;
     const filesArr = Array.prototype.slice.call(files);
@@ -319,22 +351,44 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     localStorage.setItem('projectId', '1');
   }
 
-  public addNewImgRoom(nameRoom, interior, dayTime) {
-    this.testProjectData['rooms'] = [];
+  public addNewImgRoom(nameRoomId, interiorId, dayTime) {
+
+    const foundStyleName = this.savedProjectData['styles'].find(function(element) {
+      return element.id = interiorId;
+    });
+
+    const foundRoomName = this.savedProjectData['nameOfRooms'].find(function(element) {
+      return element.id = nameRoomId;
+    });
+
     if (this.image) {
       const fr = new FileReader();
       fr.onload = () => {
         this.listRooms.push({
-          name: nameRoom,
-          interior: interior,
+          name: foundRoomName.style,
+          interior: foundStyleName.style,
           dayTime: dayTime,
           image: this.image,
           imgBase64: fr.result
         });
+        const dayTimeId = (dayTime === 'day') ? 1 : 2;
+        const roomFormData = new FormData();
+        roomFormData.append('roomObjects', this.image);
+        roomFormData.append('dayTimeId', dayTimeId.toString());
+        roomFormData.append('nameOfRoomId', nameRoomId);
+        roomFormData.append('interiorId', interiorId);
+        roomFormData.append('projectId', localStorage.getItem('projectId'));
+        this.managerService.addRoom(roomFormData).then((res) => {
+          console.log(res);
+        }, error => {
+          console.log(error);
+        });
       };
       fr.readAsDataURL(this.image);
     } else {
-      this.listRooms.push({name: nameRoom, interior: interior, dayTime: dayTime, image: this.image, imgBase64: ''});
+      $('#infoBox').modal('show');
+      this.infoMessage = 'Image is mandatory!';
+      return;
     }
     this.resetRoomsForm();
   }

@@ -40,6 +40,7 @@
     "@angular/cli": "1.6.3",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
+    "@types/bootstrap": "^3.3.37",
     "@types/datatables.net": "^1.10.8",
     "@types/datatables.net-select": "^1.2.3",
     "@types/jasmine": "~2.5.53",

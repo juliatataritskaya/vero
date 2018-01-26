@@ -50,8 +50,17 @@ export class ManagerService {
 
   public addProjectAr (projectAr: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      resolve(projectAr);
       this.managerApi.postAddProjectAr(projectAr).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public addRoom (roomdata: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.postAddRoom(roomdata).then(result => {
         resolve(result);
       }, error => {
         reject(error);
