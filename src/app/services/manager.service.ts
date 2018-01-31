@@ -68,4 +68,14 @@ export class ManagerService {
     });
   }
 
+  public deleteProject (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.deleteProject(id).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
 }

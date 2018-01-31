@@ -28,6 +28,16 @@ export class AuthService {
     });
   }
 
+  public forgotPassword (forgotPasswordData: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.authApi.postForgotPassword(forgotPasswordData).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
   public logoutUser (): void {
     localStorage.clear();
   }

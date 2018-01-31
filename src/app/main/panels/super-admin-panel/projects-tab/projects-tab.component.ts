@@ -24,6 +24,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   typesRooms = [];
   styles = [];
   listRooms = [];
+  listPlans = [];
   plans  = [];
   isClickOnCreateProject: boolean = false;
   isClickOnEditProject: boolean = false;
@@ -37,6 +38,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   nameRoom: string;
   interior: string;
   dayTime: string = 'day';
+
+  planImg: any;
+  planName: string;
 
 
   @Input() projects: any;
@@ -99,6 +103,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   public getAllProjects(callback) {
     this.managerService.getAllProjects().then(projects => {
       this.projects = projects.projectList;
+      console.log( this.projects);
       this.projects.forEach((project) => {
         project['listUsers'] = project.users.join(', ');
       });
@@ -170,24 +175,25 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     projectData.armodelMtlImg = this.armodelMtl;
     projectData.projectPhotos = this.projectPhotos;
     console.log(this.styles, this.typesRooms, this.plans);
-    // this.managerService.addProjectInfo({
-    //   project: {
-    //     name: projectData.name,
-    //     description: projectData.description, videoUrl: projectData.videoUrl,
-    //     miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms
-    //   }, error: null
-    // }).then((result) => {
-    //   this.savedProjectData = result.project;
-    //   localStorage.setItem('projectId', result.project.id);
-    //   this.addProjectPhotos(result, () => {
-    //     this.addProjectPlan(result, projectData.planImg, () => {
-    //       this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
-    //     });
-    //   });
-    // }, error => {
-    //   this.infoMessage = 'Something wrong, please try again.';
-    // });
-    // this.onClearForm();
+    this.managerService.addProjectInfo({
+      project: {
+        name: projectData.name,
+        description: projectData.description, videoUrl: projectData.videoUrl,
+        miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms, nameOfPlans: this.plans
+      }, error: null
+    }).then((result) => {
+      this.savedProjectData = result.project;
+      localStorage.setItem('projectId', result.project.id);
+      this.addProjectPhotos(result, () => {
+        this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
+        // this.addProjectPlan(result, projectData.planImg, () => {
+        //   this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
+        // });
+      });
+    }, error => {
+      this.infoMessage = 'Something wrong, please try again.';
+    });
+    this.onClearForm();
   }
 
   private addProjectPhotos(result, callback) {
@@ -386,6 +392,43 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.resetRoomsForm();
   }
 
+
+  public addNewImgPlan(namePlanId) {
+    console.log(this.savedProjectData['nameOfPlans']);
+    console.log(namePlanId);
+
+    const foundPlanName = this.savedProjectData['nameOfPlans'].find(function(element) {
+      return element.id = namePlanId;
+    });
+
+    if (this.image) {
+      const fr = new FileReader();
+      fr.onload = () => {
+        this.listPlans.push({
+          planName: foundPlanName.planName,
+          planImg: this.planImg,
+          imgBase64: fr.result
+        });
+        const planFormData = new FormData();
+        planFormData.append('plans', this.planImg);
+        planFormData.append('planInfoId', namePlanId);
+        planFormData.append('projectId', localStorage.getItem('projectId'));
+        this.managerService.addProjectPlan(planFormData).then((res) => {
+          console.log(this.listPlans);
+          console.log(res);
+        }, error => {
+          console.log(error);
+        });
+      };
+      fr.readAsDataURL(this.image);
+    } else {
+      // $('#infoBox').modal('show');
+      this.infoMessage = 'Image is mandatory!';
+      return;
+    }
+    this.resetRoomsForm();
+  }
+
   saveSettingsRooms() {
     console.log(this.listRooms);
     alert('Rooms settings was saved');
@@ -403,8 +446,23 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.image = event.target.files[0];
   }
 
+  onPlanImgChange(event) {
+    this.planImg = event.target.files[0];
+  }
+
   clearInfoMessage() {
     this.infoMessage = '';
+  }
+
+  onDeleteProject() {
+    console.log(this.selectedProject['id']);
+    this.managerService.deleteProject(this.selectedProject['id']).then((res) => {
+      alert('Project was deleted');
+      this.infoMessage = 'Project was deleted';
+      this.getAllProjects(() => {});
+    }, error => {
+      this.infoMessage = 'Something wrong, please try again.';
+    });
   }
 
 }

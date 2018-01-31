@@ -27,8 +27,8 @@ export abstract class BaseHttpService {
     return this.sendRequest(url, 'PATCH', this.createHttpParams(params), body);
   }
 
-  public delete(url: string, params: any = {}): Observable<any> {
-    return this.sendRequest(url, 'DELETE', this.createHttpParams(params));
+  public delete(url: string, params: any = {}, body: any = {}): Observable<any> {
+    return this.sendRequest(url, 'DELETE', this.createHttpParams(params), body);
   }
 
   private createHttpParams(params: any): HttpParams {
