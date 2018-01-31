@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
 import {ManagerService} from '../../../../services/manager.service';
 import {RedirectService} from '../../../../services/redirect.service';
-import {environment} from "../../../../../environments/environment";
+import {environment} from '../../../../../environments/environment';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   typesRooms = [];
   styles = [];
   listRooms = [];
+  plans  = [];
   isClickOnCreateProject: boolean = false;
   isClickOnEditProject: boolean = false;
   private tableWidget: any;
@@ -125,12 +126,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         {title: 'Users', data: 'listUsers'},
         {title: 'Update list of users', data: null, defaultContent: '<button>update</button>'},
         {title: 'Project code', data: 'projectCode'}
-      ],
-      columnDefs: [{
-        targets: -1,
-        data: null,
-        defaultContent: '<button>Click!</button>'
-      }]
+      ]
     };
     this.projectsTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
@@ -150,14 +146,15 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectForm.patchValue({
       styles: this.styles,
       typesRooms: this.typesRooms,
+      plansName: this.plans
     });
 
     const projectData = this.projectForm.value;
     if (!this.projectForm.value['name'] || !this.projectForm.value['description']
       || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
-      || !this.projectForm.value['plan'] || !this.projectForm.value['armodelObj']
+      || !this.projectForm.value['armodelObj']
       || !this.projectForm.value['armodelMtl'] || !this.projectForm.value['typesRooms']
-      || !this.projectForm.value['styles']) {
+      || !this.projectForm.value['styles'] || !this.projectForm.value['plansName']) {
       this.infoMessage = 'Project data in invalid, please check it.';
       return;
     }
@@ -168,29 +165,29 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     }
 
     projectData.miniImageUrl = this.miniImageUrl;
-    projectData.planImg = this.plan;
+    projectData.plansName = this.plans;
     projectData.armodelObjImg = this.armodelObj;
     projectData.armodelMtlImg = this.armodelMtl;
     projectData.projectPhotos = this.projectPhotos;
-    console.log(this.styles, this.typesRooms);
-    this.managerService.addProjectInfo({
-      project: {
-        name: projectData.name,
-        description: projectData.description, videoUrl: projectData.videoUrl,
-        miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms
-      }, error: null
-    }).then((result) => {
-      this.savedProjectData = result.project;
-      localStorage.setItem('projectId', result.project.id);
-      this.addProjectPhotos(result, () => {
-        this.addProjectPlan(result, projectData.planImg, () => {
-          this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
-        });
-      });
-    }, error => {
-      this.infoMessage = 'Something wrong, please try again.';
-    });
-    this.onClearForm();
+    console.log(this.styles, this.typesRooms, this.plans);
+    // this.managerService.addProjectInfo({
+    //   project: {
+    //     name: projectData.name,
+    //     description: projectData.description, videoUrl: projectData.videoUrl,
+    //     miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms
+    //   }, error: null
+    // }).then((result) => {
+    //   this.savedProjectData = result.project;
+    //   localStorage.setItem('projectId', result.project.id);
+    //   this.addProjectPhotos(result, () => {
+    //     this.addProjectPlan(result, projectData.planImg, () => {
+    //       this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
+    //     });
+    //   });
+    // }, error => {
+    //   this.infoMessage = 'Something wrong, please try again.';
+    // });
+    // this.onClearForm();
   }
 
   private addProjectPhotos(result, callback) {
@@ -285,7 +282,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.photos360 = [];
     this.projectPhotos = [];
     this.logo = [];
-    this.plan = [];
+    this.plans = [];
     this.armodelObj = [];
     this.armodelMtl = [];
     this.typesRooms = [];
@@ -299,7 +296,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       logo: ['', [Validators.required]],
       photos: ['', [Validators.required]],
       videoUrl: ['', [Validators.required]],
-      plan: ['', [Validators.required]],
+      plansName: ['', [Validators.required]],
       armodelObj: ['', [Validators.required]],
       armodelMtl: ['', [Validators.required]],
       typesRooms: ['', [Validators.required]],
@@ -323,10 +320,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           };
           fr.readAsDataURL(this.logo[0]);
         }
-        break;
-      case 'plan':
-        this.plan[0] = event.target.files[0];
-        this.projectForm.controls['plan'].setValue(this.plan[0] ? this.plan[0].name : '');
         break;
       case 'armodel-obj':
         this.armodelObj[0] = event.target.files[0];

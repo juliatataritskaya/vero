@@ -8,7 +8,7 @@ import {ManagerPanelRoutes} from './panels/manager-panel/manager-panel.routing';
 export const MainRoutes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
   {path: 'main', component: MainComponent, canActivate: [AuthGuard], children: [
-    ...ManagerPanelRoutes,
-    ...SuperAdminPanelRoutes
+    ...SuperAdminPanelRoutes,
+    ...ManagerPanelRoutes
   ]},
   ];

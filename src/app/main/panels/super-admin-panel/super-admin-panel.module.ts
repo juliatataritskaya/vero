@@ -6,17 +6,23 @@ import {SuperAdminPanelComponent} from './super-admin-panel.component';
 import {UsersTabComponent} from './users-tab/users-tab.component';
 import {CompaniesTabComponent} from './companies-tab/companies-tab.component';
 import {SuperAdminPanelRoutes} from './super-admin-panel.routing';
+import {DashboardTabComponent} from './dashboard-tab/dashboard-tab.component';
+import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
+import {RlTagInputModule} from 'angular2-tag-input/dist';
 
 @NgModule({
   declarations: [
     SuperAdminPanelComponent,
     UsersTabComponent,
-    CompaniesTabComponent
+    CompaniesTabComponent,
+    DashboardTabComponent,
+    ProjectsTabComponent
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    RlTagInputModule,
     RouterModule.forChild(SuperAdminPanelRoutes),
   ],
   providers: []

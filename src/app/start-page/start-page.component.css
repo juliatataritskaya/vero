@@ -2,14 +2,14 @@
   width: 100%;
   text-align: center;
   color: black;
-  background-image: url(../../assets/img/koln-pfp-architekten.jpg);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  /*background-image: url(../../assets/img/koln-pfp-architekten.jpg);*/
+  /*background-repeat: no-repeat;*/
+  /*background-attachment: scroll;*/
+  /*background-position: center center;*/
+  /*-webkit-background-size: cover;*/
+  /*-moz-background-size: cover;*/
+  /*-o-background-size: cover;*/
+  /*background-size: cover;*/
   height: 100vh;
   display: grid;
   position: relative;
@@ -36,33 +36,37 @@
 }
 
 .intro-text a {
-  padding: 12px 17px;
+  padding: 16px 17px;
   /*background-color: #ee4b28;*/
   /*border-color: #ee4b28;*/
-  background-color: #5c5cb5;
-  border: 2px solid #5c5cb5;
+  background-color: #1b1e24;
+  border-radius: 0;
   /*border: 3px solid black;*/
   color: white;
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: 20px;
+  font-family: 'Futura PT' , sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 18px;
   margin-top: 20px;
-  width: 200px;
+  width: 300px;
 }
 
-.intro-text a:hover {
-  background-color: #5151b0;
-  border: 2px solid #5151b0;
+.intro-text a:hover, .intro-text a:active, .intro-text a:focus {
+  background-color: #1b1e24;
+  border-radius: 0;
   color: white;
 }
 
 .logo-box {
-  height: 100px;
+  height: 90px;
   /*background-color: rgba(255, 255, 255, 0.7);*/
 }
 
 .logo {
   margin-left: 10%;
+  margin-top: 10px;
 }
 
 footer {
@@ -82,3 +86,4 @@ footer h6 {
   font-size: 20px;
   font-weight: 500;
 }
+

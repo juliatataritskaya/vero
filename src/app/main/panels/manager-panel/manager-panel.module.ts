@@ -7,12 +7,14 @@ import {ManagerPanelRoutes} from './manager-panel.routing';
 import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
 import {UsersTabComponent} from './users-tab/users-tab.component';
 import {RlTagInputModule} from 'angular2-tag-input';
+import {DashboardTabComponent} from './dashboard-tab/dashboard-tab.component';
 
 @NgModule({
   declarations: [
     ManagerPanelComponent,
     ProjectsTabComponent,
-    UsersTabComponent
+    UsersTabComponent,
+    DashboardTabComponent
   ],
   imports: [
     FormsModule,

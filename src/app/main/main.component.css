@@ -45,10 +45,80 @@
 }
 
 .btn-primary{
-  background-color: #5c5cb5;
-  border-color: #5c5cb5;
+  background-color: #1b1e24;
+  border-color: #1b1e24;
 }
 
 .btn-logout{
   border-radius: 0;
+}
+
+
+li.xn-logo > a:first-child {
+  font-size: 25px;
+  border-bottom: 0;
+  color: #FFF;
+  height: 50px;
+  text-align: center;
+  background: #1caf9a;
+}
+
+.navigation{
+  padding-top: 0;
+}
+
+.navigation li > a {
+  display: block;
+  float: left;
+  width: 100%;
+  line-height: 19px;
+  font-weight: 400;
+  padding: 15px 10px 15px 15px;
+  text-decoration: none;
+  vertical-align: text-bottom;
+}
+
+.profile {
+  width: 100%;
+  float: left;
+  padding: 15px 10px;
+  position: relative;
+  background: #080a0e;
+}
+
+.profile .profile-image {
+  float: left;
+  width: 100%;
+  margin: 0px 0px 10px;
+  text-align: center;
+}
+
+.profile .profile-image img {
+  width: 100px;
+  border: 3px solid #FFF;
+  -moz-border-radius: 20%;
+  -webkit-border-radius: 20%;
+  border-radius: 20%;
+}
+
+.profile .profile-data {
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+
+.profile .profile-data .profile-data-name {
+  width: 100%;
+  float: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFF;
+}
+
+.profile .profile-data .profile-data-title {
+  width: 100%;
+  float: left;
+  font-size: 12px;
+  font-weight: 400;
+  color: #999;
 }

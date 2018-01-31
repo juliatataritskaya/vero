@@ -1,0 +1,307 @@
+<div>
+  <h2>Projects</h2>
+</div>
+
+<div class="list-projects table-responsive">
+  <table id="projects_table" class="table table-striped table-bordered table-hover no-footer">
+  </table>
+</div>
+
+<div class="action-buttons-group">
+  <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
+    <button type="submit" class="btn btn-block" (click)="isClickOnCreateProject = true" (click)="selectedProject = null" (click)="onClearForm()">Create new project</button>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
+    <button type="submit" class="btn btn-block" *ngIf="selectedProject" (click)="onEditProject()">Edit project</button>
+  </div>
+</div>
+
+
+<div *ngIf="isClickOnCreateProject || isClickOnEditProject" class="panel-wrapper animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel with-nav-tabs panel-default">
+        <div class="panel-heading">
+          <ul class="nav nav-tabs">
+            <li class="active col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#common-settings" data-toggle="tab">Common settings</a></li>
+            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#plans-settings" data-toggle="tab">Plans settings</a></li>
+            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#rooms-settings" data-toggle="tab">Rooms settings</a></li>
+            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#editor" data-toggle="tab">Editor</a></li>
+          </ul>
+        </div>
+        <div class="panel-body">
+          <div class="tab-content">
+            <!--=============================-->
+            <!--Common settings-->
+            <!--=============================-->
+            <div class="tab-pane fade in active" id="common-settings">
+              <div>
+                <form class="form-horizontal col-lg-12" [formGroup]="projectForm">
+                  <div class="col-lg-12">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Project name:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <input type="text" formControlName="name" title=""/>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Project description:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <textarea type="text" formControlName="description" title=""></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Project logo:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <input type="file" title="" (change)="onFileChange($event, 'logo')"/>
+                      <p *ngIf="logo[0]">{{logo[0].name}}</p>
+                      <input type="hidden" name="fileHidden" formControlName="logo"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Project photos:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <input type="file" multiple title="" accept="image/*" (change)="onUpdateFiles($event)"/>
+                      <p *ngIf="projectPhotos">{{projectPhotos.length}} photos</p>
+                      <input type="hidden" name="fileHidden" formControlName="photos"/>
+                    </div>
+                  </div>
+                  <div class="photo-container" *ngIf="projectPhotos.length != 0">
+                    <img *ngFor="let photo of projectPhotos" src="{{photo}}" width="100px" height="70px" (click)="deleteProjectPhoto($event)" title="Click if you want delete it">
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Youtube link:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <input type="text" formControlName="videoUrl" title=""/>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Plans: </label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <rl-tag-input [(ngModel)]="plans" [ngModelOptions]="{standalone: true}" placeholder="Enter name of plans ... "
+                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
+                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
+                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
+                                      margin-bottom: 5px;" ></rl-tag-input>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>AR model:</label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <div>
+                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
+                          <label>Object :</label>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                          <input type="file" title="" (change)="onFileChange($event, 'armodel-obj')"/>
+                          <p *ngIf="armodelObj[0]">{{armodelObj[0].name}}</p>
+                          <input type="hidden" name="fileHidden" formControlName="armodelObj" />
+                        </div>
+                      </div>
+                      <div>
+                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
+                          <label>Material :</label>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                          <input type="file" title="" (change)="onFileChange($event, 'armodel-mtl')"/>
+                          <p *ngIf="armodelMtl[0]">{{armodelMtl[0].name}}</p>
+                          <input type="hidden" name="fileHidden" formControlName="armodelMtl" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Interior styles: </label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <rl-tag-input [(ngModel)]="styles" [ngModelOptions]="{standalone: true}" placeholder="Enter interior styles ... "
+                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
+                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
+                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
+                                      margin-bottom: 5px;" ></rl-tag-input>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-12 ">
+                    <div class="col-lg-3 col-sm-12">
+                      <label>Names of rooms: </label>
+                    </div>
+                    <div class="col-lg-8 col-sm-12">
+                      <rl-tag-input [(ngModel)]="typesRooms" [ngModelOptions]="{standalone: true}" placeholder="Enter names of rooms ... "
+                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
+                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
+                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
+                                      margin-bottom: 5px;" ></rl-tag-input>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 wrapper-form-buttons">
+                    <div class="form-buttons">
+                      <button class="btn col-lg-2 col-md-2" data-toggle="modal" data-target="#infoBox" (click)="onSaveHandler($event)">Save</button>
+                      <button class="btn col-lg-2 col-md-2" (click)="onClearForm()">Clear form</button>
+                      <button class="btn col-lg-2 col-md-2" (click)="isClickOnCreateProject = false" (click)="isClickOnEditProject = false">Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!--=============================-->
+            <!--End Common settings-->
+            <!--=============================-->
+
+            <!--=============================-->
+            <!--Plans settings-->
+            <!--=============================-->
+            <div class="tab-pane fade" id="plans-settings">
+              <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#planImg">+</button>
+              <button class="btn btn-primary" (click)="saveSettingsPlan()">Save settings rooms</button>
+              <div class="rooms-container">
+                <div *ngFor="let plan of plansName" class="col-lg-12 room">
+                  <div class="col-lg-4"> <img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
+                  <div class="col-lg-8"><p>Name: {{room.name}}</p>
+                    <p>Interior: {{plan.interior}} </p>
+                    <p>Day time: {{plan.dayTime}} </p></div>
+                </div>
+              </div>
+            </div>
+
+            <!--=============================-->
+            <!--End Plans settings-->
+            <!--=============================-->
+
+
+            <!--=============================-->
+            <!--Rooms settings-->
+            <!--=============================-->
+            <div class="tab-pane fade" id="rooms-settings">
+              <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#roomImg">+</button>
+              <button class="btn btn-primary" (click)="saveSettingsRooms()">Save settings rooms</button>
+              <div class="rooms-container">
+                <div *ngFor="let room of listRooms" class="col-lg-12 room">
+                  <div class="col-lg-4"> <img src="{{room.imgBase64}}" width="100px" height="70px" title=""></div>
+                  <div class="col-lg-8"><p>Name: {{room.name}}</p>
+                    <p>Interior: {{room.interior}} </p>
+                    <p>Day time: {{room.dayTime}} </p></div>
+                </div>
+              </div>
+            </div>
+
+            <!--=============================-->
+            <!--End Rooms settings-->
+            <!--=============================-->
+
+            <div class="tab-pane fade" id="editor">
+
+              <button class="btn btn-primary" (click)="openEditor()">Go to the editor</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="roomImg" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <form  enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="img">Image: </label>
+            <input type="file" id="img" name="img" placeholder="Img" (change)="onRoomImgChange($event)">
+          </div>
+          <div class="form-group">
+            <label  for="interior">Interior style: </label>
+            <select id="interior" name="interior" class="form-control" [(ngModel)]="interior" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let style of savedProjectData.styles" value="{{style.id}}">{{style.style}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nameRoom">Types room</label>
+            <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let typeRoom of savedProjectData.nameOfRooms" value="{{typeRoom.id}}">{{typeRoom.style}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date time: </label>
+            <div>
+              <label for="day">
+              <input type="radio" id="day" name="contact" value="day" checked [(ngModel)]="dayTime" [ngModelOptions]="{standalone: true}"> Day </label>
+              <label for="night">
+                <input type="radio" id="night" name="contact" value="night" [(ngModel)]="dayTime" [ngModelOptions]="{standalone: true}"> Night </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="addNewImgRoom(nameRoom, interior, dayTime)">Add</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="planImg" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <form  enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="img">Plan : </label>
+            <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onPlanImgChange($event)">
+          </div>
+          <div class="form-group">
+            <label  for="interior">Plan name: </label>
+            <select id="plan" name="interior" class="form-control" [(ngModel)]="interior" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let style of savedProjectData.styles" value="{{style.id}}">{{style.style}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="addNewImgPlan(nameRoom, interior, dayTime)">Add</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="infoBox" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <div *ngIf="!infoMessage">
+          <img src="../../../../../assets/img/loading.gif"/>
+        </div>
+        <div *ngIf="infoMessage">
+          <h2>{{infoMessage}}</h2>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

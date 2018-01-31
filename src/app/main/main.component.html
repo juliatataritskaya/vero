@@ -1,34 +1,4 @@
-<div class="navbar navbar-inverse">
-  <div class="navbar-header">
 
-    <ul class="nav navbar-nav visible-xs-block">
-      <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-    </ul>
-  </div>
-
-  <div class="navbar-collapse collapse" id="navbar-mobile">
-    <ul class="nav navbar-nav">
-      <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
-    </ul>
-
-
-    <ul class="nav navbar-nav navbar-right icons-list">
-      <li class="dropdown dropdown-user">
-        <a class="dropdown-toggle" data-toggle="dropdown">
-          <span>{{userName}}</span>
-          <i class="caret"></i>
-        </a>
-
-        <ul class="dropdown-menu dropdown-menu-right">
-          <li><a><i class="icon-user-plus"></i> My profile</a></li>
-          <li class="divider"></li>
-          <li><a><i class="icon-cog5"></i> Account settings</a></li>
-          <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
 <!-- /main navbar -->
 
 
@@ -42,34 +12,24 @@
     <div class="sidebar sidebar-main">
       <div class="sidebar-content">
 
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{userName}}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
-                </div>
-              </div>
-
-              <div class="media-right media-middle">
-                <ul class="icons-list">
-                  <li>
-                    <a><i class="icon-cog3"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-
         <!-- Main navigation -->
         <div class="sidebar-category sidebar-category-visible">
           <div class="category-content no-padding">
             <ul class="navigation navigation-main navigation-accordion">
+              <li class="xn-logo">
+                <a>{{userName}}</a>
+              </li>
+              <li class="xn-profile">
+                <div class="profile">
+                  <div class="profile-image">
+                    <img src="{{avatar}}" alt="{{userName}}" />
+                  </div>
+                  <div class="profile-data">
+                    <div class="profile-data-name">{{userName}}</div>
+                    <div class="profile-data-title">Web Developer/Designer</div>
+                  </div>
+                </div>
+              </li>
               <li *ngFor="let link of linkItems"><a routerLink="{{link.routerLink}}">
                 <i class="{{link.icon}}"></i><span>{{link.name}}</span></a>
               </li>
@@ -85,6 +45,37 @@
 
     <!-- Main content -->
     <div class="content-wrapper">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+
+          <ul class="nav navbar-nav visible-xs-block">
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+          </ul>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+          <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+          </ul>
+
+
+          <ul class="nav navbar-nav navbar-right icons-list">
+            <li class="dropdown dropdown-user">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                <span>{{userName}}</span>
+                <i class="caret"></i>
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a><i class="icon-user-plus"></i> My profile</a></li>
+                <li class="divider"></li>
+                <li><a><i class="icon-cog5"></i> Account settings</a></li>
+                <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <!-- Page header -->
       <div class="page-header page-header-default">
@@ -106,7 +97,7 @@
                <router-outlet></router-outlet>
           </div>
         </div>
-        <!-- /dashboard content -->
+        <!-- /dashboard-tab content -->
 
       </div>
       <!-- /content area -->

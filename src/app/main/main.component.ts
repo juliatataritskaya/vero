@@ -10,6 +10,7 @@ import {AuthService} from '../services/auth.service';
 export class MainComponent implements OnInit {
   private linkItems = [];
   private userName = localStorage.getItem('userName');
+  private avatar = localStorage.getItem('avatar');
   constructor (private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
@@ -20,8 +21,12 @@ export class MainComponent implements OnInit {
     switch (localStorage.getItem('role')) {
       case 'SuperAdmin':
         this.linkItems = [
-          { name: 'Companies', routerLink: 'adminpanel/company', icon: 'icon-home4'},
-          { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'}
+          { name: 'Dashboard', routerLink: 'adminpanel/dashboard', icon: 'icon-screen3'},
+          { name: 'Company settings', routerLink: 'adminpanel/company', icon: 'fa fa-cogs'},
+          { name: 'Super managers', routerLink: 'adminpanel/company', icon: 'fa fa-users'},
+          { name: 'Managers', routerLink: 'adminpanel/users', icon: 'fa fa-user'},
+          { name: 'Projects', routerLink: 'adminpanel/projects', icon: 'icon-home'},
+          { name: 'Users', routerLink: 'adminpanel/users', icon: 'icon-person'}
           ];
         break;
       case 'SuperManager':
@@ -29,8 +34,10 @@ export class MainComponent implements OnInit {
         break;
       case 'Manager':
         this.linkItems = [
+          { name: 'Dashboard', routerLink: 'managerpanel/dashboard', icon: 'icon-screen3'},
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
-          { name: 'Users', routerLink: 'managerpanel/users', icon: 'icon-person'}
+          { name: 'Users', routerLink: 'managerpanel/users', icon: 'icon-person'},
+          { name: 'View in real time', routerLink: 'managerpanel/users', icon: 'icon-person'}
         ];
         break;
       default:

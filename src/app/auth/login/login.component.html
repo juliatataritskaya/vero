@@ -18,6 +18,7 @@
             <div class="form-group has-feedback has-feedback-left">
               <input type="email" class="form-control" placeholder="Email" name="email" required formControlName="email"
                      email>
+
               <div class="form-control-feedback">
                 <i class="icon-user text-muted"></i>
               </div>
@@ -27,13 +28,14 @@
             <div class="form-group has-feedback has-feedback-left">
               <input type="password" class="form-control" placeholder="Password" name="password" required
                      formControlName="password">
+
               <div class="form-control-feedback">
                 <i class="icon-lock2 text-muted"></i>
               </div>
               <div class="alert alert-danger" *ngIf="!loginForm.get('password').valid && formErrors.password">{{ formErrors.password }}</div>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-block" (click)="onLoginHandler($event)">Login<i class="icon-arrow-right14 position-right"></i></button>
+              <button type="submit" class="btn btn-block" (click)="onLoginHandler($event)">Log in</button>
             </div>
             <div class="form-group login-options">
               <div class="row">
