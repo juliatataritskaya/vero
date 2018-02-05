@@ -15,11 +15,10 @@ export class AuthService {
   public loginUser (loginData: any): Promise<string> {
     return new Promise((resolve, reject) => {
       this.authApi.postLogin(loginData).then(result => {
-        console.log(result);
         localStorage.setItem('token', result['token']);
         localStorage.setItem('userId', result['id']);
         localStorage.setItem('role', result['roleName']);
-        localStorage.setItem('userName', result['name']);
+        localStorage.setItem('userName', result['name'] || result['company'].name);
         localStorage.setItem('avatar', environment.serverUrl + result['profile'].avatarUrl);
         resolve(result['token']);
       }, error => {

@@ -4,7 +4,7 @@ import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.
 import {ManagerService} from '../../../../services/manager.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
-
+declare var $: any;
 
 @Component({
   selector: 'app-projects-tab',
@@ -38,9 +38,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   nameRoom: string;
   interior: string;
   dayTime: string = 'day';
+  namePlan: string;
 
   planImg: any;
   planName: string;
+  floorNumber: string;
 
 
   @Input() projects: any;
@@ -98,6 +100,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.createProjectForm();
       this.loadProjects();
     });
+
   }
 
   public getAllProjects(callback) {
@@ -157,9 +160,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const projectData = this.projectForm.value;
     if (!this.projectForm.value['name'] || !this.projectForm.value['description']
       || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
-      || !this.projectForm.value['armodelObj']
-      || !this.projectForm.value['armodelMtl'] || !this.projectForm.value['typesRooms']
-      || !this.projectForm.value['styles'] || !this.projectForm.value['plansName']) {
+      || !this.projectForm.value['armodelObj'] || !this.projectForm.value['armodelMtl']
+      || !this.projectForm.value['typesRooms'] || !this.projectForm.value['styles']
+      || !this.projectForm.value['plansName']) {
       this.infoMessage = 'Project data in invalid, please check it.';
       return;
     }
@@ -169,26 +172,34 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       return;
     }
 
-    projectData.miniImageUrl = this.miniImageUrl;
+    projectData.miniImageUrl = this.miniImageUrl || this.projectForm.value['logo'];
     projectData.plansName = this.plans;
     projectData.armodelObjImg = this.armodelObj;
     projectData.armodelMtlImg = this.armodelMtl;
     projectData.projectPhotos = this.projectPhotos;
-    console.log(this.styles, this.typesRooms, this.plans);
+
+    if (this.isClickOnEditProject) {
+      console.log({
+        project: {
+          name: projectData.name,
+          description: projectData.description, videoUrl: projectData.videoUrl,
+          miniImageUrl: projectData.miniImageUrl, interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans
+        }, error: null
+      });
+      this.onClearForm();
+      this.infoMessage = 'Edit save';
+      return;
+    }
     this.managerService.addProjectInfo({
       project: {
         name: projectData.name,
         description: projectData.description, videoUrl: projectData.videoUrl,
-        miniImageUrl: projectData.miniImageUrl, styles: this.styles, nameOfRooms: this.typesRooms, nameOfPlans: this.plans
+        miniImageUrl: projectData.miniImageUrl, interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans
       }, error: null
     }).then((result) => {
       this.savedProjectData = result.project;
-      localStorage.setItem('projectId', result.project.id);
       this.addProjectPhotos(result, () => {
         this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
-        // this.addProjectPlan(result, projectData.planImg, () => {
-        //   this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
-        // });
       });
     }, error => {
       this.infoMessage = 'Something wrong, please try again.';
@@ -236,34 +247,74 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onEditProject() {
+    localStorage.setItem('projectId', this.selectedProject['id']);
     this.isClickOnEditProject = true;
-    this.projectForm.patchValue({
-      name: this.selectedProject['name'],
-      description: this.selectedProject['description'],
-      videoUrl: this.selectedProject['videoUrl'],
-      plan: this.selectedProject['planInfo'].imageUrl,
-      miniImageUrl: this.selectedProject['miniImageUrl'],
-      armodelObj: this.selectedProject['arObjectInfo'].url,
-      armodelMtl: this.selectedProject['miniImageUrl'].MtlUrl,
-      photos: this.selectedProject['imageUrls'].length + 'files',
-      // styles: this.styles,
-      // typesRooms: this.nameOfRooms,
-    });
+
     const photosLinks = this.selectedProject['imageUrls'].map(photo =>
       environment.serverUrl + photo);
-    this.plan[0] = { name: environment.serverUrl + this.selectedProject['planInfo'].imageUrl };
     this.logo[0] = { name : environment.serverUrl + this.selectedProject['miniImageUrl']};
-    this.armodelMtl[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].MtlUrl};
+    this.armodelMtl[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].mtlUrl};
     this.armodelObj[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].url};
     this.projectPhotos = photosLinks;
-    // this.styles = this.selectedProject['styles'];
-    // this.typesRooms = this.selectedProject['nameOfRooms'];
-    localStorage.setItem('projectId', this.selectedProject['id']);
+    console.log(this.armodelMtl[0]);
+
+    this.styles = [];
+    this.selectedProject['interiorsInfo'].forEach((elem) => {
+      this.styles.push(elem.name);
+    });
+    this.typesRooms = [];
+    this.selectedProject['roomsInfo'].forEach((elem) => {
+      this.typesRooms.push(elem.name);
+    });
+
+    this.plans = [];
+    this.selectedProject['plansInfo'].forEach((elem) => {
+      this.plans.push(elem.name);
+    });
+
+    this.listPlans = [];
+    this.listRooms = [];
+    this.selectedProject['plans'].forEach((plan) => {
+      this.listPlans.push({
+        planName: plan.planName,
+        planImg: environment.serverUrl + plan.imageUrl,
+        imgBase64: environment.serverUrl + plan.imageUrl,
+        floorNumber: plan.floorNumber,
+        planId: plan.id
+      });
+      plan.rooms.forEach((room) => {
+        room['interiors'].forEach((interior) => {
+          interior['daytimes'].forEach((time) => {
+            this.listRooms.push({
+              name: room.name,
+              interior: interior.name,
+              dayTime: time.id === 1 ? 'Day' : 'Night',
+              planName: plan.planName,
+              imgBase64: environment.serverUrl + time.imageUrl
+            });
+          });
+        });
+      });
+    });
+
+    this.projectForm.patchValue({
+      name: this.selectedProject['name'],
+      logo: this.selectedProject['miniImageUrl'],
+      description: this.selectedProject['description'],
+      videoUrl: this.selectedProject['videoUrl'],
+      plansName: this.plans,
+      miniImageUrl: this.selectedProject['miniImageUrl'],
+      armodelObj: this.selectedProject['arObjectInfo'].url,
+      armodelMtl: this.selectedProject['arObjectInfo'].mtlUrl,
+      photos: this.selectedProject['imageUrls'].length + 'files',
+      styles: this.styles,
+      typesRooms: this.typesRooms,
+    });
   }
 
   public onUpdateFiles(result) {
     if (this.projectPhotos.length + result.target.files.length > 15) {
-      // $('#infoBox').modal('show');
+      $('#infoBox').modal('show');
       this.infoMessage = 'Max length is 15 photos';
       return;
     }
@@ -350,31 +401,42 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     localStorage.setItem('projectId', '1');
   }
 
-  public addNewImgRoom(nameRoomId, interiorId, dayTime) {
-
-    const foundStyleName = this.savedProjectData['styles'].find(function(element) {
+  public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
+    console.log(nameRoomId, interiorId, dayTime, namePlanId)
+    if (!nameRoomId || !interiorId || !dayTime || !this.image) {
+      this.infoMessage = 'Plans data in invalid, please check it.';
+      $('#infoBox').modal('show');
+      return;
+    }
+    const foundStyleName = this.savedProjectData['interiorsInfo'].find(function(element) {
       return element.id = interiorId;
     });
 
-    const foundRoomName = this.savedProjectData['nameOfRooms'].find(function(element) {
+    const foundRoomName = this.savedProjectData['roomsInfo'].find(function(element) {
       return element.id = nameRoomId;
+    });
+
+    const foundPlanName = this.savedProjectData['plansInfo'].find(function(element) {
+      return element.id = namePlanId;
     });
 
     if (this.image) {
       const fr = new FileReader();
       fr.onload = () => {
         this.listRooms.push({
-          name: foundRoomName.style,
-          interior: foundStyleName.style,
+          name: foundRoomName.name,
+          interior: foundStyleName.name,
           dayTime: dayTime,
           image: this.image,
-          imgBase64: fr.result
+          imgBase64: fr.result,
+          planName: foundPlanName.planName
         });
         const dayTimeId = (dayTime === 'day') ? 1 : 2;
         const roomFormData = new FormData();
         roomFormData.append('roomObjects', this.image);
         roomFormData.append('dayTimeId', dayTimeId.toString());
         roomFormData.append('nameOfRoomId', nameRoomId);
+        roomFormData.append('objectPlanId', namePlanId);
         roomFormData.append('interiorId', interiorId);
         roomFormData.append('projectId', localStorage.getItem('projectId'));
         this.managerService.addRoom(roomFormData).then((res) => {
@@ -385,7 +447,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       };
       fr.readAsDataURL(this.image);
     } else {
-      // $('#infoBox').modal('show');
+      $('#infoBox').modal('show');
       this.infoMessage = 'Image is mandatory!';
       return;
     }
@@ -393,53 +455,74 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
 
-  public addNewImgPlan(namePlanId) {
-    console.log(this.savedProjectData['nameOfPlans']);
-    console.log(namePlanId);
+  public addNewImgPlan(namePlanId, floorNumber) {
+    if (!namePlanId || !this.planImg || !floorNumber) {
+      alert('Plans data in invalid, please check it.');
+      return;
+    }
 
-    const foundPlanName = this.savedProjectData['nameOfPlans'].find(function(element) {
+    if (this.listPlans.length === this.savedProjectData['plansInfo'].length) {
+      alert('You can add only ' + this.savedProjectData['plansInfo'].length + ' plans. You can change count plans in common settings!');
+      return;
+    }
+
+    const foundPlanName = this.savedProjectData['plansInfo'].find(function(element) {
       return element.id = namePlanId;
     });
 
-    if (this.image) {
+    if (this.planImg) {
       const fr = new FileReader();
       fr.onload = () => {
         this.listPlans.push({
           planName: foundPlanName.planName,
           planImg: this.planImg,
-          imgBase64: fr.result
+          imgBase64: fr.result,
+          floorNumber: floorNumber
         });
         const planFormData = new FormData();
         planFormData.append('plans', this.planImg);
         planFormData.append('planInfoId', namePlanId);
+        planFormData.append('floorNumber', floorNumber);
         planFormData.append('projectId', localStorage.getItem('projectId'));
         this.managerService.addProjectPlan(planFormData).then((res) => {
-          console.log(this.listPlans);
           console.log(res);
         }, error => {
           console.log(error);
         });
       };
-      fr.readAsDataURL(this.image);
+      fr.readAsDataURL(this.planImg);
     } else {
-      // $('#infoBox').modal('show');
+      $('#infoBox').modal('show');
       this.infoMessage = 'Image is mandatory!';
       return;
     }
-    this.resetRoomsForm();
+    this.resetPlansForm();
   }
 
   saveSettingsRooms() {
-    console.log(this.listRooms);
+    // this.listRooms = [];
     alert('Rooms settings was saved');
+  }
+
+  saveSettingsPlan() {
+    // this.listPlans = [];
+    alert('Plans settings was saved');
   }
 
   resetRoomsForm() {
     this.image = [];
     this.nameRoom = '';
     this.interior = '';
+    this.planName = '';
     this.dayTime = 'day';
     alert('Room was added');
+  }
+
+  resetPlansForm() {
+    this.planImg = [];
+    this.planName = '';
+    this.floorNumber = '';
+    alert('Plan was added');
   }
 
   onRoomImgChange(event) {
@@ -455,14 +538,33 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   onDeleteProject() {
-    console.log(this.selectedProject['id']);
     this.managerService.deleteProject(this.selectedProject['id']).then((res) => {
-      alert('Project was deleted');
       this.infoMessage = 'Project was deleted';
-      this.getAllProjects(() => {});
+      alert('Project was deleted');
+      this.getAllProjects(() => {
+        this.selectedProject = null;
+        this.loadProjects();
+      });
     }, error => {
       this.infoMessage = 'Something wrong, please try again.';
+      alert('Something wrong, please try again.');
     });
+  }
+
+  onCancel() {
+    this.isClickOnCreateProject = false;
+    this.isClickOnEditProject = false;
+    localStorage.removeItem('projectId');
+  }
+
+  onDeletePlan(id) {
+    console.log(id);
+  }
+
+  onEditPlan(id) {
+    console.log(id);
+
+    $('#planImg').modal('show');
   }
 
 }

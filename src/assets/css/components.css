@@ -17036,9 +17036,9 @@ thead .htCollapseButton:after {
 }
 .dataTables_paginate .paginate_button {
   display: inline-block;
-  padding: 7px;
+  padding: 0;
   min-width: 36px;
-  margin-left: 2px;
+  margin-left: 1px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 
@@ -9,9 +9,12 @@ import {AuthService} from '../services/auth.service';
 })
 export class MainComponent implements OnInit {
   private linkItems = [];
+
   private userName = localStorage.getItem('userName');
+  private role = localStorage.getItem('role');
   private avatar = localStorage.getItem('avatar');
   constructor (private router: Router, private authService: AuthService) {}
+
 
   ngOnInit() {
     this.checkUserRight();
@@ -23,10 +26,10 @@ export class MainComponent implements OnInit {
         this.linkItems = [
           { name: 'Dashboard', routerLink: 'adminpanel/dashboard', icon: 'icon-screen3'},
           { name: 'Company settings', routerLink: 'adminpanel/company', icon: 'fa fa-cogs'},
-          { name: 'Super managers', routerLink: 'adminpanel/company', icon: 'fa fa-users'},
-          { name: 'Managers', routerLink: 'adminpanel/users', icon: 'fa fa-user'},
+          { name: 'Super managers', routerLink: 'adminpanel/super-manager', icon: 'fa fa-users'},
+          { name: 'Managers', routerLink: 'adminpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'adminpanel/projects', icon: 'icon-home'},
-          { name: 'Users', routerLink: 'adminpanel/users', icon: 'icon-person'}
+          { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'}
           ];
         break;
       case 'SuperManager':

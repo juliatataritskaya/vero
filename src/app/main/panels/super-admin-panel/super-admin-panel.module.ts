@@ -9,6 +9,8 @@ import {SuperAdminPanelRoutes} from './super-admin-panel.routing';
 import {DashboardTabComponent} from './dashboard-tab/dashboard-tab.component';
 import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
 import {RlTagInputModule} from 'angular2-tag-input/dist';
+import {SuperManagerTabComponent} from './super-manager-tab/super-manager-tab.component';
+import {ManagerTabComponent} from './manager-tab/manager-tab.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import {RlTagInputModule} from 'angular2-tag-input/dist';
     UsersTabComponent,
     CompaniesTabComponent,
     DashboardTabComponent,
-    ProjectsTabComponent
+    ProjectsTabComponent,
+    SuperManagerTabComponent,
+    ManagerTabComponent
   ],
   imports: [
     FormsModule,

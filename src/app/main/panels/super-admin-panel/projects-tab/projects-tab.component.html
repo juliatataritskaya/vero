@@ -1,9 +1,5 @@
-<div>
-  <h2>Projects</h2>
-</div>
-
 <div class="list-projects table-responsive">
-  <table id="projects_table" class="table table-striped table-bordered table-hover no-footer">
+  <table id="projects_table" class="table table-striped  table-hover">
   </table>
 </div>
 
@@ -169,9 +165,6 @@
                               (click)="onSaveHandler($event)">Save
                       </button>
                       <button class="btn col-lg-2 col-md-2" (click)="onClearForm()">Clear form</button>
-                      <button class="btn col-lg-2 col-md-2" (click)="isClickOnCreateProject = false"
-                              (click)="isClickOnEditProject = false">Cancel
-                      </button>
                     </div>
                   </div>
                 </form>
@@ -190,7 +183,10 @@
               <div class="rooms-container">
                 <div *ngFor="let plan of listPlans" class="col-lg-12 room">
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
-                  <div class="col-lg-8"><p>Name: {{plan.name}}</p>
+                  <div class="col-lg-4"><p>Name: {{plan.planName}}</p>
+                    <p>Floor number: {{plan.floorNumber}}</p>
+                  </div>
+                  <div class="col-lg-4"><i class="icon-close2" (click)="onDeletePlan(plan.planId)"></i> <i class="icon-pen" (click)="onEditPlan(plan.planId)"></i>
                   </div>
                 </div>
               </div>
@@ -231,6 +227,10 @@
               </div>
             </div>
           </div>
+        <div class="panel-footer">
+          <button class="btn col-lg-2 col-md-2 pull-right" (click)="onCancel()">Cancel
+          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -244,20 +244,30 @@
           <form enctype="multipart/form-data">
             <div class="form-group">
               <label for="img">Image: </label>
-              <input type="file" id="img" name="img" placeholder="Img" (change)="onRoomImgChange($event)">
+              <input type="file" id="img" name="img" placeholder="Img" (change)="onRoomImgChange($event)"
+                     accept="image/jpg,image/jpeg">
+              <p *ngIf="image">{{image.name}}</p>
             </div>
             <div class="form-group">
               <label for="interior">Interior style: </label>
               <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
                       [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let style of savedProjectData.styles" value="{{style.id}}">{{style.style}}</option>
+                <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="nameRoom">Types room</label>
+              <label for="nameRoom">Type of room:</label>
               <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let typeRoom of savedProjectData.nameOfRooms" value="{{typeRoom.id}}">
-                  {{typeRoom.style}}
+                <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}">
+                  {{room.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="namePlan">Plan name: </label>
+              <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">
+                  {{plan.planName}}
                 </option>
               </select>
             </div>
@@ -277,7 +287,7 @@
         <div class="mb-footer">
           <div class="pull-right">
             <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-               (click)="addNewImgRoom(nameRoom, interior, dayTime)">Add</a>
+               (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">Add</a>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
           </div>
         </div>
@@ -294,21 +304,28 @@
           <form enctype="multipart/form-data">
             <div class="form-group">
               <label for="img">Plan : </label>
-              <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onPlanImgChange($event)">
+              <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onPlanImgChange($event)"
+                     accept="image/jpg,image/jpeg">
+              <p *ngIf="planImg">{{planImg.name}}</p>
             </div>
             <div class="form-group">
               <label for="interior">Plan name: </label>
               <select id="plan" name="planName" class="form-control" [(ngModel)]="planName"
                       [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let plan of savedProjectData.nameOfPlans" value="{{plan.id}}">{{plan.planName}}</option>
+                <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">{{plan.planName}}</option>
               </select>
+            </div>
+            <div class="form-group">
+              <label for="floorNumber">Floor number : </label>
+              <input type="number" id="floorNumber" name="floorNumber" placeholder="Floor number" class="form-control" [(ngModel)]="floorNumber"
+                     [ngModelOptions]="{standalone: true}">
             </div>
           </form>
         </div>
         <div class="mb-footer">
           <div class="pull-right">
             <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-               (click)="addNewImgPlan(planName)">Add</a>
+               (click)="addNewImgPlan(planName, floorNumber)">Add</a>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
           </div>
         </div>
@@ -323,7 +340,7 @@
       <div class="mb-middle">
         <div class="mb-content">
           <div *ngIf="!infoMessage">
-            <img src="../../../../../assets/img/loading.gif"/>
+            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
           </div>
           <div *ngIf="infoMessage">
             <h2>{{infoMessage}}</h2>
@@ -333,14 +350,30 @@
       </div>
     </div>
   </div>
+
 <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
       <div class="mb-content">
-        <h4>Are you sure that you want to delete the project</h4>
+        <h4>Are you sure that you want to delete the project?</h4>
         <div>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="infoDeletePlan" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <h4>Are you sure that you want to delete the plan?</h4>
+        <div>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeletePlan()">Yes</button>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
         </div>
       </div>

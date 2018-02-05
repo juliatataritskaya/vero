@@ -7,3 +7,16 @@ html, body{
 .form-control{
   border-radius: 0 !important;
 }
+
+#blink {
+  -webkit-animation: blink 1s linear infinite;
+  animation: blink 1s linear infinite;
+}
+@-webkit-keyframes blink {
+  50% { color: rgb(255, 255, 255); }
+  100% { color: rgba(34, 34, 34, 0); }
+}
+@keyframes blink {
+  50% { color: rgb(255, 255, 255); }
+  100% { color: rgba(34, 34, 34, 0); }
+}

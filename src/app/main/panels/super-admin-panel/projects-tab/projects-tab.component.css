@@ -188,3 +188,8 @@ input[type=file]{
 #infoBox .mb-container button{
   margin-top: 20px;
 }
+
+.activeButtonDT {
+  background-color: black !important;
+  border-color: black !important;
+}

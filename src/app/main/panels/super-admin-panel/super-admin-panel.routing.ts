@@ -5,6 +5,8 @@ import {CompaniesTabRoutes} from './companies-tab/companies-tab.routes';
 import {AuthGuard} from '../../../shared/guards/auth.guard';
 import {DashboardTabRoutes} from './dashboard-tab/dashboard-tab.routes';
 import {ProjectsTabRoutes} from './projects-tab/projects-tab.routes';
+import {SuperManagerTabRoutes} from './super-manager-tab/super-manager-tab.routes';
+import {ManagerTabRoutes} from './manager-tab/manager-tab.routes';
 
 export const SuperAdminPanelRoutes: Routes = [
   {path: '', redirectTo: 'adminpanel', pathMatch: 'full'},
@@ -12,6 +14,8 @@ export const SuperAdminPanelRoutes: Routes = [
     ...DashboardTabRoutes,
     ...CompaniesTabRoutes,
     ...UsersTabRoutes,
-    ...ProjectsTabRoutes
+    ...ProjectsTabRoutes,
+    ...SuperManagerTabRoutes,
+    ...ManagerTabRoutes
   ]},
   ];
