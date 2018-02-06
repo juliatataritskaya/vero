@@ -78,4 +78,24 @@ export class ManagerService {
     });
   }
 
+  public updateProjectPhotos(projectPhotos): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.putUpdateProjectPhotos(projectPhotos).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public updateProjectInfo(projectInfo): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.putUpdateProjectInfo(projectInfo).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
 }

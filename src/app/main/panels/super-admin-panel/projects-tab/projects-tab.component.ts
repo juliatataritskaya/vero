@@ -26,18 +26,18 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   listRooms = [];
   listPlans = [];
   plans  = [];
-  isClickOnCreateProject: boolean = false;
-  isClickOnEditProject: boolean = false;
+  isClickOnCreateProject = false;
+  isClickOnEditProject = false;
   private tableWidget: any;
   gameInstance: any;
   selectedProject: object;
   miniImageUrl: string;
-  infoMessage: string = '';
+  infoMessage = '';
 
   image: any;
   nameRoom: string;
   interior: string;
-  dayTime: string = 'day';
+  dayTime = 'day';
   namePlan: string;
 
   planImg: any;
@@ -48,7 +48,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   @Input() projects: any;
   @Output() shipmentSelected: EventEmitter<any> = new EventEmitter();
 
-  savedProjectData = [];
+  savedProjectData = {};
 
   constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService,
               private redirectService: RedirectService) {
@@ -179,13 +179,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     projectData.projectPhotos = this.projectPhotos;
 
     if (this.isClickOnEditProject) {
-      console.log({
-        project: {
-          name: projectData.name,
-          description: projectData.description, videoUrl: projectData.videoUrl,
-          miniImageUrl: projectData.miniImageUrl, interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans
-        }, error: null
-      });
+      this.updateProjectPhotos();
+
       this.onClearForm();
       this.infoMessage = 'Edit save';
       return;
@@ -197,6 +192,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         miniImageUrl: projectData.miniImageUrl, interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans
       }, error: null
     }).then((result) => {
+      console.log(result.project);
       this.savedProjectData = result.project;
       this.addProjectPhotos(result, () => {
         this.addProjectAr(result, projectData.armodelObjImg, projectData.armodelMtlImg);
@@ -215,6 +211,29 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     photosFormData.append('projectId', result.project.id);
     this.managerService.addProjectPhotos(photosFormData).then((res) => {
       callback();
+    }, error => {
+      this.infoMessage = 'Something wrong, please try again.';
+    });
+  }
+
+  private updateProjectPhotos() {
+    const photosFormData = new FormData();
+    this.selectedProject['imageUrls'].forEach((img) => {
+      if (this.projectPhotos.indexOf((img) === -1)){
+        photosFormData.append('deletedPhotosPaths', img);
+      }
+    });
+    this.projectPhotosFiles.forEach((photo) => {
+      photosFormData.append('photos', photo);
+    });
+    photosFormData.append('projectId', localStorage.getItem('projectId'));
+    this.managerService.updateProjectPhotos(photosFormData).then((res) => {
+      this.projectPhotosFiles = [];
+      this.projectPhotos = [];
+      this.selectedProject = [];
+      this.getAllProjects(() => {
+        this.loadProjects();
+      });
     }, error => {
       this.infoMessage = 'Something wrong, please try again.';
     });
@@ -256,7 +275,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.armodelMtl[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].mtlUrl};
     this.armodelObj[0] = { name : environment.serverUrl + this.selectedProject['arObjectInfo'].url};
     this.projectPhotos = photosLinks;
-    console.log(this.armodelMtl[0]);
 
     this.styles = [];
     this.selectedProject['interiorsInfo'].forEach((elem) => {
@@ -338,6 +356,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectForm.reset();
     this.photos360 = [];
     this.projectPhotos = [];
+    this.projectPhotosFiles = [];
     this.logo = [];
     this.plans = [];
     this.armodelObj = [];
@@ -402,7 +421,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
-    console.log(nameRoomId, interiorId, dayTime, namePlanId)
+    console.log(nameRoomId, interiorId, dayTime, namePlanId);
     if (!nameRoomId || !interiorId || !dayTime || !this.image) {
       this.infoMessage = 'Plans data in invalid, please check it.';
       $('#infoBox').modal('show');
@@ -562,8 +581,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   onEditPlan(id) {
-    console.log(id);
-
+    console.log(this.selectedProject);
+    this.savedProjectData = {};
+    this.savedProjectData = this.selectedProject;
+    console.log(this.savedProjectData);
     $('#planImg').modal('show');
   }
 

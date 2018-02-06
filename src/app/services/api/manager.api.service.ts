@@ -14,6 +14,8 @@ export class ManagerApiService extends BaseHttpService {
   private static postAddProjectArUrl = environment.serverUrl + '/api/AddProjectAr';
   private static postAddRoomUrl = environment.serverUrl + '/api/AddRoom';
   private static deleteProjectUrl = environment.serverUrl + '/api/DeleteProject';
+  private static putUpdateProjectPhotos = environment.serverUrl + '/api/UpdateProjectPhotos';
+  private static putUpdateProjectInfo = environment.serverUrl + '/api/UpdateProjectInfo';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -88,6 +90,28 @@ export class ManagerApiService extends BaseHttpService {
   public deleteProject (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.delete(ManagerApiService.deleteProjectUrl, {id})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public putUpdateProjectPhotos(projectPhotos: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.put(ManagerApiService.putUpdateProjectPhotos, {}, projectPhotos)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public putUpdateProjectInfo(projectInfo: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.put(ManagerApiService.putUpdateProjectInfo, {}, projectInfo)
         .subscribe(result => {
           resolve(result);
         }, error => {

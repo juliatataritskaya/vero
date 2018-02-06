@@ -40,7 +40,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
   }
 
   ngOnInit () {
-    this.createProjectForm();
+    this.createCompanySettingsForm();
   }
 
   public onSaveHandler(): void {
@@ -58,7 +58,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
     console.log(formObject);
   }
 
-  private createProjectForm(): void {
+  private createCompanySettingsForm(): void {
     this.companySettingsForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
