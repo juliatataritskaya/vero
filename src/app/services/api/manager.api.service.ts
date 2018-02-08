@@ -15,7 +15,12 @@ export class ManagerApiService extends BaseHttpService {
   private static postAddRoomUrl = environment.serverUrl + '/api/AddRoom';
   private static deleteProjectUrl = environment.serverUrl + '/api/DeleteProject';
   private static putUpdateProjectPhotos = environment.serverUrl + '/api/UpdateProjectPhotos';
-  private static putUpdateProjectInfo = environment.serverUrl + '/api/UpdateProjectInfo';
+  private static postUpdateProjectInfo = environment.serverUrl + '/api/UpdateProjectInfo';
+  private static putUpdateProjectPlan = environment.serverUrl + '/api/UpdateProjectPlan';
+  private static deletePlanUrl = environment.serverUrl + '/api/DeleteProjectPlanWithRooms';
+  private static deleteRoomUrl = environment.serverUrl + '/api/DeleteRoom';
+  private static putUpdateProjectRoomUrl = environment.serverUrl + '/api/UpdateRoom';
+  private static deleteArModelUrl = environment.serverUrl + '/api/DeleteArObject';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -109,9 +114,64 @@ export class ManagerApiService extends BaseHttpService {
     });
   }
 
-  public putUpdateProjectInfo(projectInfo: any): Promise<any> {
+  public postUpdateProjectInfo(projectInfo: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.put(ManagerApiService.putUpdateProjectInfo, {}, projectInfo)
+      this.post(ManagerApiService.postUpdateProjectInfo, {}, projectInfo)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public putUpdateProjectPlan(projectPlan: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.put(ManagerApiService.putUpdateProjectPlan, {}, projectPlan)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public putUpdateRoom(roomData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.put(ManagerApiService.putUpdateProjectRoomUrl, {}, roomData)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public deletePlan (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.delete(ManagerApiService.deletePlanUrl, {id})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public deleteRoom (imageRoomId: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.delete(ManagerApiService.deleteRoomUrl, {imageRoomId})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public deleteArModel (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.delete(ManagerApiService.deleteArModelUrl, {id})
         .subscribe(result => {
           resolve(result);
         }, error => {

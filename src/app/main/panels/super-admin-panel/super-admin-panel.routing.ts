@@ -7,6 +7,7 @@ import {DashboardTabRoutes} from './dashboard-tab/dashboard-tab.routes';
 import {ProjectsTabRoutes} from './projects-tab/projects-tab.routes';
 import {SuperManagerTabRoutes} from './super-manager-tab/super-manager-tab.routes';
 import {ManagerTabRoutes} from './manager-tab/manager-tab.routes';
+import {NotificationTabRoutes} from './notification-tab/notification-tab.routes';
 
 export const SuperAdminPanelRoutes: Routes = [
   {path: '', redirectTo: 'adminpanel', pathMatch: 'full'},
@@ -16,6 +17,7 @@ export const SuperAdminPanelRoutes: Routes = [
     ...UsersTabRoutes,
     ...ProjectsTabRoutes,
     ...SuperManagerTabRoutes,
-    ...ManagerTabRoutes
+    ...ManagerTabRoutes,
+    ...NotificationTabRoutes
   ]},
   ];

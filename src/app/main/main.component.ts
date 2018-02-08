@@ -29,7 +29,8 @@ export class MainComponent implements OnInit {
           { name: 'Super managers', routerLink: 'adminpanel/super-manager', icon: 'fa fa-users'},
           { name: 'Managers', routerLink: 'adminpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'adminpanel/projects', icon: 'icon-home'},
-          { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'}
+          { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'},
+          { name: 'Notification', routerLink: 'adminpanel/notification', icon: 'icon-mail5'}
           ];
         break;
       case 'SuperManager':
@@ -50,7 +51,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  onHandleLogout(){
+  onHandleLogout() {
     this.authService.logoutUser();
       this.router.navigate(['/start-page']);
   }

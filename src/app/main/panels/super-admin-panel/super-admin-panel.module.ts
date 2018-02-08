@@ -11,6 +11,7 @@ import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
 import {RlTagInputModule} from 'angular2-tag-input/dist';
 import {SuperManagerTabComponent} from './super-manager-tab/super-manager-tab.component';
 import {ManagerTabComponent} from './manager-tab/manager-tab.component';
+import {NotificationTabComponent} from './notification-tab/notification-tab.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {ManagerTabComponent} from './manager-tab/manager-tab.component';
     DashboardTabComponent,
     ProjectsTabComponent,
     SuperManagerTabComponent,
-    ManagerTabComponent
+    ManagerTabComponent,
+    NotificationTabComponent
   ],
   imports: [
     FormsModule,

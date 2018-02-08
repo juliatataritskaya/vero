@@ -90,7 +90,57 @@ export class ManagerService {
 
   public updateProjectInfo(projectInfo): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.putUpdateProjectInfo(projectInfo).then(result => {
+      this.managerApi.postUpdateProjectInfo(JSON.stringify(projectInfo)).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public updateProjectPlan(projectPlan): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.putUpdateProjectPlan(projectPlan).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public updateRoom(roomData): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.putUpdateRoom(roomData).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public deletePlan (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.deletePlan(id).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public deleteRoom (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.deleteRoom(id).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public deleteArModel (id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.managerApi.deleteArModel(id).then(result => {
         resolve(result);
       }, error => {
         reject(error);

@@ -4,13 +4,17 @@
 }
 
 .login-cover {
-  background: url(../../../assets/img/bg.png) top center no-repeat #a9a9ab;
+  background: url(../../../assets/img/start-page.jpg) center no-repeat;
   background-size: cover;
   height: 100%;
 }
 
 .page-container {
   padding-top: 15em;
+}
+
+.login-form{
+  background-color: rgba(255,255,255,0.8)
 }
 
 .form-group button {

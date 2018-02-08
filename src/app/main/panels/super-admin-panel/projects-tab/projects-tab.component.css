@@ -193,3 +193,6 @@ input[type=file]{
   background-color: black !important;
   border-color: black !important;
 }
+.col-for-5{
+  width: 20%;
+}

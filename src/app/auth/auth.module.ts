@@ -7,13 +7,15 @@ import {LoginComponent} from './login/login.component';
 import {AuthComponent} from './auth.component';
 import {AuthRoutes} from './auth.routing';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     AuthComponent,
     RegistrationComponent,
     LoginComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     FormsModule,

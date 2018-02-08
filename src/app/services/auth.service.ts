@@ -36,6 +36,36 @@ export class AuthService {
       });
     });
   }
+  public resetPassword (passwordData: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.authApi.postResetPassword(passwordData).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public checkoutResetPassword(token: any): Promise<string> {
+    console.log(1);
+    return new Promise((resolve, reject) => {
+      this.authApi.postCheckoutResetPassword(token).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public submitResetPassword (passwordData: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.authApi.postSubmitResetPassword(passwordData).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
 
   public logoutUser (): void {
     localStorage.clear();

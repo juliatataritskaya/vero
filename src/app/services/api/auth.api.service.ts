@@ -9,6 +9,9 @@ import {BaseHttpService} from './base.http.service';
 export class AuthApiService extends BaseHttpService {
   private static loginUrl = environment.serverUrl + '/api/login';
   private static forgotPasswordUrl = environment.serverUrl + '/api/forgotPassword';
+  private static resetPasswordUrl = environment.serverUrl + '/api/ResetPassword';
+  private static checkoutResetPasswordUrl = environment.serverUrl + '/api/CheckoutResetPassword';
+  private static submitResetPasswordUrl = environment.serverUrl + '/api/SubmitResetPassword';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -28,6 +31,40 @@ export class AuthApiService extends BaseHttpService {
   public postForgotPassword (forgotPasswordData: any): Promise<string> {
     return new Promise((resolve, reject) => {
       this.post(AuthApiService.forgotPasswordUrl, {}, forgotPasswordData)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postResetPassword (passwordData: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.post(AuthApiService.resetPasswordUrl, {}, passwordData)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postCheckoutResetPassword (token: any): Promise<string> {
+    console.log(token);
+    return new Promise((resolve, reject) => {
+      this.post(AuthApiService.checkoutResetPasswordUrl, {}, token)
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postSubmitResetPassword (passwordData: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.post(AuthApiService.submitResetPasswordUrl, {}, passwordData)
         .subscribe(result => {
           resolve(result);
         }, error => {

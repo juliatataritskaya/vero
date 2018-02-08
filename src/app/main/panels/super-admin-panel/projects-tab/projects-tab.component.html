@@ -13,7 +13,9 @@
     <button type="submit" class="btn btn-block" *ngIf="selectedProject" (click)="onEditProject()">Edit project</button>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" *ngIf="selectedProject" data-toggle="modal" data-target="#infoDeleteBox">Delete project</button>
+    <button type="submit" class="btn btn-block" *ngIf="selectedProject" data-toggle="modal"
+            data-target="#infoDeleteBox">Delete project
+    </button>
   </div>
 </div>
 
@@ -24,13 +26,15 @@
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
           <ul class="nav nav-tabs">
-            <li class="active col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#common-settings" data-toggle="tab">Common
+            <li class="active col-for-5"><a href="#common-settings" data-toggle="tab">Common
               settings</a></li>
-            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#plans-settings" data-toggle="tab">Plans
+            <li class="col-for-5"><a href="#ar-settings" data-toggle="tab">AR models
               settings</a></li>
-            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#rooms-settings" data-toggle="tab">Rooms
+            <li class="col-for-5"><a href="#plans-settings" data-toggle="tab">Layout
               settings</a></li>
-            <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#editor" data-toggle="tab">Editor</a></li>
+            <li class="col-for-5"><a href="#rooms-settings" data-toggle="tab">Rooms
+              settings</a></li>
+            <li class="col-for-5"><a href="#editor" data-toggle="tab">Editor</a></li>
           </ul>
         </div>
         <div class="panel-body">
@@ -93,52 +97,39 @@
                   </div>
                   <div class="col-lg-12 ">
                     <div class="col-lg-3 col-sm-12">
-                      <label>Plans: </label>
+                      <label>Layout: </label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
                       <rl-tag-input [(ngModel)]="plans" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Enter name of plans ... "
+                                    placeholder="Enter name of layout ... "
                                     style="border: 1px solid #9d9d9d; border-radius: 5px;
                                     box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
                                      padding-bottom: 0; padding-left: 5px; margin-top: 5px;
                                       margin-bottom: 5px;"></rl-tag-input>
                     </div>
                   </div>
+
                   <div class="col-lg-12 ">
                     <div class="col-lg-3 col-sm-12">
-                      <label>AR model:</label>
+                      <label>AR models: </label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
-                      <div>
-                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
-                          <label>Object :</label>
-                        </div>
-                        <div class="col-lg-8 col-sm-12">
-                          <input type="file" title="" (change)="onFileChange($event, 'armodel-obj')" accept=".obj"/>
-                          <p *ngIf="armodelObj[0]">{{armodelObj[0].name}}</p>
-                          <input type="hidden" name="fileHidden" formControlName="armodelObj"/>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="col-lg-3 col-sm-12" style="padding-left: 0">
-                          <label>Material :</label>
-                        </div>
-                        <div class="col-lg-8 col-sm-12">
-                          <input type="file" title="" (change)="onFileChange($event, 'armodel-mtl')" accept=".mtl"/>
-                          <p *ngIf="armodelMtl[0]">{{armodelMtl[0].name}}</p>
-                          <input type="hidden" name="fileHidden" formControlName="armodelMtl"/>
-                        </div>
-                      </div>
+                      <rl-tag-input [(ngModel)]="armodels" [ngModelOptions]="{standalone: true}"
+                                    placeholder="Enter names of AR models ... "
+                                    style="border: 1px solid #9d9d9d; border-radius: 5px;
+                                    box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
+                                     padding-bottom: 0; padding-left: 5px; margin-top: 5px;
+                                      margin-bottom: 5px;"></rl-tag-input>
                     </div>
                   </div>
 
                   <div class="col-lg-12 ">
                     <div class="col-lg-3 col-sm-12">
-                      <label>Interior styles: </label>
+                      <label>Interior: </label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
                       <rl-tag-input [(ngModel)]="styles" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Enter interior styles ... "
+                                    placeholder="Enter interior ... "
                                     style="border: 1px solid #9d9d9d; border-radius: 5px;
                                     box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
                                      padding-bottom: 0; padding-left: 5px; margin-top: 5px;
@@ -179,177 +170,250 @@
             <!--=============================-->
             <div class="tab-pane fade" id="plans-settings">
               <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#planImg">+</button>
-              <button class="btn btn-primary" (click)="saveSettingsPlan()">Save settings of plans</button>
+              <!--<button class="btn btn-primary" (click)="saveSettingsPlan()">Save settings of layout</button>-->
               <div class="rooms-container">
                 <div *ngFor="let plan of listPlans" class="col-lg-12 room">
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4"><p>Name: {{plan.planName}}</p>
                     <p>Floor number: {{plan.floorNumber}}</p>
                   </div>
-                  <div class="col-lg-4"><i class="icon-close2" (click)="onDeletePlan(plan.planId)"></i> <i class="icon-pen" (click)="onEditPlan(plan.planId)"></i>
+                  <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeletePlan(plan.planId)"></i> <i
+                    class="icon-pen" (click)="onEditPlan(plan.planId)"></i>
                   </div>
                 </div>
               </div>
             </div>
 
-              <!--=============================-->
-              <!--End Plans settings-->
-              <!--=============================-->
+            <!--=============================-->
+            <!--End Plans settings-->
+            <!--=============================-->
 
-
-              <!--=============================-->
-              <!--Rooms settings-->
-              <!--=============================-->
-              <div class="tab-pane fade" id="rooms-settings">
-                <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#roomImg">+</button>
-                <button class="btn btn-primary" (click)="saveSettingsRooms()">Save settings rooms</button>
-                <div class="rooms-container">
-                  <div *ngFor="let room of listRooms" class="col-lg-12 room">
-                    <div class="col-lg-4"><img src="{{room.imgBase64}}" width="100px" height="70px" title=""></div>
-                    <div class="col-lg-8">
-                      <p>Name: {{room.name}}</p>
-                      <p>Interior: {{room.interior}} </p>
-                      <p>Day time: {{room.dayTime}} </p>
-                      <p>Plan name: {{room.planName}} </p>
-                    </div>
+            <!--=============================-->
+            <!--AR model settings-->
+            <!--=============================-->
+            <div class="tab-pane fade" id="ar-settings">
+              <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#armodel">+</button>
+              <!--<button class="btn btn-primary" (click)="saveSettingsARmodel()">Save settings of AR models</button>-->
+              <div class="rooms-container">
+                <div *ngFor="let model of listARModels" class="col-lg-12 room">
+                  <div class="col-lg-6 col-lg-offset-2">
+                    <p>Name: {{model.name}}</p>
+                    <p>Object file: {{model.objectFile}}</p>
+                    <p>Material file: {{model.materialFile}}</p>
+                    <p>Size: {{model.size}}</p>
+                  </div>
+                  <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteARModel(model.modelId)"></i>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!--=============================-->
-              <!--End Rooms settings-->
-              <!--=============================-->
+            <!--=============================-->
+            <!--End AR model settings-->
+            <!--=============================-->
 
-              <div class="tab-pane fade" id="editor">
 
-                <button class="btn btn-primary" (click)="openEditor()">Go to the editor</button>
-
+            <!--=============================-->
+            <!--Rooms settings-->
+            <!--=============================-->
+            <div class="tab-pane fade" id="rooms-settings">
+              <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#roomImg">+</button>
+              <!--<button class="btn btn-primary" (click)="saveSettingsRooms()">Save settings rooms</button>-->
+              <div class="rooms-container">
+                <div *ngFor="let room of listRooms" class="col-lg-12 room">
+                  <div class="col-lg-4"><img src="{{room.imgBase64}}" width="100px" height="70px" title=""></div>
+                  <div class="col-lg-4">
+                    <p>Name: {{room.name}}</p>
+                    <p>Interior: {{room.interior}} </p>
+                    <p>Day time: {{room.dayTime}} </p>
+                    <p>Layout: {{room.planName}} </p>
+                  </div>
+                  <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
+                    class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <!--=============================-->
+            <!--End Rooms settings-->
+            <!--=============================-->
+
+            <div class="tab-pane fade" id="editor">
+
+              <button class="btn btn-primary" (click)="openEditor()">Go to the editor</button>
+
             </div>
           </div>
+        </div>
         <div class="panel-footer">
           <button class="btn col-lg-2 col-md-2 pull-right" (click)="onCancel()">Cancel
           </button>
-          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div id="roomImg" class="modal message-box animated fade" role="dialog">
-    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+<div id="roomImg" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-      <div class="mb-middle">
-        <div class="mb-content">
-          <form enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="img">Image: </label>
-              <input type="file" id="img" name="img" placeholder="Img" (change)="onRoomImgChange($event)"
-                     accept="image/jpg,image/jpeg">
-              <p *ngIf="image">{{image.name}}</p>
-            </div>
-            <div class="form-group">
-              <label for="interior">Interior style: </label>
-              <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
-                      [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="nameRoom">Name of room:</label>
-              <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}">
-                  {{room.name}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="namePlan">Plan name: </label>
-              <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">
-                  {{plan.planName}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Date time: </label>
-              <div>
-                <label for="day">
-                  <input type="radio" id="day" name="contact" value="day" checked [(ngModel)]="dayTime"
-                         [ngModelOptions]="{standalone: true}"> Day </label>
-                <label for="night">
-                  <input type="radio" id="night" name="contact" value="night" [(ngModel)]="dayTime"
-                         [ngModelOptions]="{standalone: true}"> Night </label>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="mb-footer">
-          <div class="pull-right">
-            <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-               (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">Add</a>
-            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+    <div class="mb-middle">
+      <div class="mb-content">
+        <form enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="img">Image: </label>
+            <input type="file" id="img" name="img" placeholder="Img" (change)="onFileChange($event, 'roomFile')"
+                   accept="image/jpg,image/jpeg">
+            <p *ngIf="image">{{image.name || image}}</p>
           </div>
+          <div class="form-group">
+            <label for="interior">Interior: </label>
+            <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
+                    [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nameRoom">Name of room:</label>
+            <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}">
+                {{room.name}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="namePlan">Layout: </label>
+            <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let plan of savedProjectData.plans" value="{{plan.id}}">
+                {{plan.planName}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date time: </label>
+            <div>
+              <label for="day">
+                <input type="radio" id="day" name="contact" value="day" checked [(ngModel)]="dayTime"
+                       [ngModelOptions]="{standalone: true}"> Day </label>
+              <label for="night">
+                <input type="radio" id="night" name="contact" value="night" [(ngModel)]="dayTime"
+                       [ngModelOptions]="{standalone: true}"> Night </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+             (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">OK</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
-  <div id="planImg" class="modal message-box animated fade" role="dialog">
-    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+<div id="planImg" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-      <div class="mb-middle">
-        <div class="mb-content">
-          <form enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="img">Plan : </label>
-              <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onPlanImgChange($event)"
-                     accept="image/jpg,image/jpeg">
-              <p *ngIf="planImg">{{planImg.name}}</p>
-            </div>
-            <div class="form-group">
-              <label for="interior">Plan name: </label>
-              <select id="plan" name="planName" class="form-control" [(ngModel)]="planName"
-                      [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">{{plan.planName}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="floorNumber">Floor number : </label>
-              <input type="number" id="floorNumber" name="floorNumber" placeholder="Floor number" class="form-control" [(ngModel)]="floorNumber"
-                     [ngModelOptions]="{standalone: true}">
-            </div>
-          </form>
-        </div>
-        <div class="mb-footer">
-          <div class="pull-right">
-            <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-               (click)="addNewImgPlan(planName, floorNumber)">Add</a>
-            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+    <div class="mb-middle">
+      <div class="mb-content">
+        <form enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="img">Layout file: </label>
+            <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onFileChange($event, 'planFile')"
+                   accept="image/jpg,image/jpeg">
+            <p *ngIf="planImg">{{planImg.name || planImg}}</p>
           </div>
+          <div class="form-group">
+            <label for="plan">Layout name: </label>
+            <select id="plan" name="planName" class="form-control" [(ngModel)]="planName"
+                    [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">{{plan.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="floorNumber">Layout number : </label>
+            <input type="number" id="floorNumber" name="floorNumber" placeholder="Floor number" class="form-control"
+                   [(ngModel)]="floorNumber"
+                   [ngModelOptions]="{standalone: true}">
+          </div>
+        </form>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+             (click)="addNewImgPlan(planName, floorNumber)">OK</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-
-  <div id="infoBox" class="modal message-box animated fade" role="dialog">
-    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+<div id="armodel" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-      <div class="mb-middle">
-        <div class="mb-content">
-          <div *ngIf="!infoMessage">
-            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+    <div class="mb-middle">
+      <div class="mb-content">
+        <form enctype="multipart/form-data">
+
+          <div class="form-group">
+            <label for="armodelName">AR modal name: </label>
+            <select id="armodelName" name="planName" class="form-control" [(ngModel)]="arName"
+                    [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let arinfo of savedProjectData.arObjectsInfo" value="{{arinfo.id}}">{{arinfo.name}}</option>
+            </select>
           </div>
-          <div *ngIf="infoMessage">
-            <h2>{{infoMessage}}</h2>
-            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Ok</button>
+          <div class="form-group">
+            <label for="img">Object file : </label>
+            <input type="file" id="obj" name="obj" placeholder="Object file" (change)="onFileChange($event, 'objectFile')"
+                   accept=".obj">
+            <p *ngIf="objectFile">{{objectFile.name || objectFile}}</p>
           </div>
+          <div class="form-group">
+            <label for="img">Material file : </label>
+            <input type="file" id="mtl" name="mtl" placeholder="Material file" (change)="onFileChange($event, 'materialFile')"
+                   accept=".mtl">
+            <p *ngIf="materialFile">{{materialFile.name || materialFile}}</p>
+          </div>
+          <div class="form-group">
+            <label for="floorNumber">Size, % : </label>
+            <input type="number" id="size" name="size" placeholder="Size" class="form-control"
+                   [(ngModel)]="arsize" [ngModelOptions]="{standalone: true}">
+          </div>
+        </form>
+      </div>
+      <div class="mb-footer">
+        <div class="pull-right">
+          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+             (click)="addNewARModel(arName, arsize)">OK</a>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetARModelForm()">Cancel</button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+
+<div id="infoBox" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <div *ngIf="!infoMessage">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="infoMessage">
+          <h2>{{infoMessage}}</h2>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
@@ -358,7 +422,8 @@
       <div class="mb-content">
         <h4>Are you sure that you want to delete the project?</h4>
         <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes
+          </button>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
         </div>
       </div>
@@ -371,9 +436,40 @@
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
       <div class="mb-content">
-        <h4>Are you sure that you want to delete the plan?</h4>
+        <h4>Are you sure that you want to delete the layout?</h4>
         <div>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeletePlan()">Yes</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="infoDeleteRoom" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <h4>Are you sure that you want to delete the room?</h4>
+        <div>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteRoom()">Yes</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="infoDeleteArmodel" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <h4>Are you sure that you want to delete the AR model?</h4>
+        <div>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteArModel()">Yes</button>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
         </div>
       </div>

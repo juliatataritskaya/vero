@@ -40,8 +40,9 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
         forgotPasswordData.append(key, formObject[key]);
      }
     }
-    this.authService.forgotPassword(forgotPasswordData).then(() => {
-      this.router.navigate(['/login']);
+    this.authService.resetPassword(forgotPasswordData).then(() => {
+      alert('Message was sent to the email');
+      this.router.navigate(['/auth/login']);
     }, error => {
       alert(error.error.error);
     });
