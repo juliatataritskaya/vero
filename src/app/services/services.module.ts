@@ -4,6 +4,11 @@ import {AuthApiService} from './api/auth.api.service';
 import {ManagerApiService} from './api/manager.api.service';
 import {ManagerService} from './manager.service';
 import {RedirectService} from './redirect.service';
+import {DashboardService} from './dashboard.service';
+import {UserApiService} from './api/user.api.service';
+import {UserService} from './user.service';
+import {NotificationApiService} from './api/notification.api.service';
+import {NotificationService} from './notification.service';
 
 @NgModule({
   imports: [],
@@ -14,7 +19,12 @@ import {RedirectService} from './redirect.service';
     AuthApiService,
     ManagerApiService,
     ManagerService,
-    RedirectService
+    RedirectService,
+    DashboardService,
+    UserApiService,
+    UserService,
+    NotificationApiService,
+    NotificationService
   ]
 })
 export class ServicesModule {

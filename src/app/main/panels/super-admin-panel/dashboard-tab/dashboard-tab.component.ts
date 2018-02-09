@@ -1,4 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DashboardService} from '../../../../services/dashboard.service';
 declare var $: any;
 
 @Component({
@@ -9,10 +10,12 @@ declare var $: any;
 export class DashboardTabComponent implements OnInit {
   @Output() route = 'Dashboard';
 
-  constructor() {
+  constructor(private dashboardService: DashboardService) {
   }
 
   ngOnInit() {
+    this.dashboardService.getTime();
+
     $('#dashboard-map').vectorMap({
       map: 'europe_mill_en',
       backgroundColor: '#FFFFFF',

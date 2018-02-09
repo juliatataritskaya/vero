@@ -18,7 +18,7 @@ export class AuthService {
         localStorage.setItem('token', result['token']);
         localStorage.setItem('userId', result['id']);
         localStorage.setItem('role', result['roleName']);
-        localStorage.setItem('userName', result['name'] || result['company'].name);
+        localStorage.setItem('userName', result['profile'].name || result['companyName']);
         localStorage.setItem('avatar', environment.serverUrl + result['profile'].avatarUrl);
         resolve(result['token']);
       }, error => {
