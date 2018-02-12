@@ -9,6 +9,8 @@ import {UserApiService} from './api/user.api.service';
 import {UserService} from './user.service';
 import {NotificationApiService} from './api/notification.api.service';
 import {NotificationService} from './notification.service';
+import {CompanyApiService} from './api/company.api.service';
+import {CompanyService} from './company.service';
 
 @NgModule({
   imports: [],
@@ -24,7 +26,9 @@ import {NotificationService} from './notification.service';
     UserApiService,
     UserService,
     NotificationApiService,
-    NotificationService
+    NotificationService,
+    CompanyApiService,
+    CompanyService
   ]
 })
 export class ServicesModule {
