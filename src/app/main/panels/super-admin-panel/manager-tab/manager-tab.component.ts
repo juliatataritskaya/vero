@@ -7,6 +7,8 @@ import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.
 import {ManagerService} from '../../../../services/manager.service';
 import {environment} from '../../../../../environments/environment';
 
+declare var $: any;
+
 @Component({
   selector: 'app-manager-tab',
   templateUrl: './manager-tab.component.html',

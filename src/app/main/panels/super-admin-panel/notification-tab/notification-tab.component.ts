@@ -5,6 +5,8 @@ import {UserService} from '../../../../services/user.service';
 import {NotificationService} from '../../../../services/notification.service';
 import {RedirectService} from '../../../../services/redirect.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-notification-tab',
   templateUrl: './notification-tab.component.html',

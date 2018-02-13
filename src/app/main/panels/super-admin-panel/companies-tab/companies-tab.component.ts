@@ -5,6 +5,8 @@ import {RedirectService} from '../../../../services/redirect.service';
 import {CompanyService} from '../../../../services/company.service';
 import {validateConfirmPassword} from '../../../../shared/validators/confirm-password.validator';
 
+declare var $: any;
+
 @Component({
   selector: 'app-companies-tab',
   templateUrl: './companies-tab.component.html',

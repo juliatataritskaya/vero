@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DashboardService} from '../../../../services/dashboard.service';
 import {RedirectService} from '../../../../services/redirect.service';
+
 declare var $: any;
 
 @Component({
