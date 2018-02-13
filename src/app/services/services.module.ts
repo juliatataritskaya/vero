@@ -11,6 +11,7 @@ import {NotificationApiService} from './api/notification.api.service';
 import {NotificationService} from './notification.service';
 import {CompanyApiService} from './api/company.api.service';
 import {CompanyService} from './company.service';
+import {DashboardApiService} from './api/dashboard.api.service';
 
 @NgModule({
   imports: [],
@@ -23,6 +24,7 @@ import {CompanyService} from './company.service';
     ManagerService,
     RedirectService,
     DashboardService,
+    DashboardApiService,
     UserApiService,
     UserService,
     NotificationApiService,

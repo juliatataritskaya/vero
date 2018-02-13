@@ -31,7 +31,9 @@
   left: 25%;
   position: relative;
 }
-
+.mb-content > div{
+  text-align: center;
+}
 
 input:not([type="file"]):not([type="radio"]), textarea{
   border: 1px solid #9d9d9d;

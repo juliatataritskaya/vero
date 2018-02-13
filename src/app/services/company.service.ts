@@ -11,6 +11,7 @@ export class CompanyService {
   public getCompanySettings (): Promise<any> {
     return new Promise((resolve, reject) => {
       this.companyApi.getCompanySettings().then(result => {
+        localStorage.setItem('userName', result['profile'].companyName);
         resolve(result);
       }, error => {
         reject(error);

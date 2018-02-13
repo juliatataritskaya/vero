@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DashboardService} from '../../../../services/dashboard.service';
+import {RedirectService} from '../../../../services/redirect.service';
 declare var $: any;
 
 @Component({
@@ -8,12 +9,17 @@ declare var $: any;
   styleUrls: ['./dashboard-tab.component.css']
 })
 export class DashboardTabComponent implements OnInit {
-  @Output() route = 'Dashboard';
+  countSuperManagers: number;
+  countManagers: number;
+  countCustomers: number;
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private redirectService: RedirectService) {
   }
 
   ngOnInit() {
+    this.getCountManagers();
+    this.getCountCustomers();
+    this.getCountSuperManagers();
     this.dashboardService.getTime();
 
     $('#dashboard-map').vectorMap({
@@ -39,6 +45,36 @@ export class DashboardTabComponent implements OnInit {
         {latLng: [37.78, -122.41], name: 'San Francisco - 8'},
         {latLng: [28.61, 77.20], name: 'New Delhi - 4'},
         {latLng: [39.91, 116.39], name: 'Beijing - 3'}]
+    });
+  }
+
+  private getCountCustomers() {
+    this.dashboardService.getCountCustomers().then(result => {
+     this.countCustomers = result.count;
+    }, error => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  private getCountManagers() {
+    this.dashboardService.getCountManagers().then(result => {
+      this.countManagers = result.count;
+    }, error => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  private getCountSuperManagers() {
+    this.dashboardService.getCountSuperManagers().then(result => {
+      this.countSuperManagers = result.count;
+    }, error => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
     });
   }
 

@@ -17,6 +17,7 @@ export class NotificationTabComponent implements OnInit {
   public selectedRowsId: any = [];
   title: string;
   message: string;
+  infoMessage: string;
 
   constructor (private router: Router, private fb: FormBuilder, private el: ElementRef, private userService: UserService,
                private notificationService: NotificationService, private redirectService: RedirectService) {
@@ -29,12 +30,16 @@ export class NotificationTabComponent implements OnInit {
   }
 
   public getAllUsers(callback) {
-    this.userService.getAllUser().then((result) => {
+    this.userService.getAllUserWithoutFilter().then((result) => {
       this.listOfUsers = result['userList'];
       callback();
     }, (error) => {
       if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
+        if (error.status === 401) {
+          this.redirectService.redirectOnLoginPage();
+        } else {
+          this.infoMessage = 'Something wrong, please try again.';
+        }
       }
     });
 
@@ -70,32 +75,33 @@ export class NotificationTabComponent implements OnInit {
   }
 
   onSend() {
+    $('#infoBox').modal('show');
     if (this.selectedRowsId.length == 0) {
-      alert('Select at least one user to sending messages');
-      return;
-    }
-    if (!this.title || !this.message) {
-      alert('Title and text message are mandatory fields!');
-      return;
-    }
-    const notificationData = new FormData();
-    if (this.selectedRowsId.length > 0 && this.selectedRowsId.length !== this.listOfUsers.length) {
-      this.selectedRowsId.forEach((idx) => {
-        notificationData.append('emails', this.listOfUsers[idx].email);
+      this.infoMessage = 'Select at least one user to sending messages';
+    } else if (!this.title || !this.message) {
+      this.infoMessage = 'Title and text message are mandatory fields!';
+    } else {
+      const notificationData = new FormData();
+      if (this.selectedRowsId.length > 0 && this.selectedRowsId.length !== this.listOfUsers.length) {
+        this.selectedRowsId.forEach((idx) => {
+          notificationData.append('emails', this.listOfUsers[idx].email);
+        });
+      }
+
+      notificationData.append('title', this.title);
+      notificationData.append('message', this.message);
+
+      this.notificationService.postNotification(notificationData).then(() => {
+        this.infoMessage = 'Messages were sent';
+        this.resetForm();
+      }, error => {
+        if (error.status === 401) {
+          this.redirectService.redirectOnLoginPage();
+        } else {
+          this.infoMessage = 'Something wrong, please try again.';
+        }
       });
     }
-
-    notificationData.append('title', this.title);
-    notificationData.append('message', this.message);
-
-    this.notificationService.postNotification(notificationData).then(() => {
-      alert('Messages were sent');
-      this.resetForm();
-    }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }
-    });
   }
 
   resetForm() {
@@ -111,6 +117,11 @@ export class NotificationTabComponent implements OnInit {
   onSelectNone() {
     this.tableWidget.rows().deselect();
     this.selectedRowsId = [];
+  }
+
+  closeModal() {
+    $('#infoBox').modal('hide');
+    this.infoMessage = null;
   }
 
 }

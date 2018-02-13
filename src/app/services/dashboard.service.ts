@@ -1,28 +1,18 @@
 import {Injectable} from '@angular/core';
+import {DashboardApiService} from './api/dashboard.api.service';
 
 @Injectable()
 export class DashboardService {
 
-  constructor() {
+  constructor(private dashboardApi: DashboardApiService) {
   }
 
   public getTime() {
 
     this.tp_clock();
     this.tp_date();
-
-
-    // return {
-    //   init: function () {
-    //     this.tp_clock();
-    //     this.tp_date();
-    //   }
-    // };
   }
 
-  // templatePlugins.init();
-
-  /* END Vector Map */
   public tp_clock() {
 
     function tp_clock_time() {
@@ -63,6 +53,36 @@ export class DashboardService {
       $('.plugin-date').html(day + ', ' + month + ' ' + date + ', ' + year);
     }
 
+  }
+
+  public getCountManagers (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getCountManagers().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getCountSuperManagers (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getCountSuperManagers().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getCountCustomers (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getCountCustomers().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
   }
 
 

@@ -14,6 +14,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
   companySettingsForm: FormGroup;
   securityForm: FormGroup;
   currentCompanySettings: any;
+  infoMessage: string;
 
   constructor(private el: ElementRef, private fb: FormBuilder,
               private redirectService: RedirectService, private companyService: CompanyService) {
@@ -66,7 +67,8 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
       } else {
-        alert('Something wrong, please try again.');
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
       }
     });
   }
@@ -79,49 +81,49 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       phone: this.currentCompanySettings.contactPhone,
       contactName: this.currentCompanySettings.contactName,
     });
-    this.securityForm.patchValue({
-      password: '',
-      confirmPassword: ''
-    });
+    this.securityForm.reset();
   }
 
   public onSaveHandler(): void {
     if (!this.companySettingsForm.valid || !this.securityForm.valid ) {
-      this.showError('Company\'s data is invalid, please check it.');
-      return;
-    }
-    const companyObject = this.companySettingsForm.value;
-    let companyData =  { profile: {
+      this.infoMessage = 'Company\'s data is invalid, please check it.';
+      $('#infoBox').modal('show');
+    } else {
+      const companyObject = this.companySettingsForm.value;
+      let companyData =  { profile: {
         companyName: companyObject.name,
         companyAddress: companyObject.address,
         email: companyObject.email,
         contactName: companyObject.contactName,
         contactPhone: companyObject.phone
       },
-      error: ''
-    };
-    if (this.securityForm.value['password']) {
-      companyData.profile['password'] = this.securityForm.value['password'];
-    }
-    this.companyService.updateCompanySettings(companyData).then((result) => {
-      alert('Company settings was saved');
-      this.getCompanySettings(() => {
-        this.setCompanySettingsData();
-      });
-    }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        alert('Something wrong, please try again.');
+        error: ''
+      };
+      if (this.securityForm.value['password']) {
+        companyData.profile['password'] = this.securityForm.value['password'];
       }
-    });
+      this.companyService.updateCompanySettings(companyData).then((result) => {
+        this.infoMessage = 'Company settings was saved';
+        $('#infoBox').modal('show');
+        this.getCompanySettings(() => {
+          this.setCompanySettingsData();
+        });
+      }, (error) => {
+        if (error.status === 401) {
+          this.redirectService.redirectOnLoginPage();
+        } else {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
+    }
   }
 
   private createCompanySettingsForm(): void {
     this.companySettingsForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       password: ['', []],
       contactName: ['', [Validators.required]]
@@ -140,5 +142,10 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
 
   onCancel() {
     this.setCompanySettingsData();
+  }
+
+  closeModal() {
+    $('#infoBox').modal('hide');
+    this.infoMessage = null;
   }
 }
