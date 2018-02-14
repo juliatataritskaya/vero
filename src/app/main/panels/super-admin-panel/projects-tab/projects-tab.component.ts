@@ -282,6 +282,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   private addProjectPhotos(result, callback) {
     $('#infoBox').modal('show');
+    console.log(this.projectPhotosFiles);
     const photosFormData = new FormData();
     this.projectPhotosFiles.forEach((photo) => {
       photosFormData.append('photos', photo);
@@ -303,23 +304,23 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const photosFormData = new FormData();
     this.selectedProject['imageUrls'].forEach((img) => {
       this.projectPhotos.forEach((photo) => {
-        if (photo.indexOf(img) == -1) {
+        if( photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1){
           photosFormData.append('deletedPhotosPaths', img);
         }
       });
     });
+
     this.projectPhotosFiles.forEach((photo) => {
       photosFormData.append('photos', photo);
     });
     photosFormData.append('projectId', localStorage.getItem('projectId'));
     this.managerService.updateProjectPhotos(photosFormData).then((res) => {
       this.projectPhotosFiles = [];
-      this.projectPhotos = [];
+      // this.projectPhotos = [];
       this.selectedProject = [];
       this.getAllProjects(() => {
         this.loadProjects();
       });
-      this.onClearForm();
       this.infoMessage = 'Common settings were changed';
     }, error => {
       if (error.status === 401) {
@@ -430,32 +431,37 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onFileChange(event, controlName) {
-    switch (controlName) {
-      case 'logo':
-        this.logo[0] = event.target.files[0];
-        this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
-        if (this.logo[0]) {
-          const fr = new FileReader();
-          fr.onload = () => {
-            this.miniImageUrl = fr.result;
-          };
-          fr.readAsDataURL(this.logo[0]);
-        }
-        break;
-      case 'objectFile':
-        this.objectFile = event.target.files[0];
-        break;
-      case 'materialFile':
-        this.materialFile = event.target.files[0];
-        break;
-      case 'roomFile':
-        this.image = event.target.files[0];
-        break;
-      case 'planFile':
-        this.planImg = event.target.files[0];
-        break;
-      default:
-        break;
+    if (event.target.files[0].size > 512000 && controlName == 'roomFile') {
+      $('#infoBox').modal('show');
+      this.infoMessage = 'The file size must not exceed 500Kb';
+    } else {
+      switch (controlName) {
+        case 'logo':
+          this.logo[0] = event.target.files[0];
+          this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
+          if (this.logo[0]) {
+            const fr = new FileReader();
+            fr.onload = () => {
+              this.miniImageUrl = fr.result;
+            };
+            fr.readAsDataURL(this.logo[0]);
+          }
+          break;
+        case 'objectFile':
+          this.objectFile = event.target.files[0];
+          break;
+        case 'materialFile':
+          this.materialFile = event.target.files[0];
+          break;
+        case 'roomFile':
+          this.image = event.target.files[0];
+          break;
+        case 'planFile':
+          this.planImg = event.target.files[0];
+          break;
+        default:
+          break;
+      }
     }
     event.target.value = [];
   }
@@ -499,8 +505,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         roomFormData.append('projectId', localStorage.getItem('projectId'));
         this.managerService.updateRoom(roomFormData).then((res) => {
           this.getAllNewProjectData();
-          this.resetRoomsForm();
           this.infoMessage = 'Room was updated';
+          this.resetRoomsForm();
         }, error => {
           if (error.status === 401) {
             this.redirectService.redirectOnLoginPage();
@@ -617,6 +623,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetRoomsForm() {
+    // this.infoMessage = null;
     this.image = [];
     this.nameRoom = '';
     this.interior = '';
@@ -626,6 +633,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetPlansForm() {
+    // this.infoMessage = null;
     this.planImg = [];
     this.planName = '';
     this.floorNumber = '';
@@ -634,12 +642,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetARModelForm() {
-    $('#infoBox').modal('show');
+    this.infoMessage = null;
     this.objectFile = [];
     this.materialFile = [];
     this.arName = '';
     this.arsize = null;
-    this.infoMessage = 'AR was added';
   }
 
   onDeleteProject() {
@@ -755,6 +762,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         environment.serverUrl + photo);
       this.logo[0] = {name: environment.serverUrl + this.savedProjectData['miniImageUrl']};
       this.projectPhotos = photosLinks;
+      console.log(this.projectPhotos);
 
       this.styles = [];
       this.savedProjectData['interiorsInfo'].forEach((elem) => {
@@ -843,6 +851,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodelFormData.append('projectId', localStorage.getItem('projectId'));
       this.managerService.addProjectAr(armodelFormData).then((res) => {
         this.getAllNewProjectData();
+        this.infoMessage = 'AR was added';
       }, error => {
         if (error.status === 401) {
           this.redirectService.redirectOnLoginPage();
@@ -850,7 +859,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           this.infoMessage = 'Something wrong, please try again.';
         }
       });
-
       this.resetARModelForm();
     }
   }
