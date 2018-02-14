@@ -1,0 +1,42 @@
+body,html{
+  height: 100%;
+}
+.panel.with-nav-tabs .panel-heading{
+  padding: 5px 5px 0 5px;
+}
+.panel.with-nav-tabs .nav-tabs{
+  border-bottom: none;
+}
+
+.with-nav-tabs.panel-default .nav-tabs > li > a,
+.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+  text-align: center;
+  color: #777;
+}
+
+.with-nav-tabs.panel-default .nav-tabs > .open > a,
+.with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
+.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+  color: #777;
+  background-color: #ddd;
+  border-color: transparent;
+}
+.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+  color: #555;
+  background-color: #fff;
+  border-color: #ddd;
+  border-bottom-color: transparent;
+}
+
+li{
+  padding-right: 0;
+  padding-left: 0;
+}
+.nav-tabs{
+  margin-bottom: 0;
+}

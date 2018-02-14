@@ -1,0 +1,124 @@
+<div>
+  <h4>Company settings</h4>
+</div>
+
+<div>
+  <form [formGroup]="companySettingsForm">
+    <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
+
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Company name:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="text" class="form-control" formControlName="name" title="" required>
+          </div>
+          <span class="help-block">Change company name</span>
+          <div class="alert alert-danger" *ngIf="!companySettingsForm.get('name').valid
+          && formErrors.name">{{ formErrors.name }}</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Company address:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="text" class="form-control" formControlName="address" title="" required>
+          </div>
+          <span class="help-block">Change company address</span>
+          <div class="alert alert-danger" *ngIf="!companySettingsForm.get('address').valid
+           && formErrors.address">{{ formErrors.address }}</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Email:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="text" class="form-control" formControlName="email" title="" required email>
+          </div>
+          <span class="help-block">Change company email</span>
+          <div class="alert alert-danger" *ngIf="!companySettingsForm.get('email').valid
+           && formErrors.email">{{ formErrors.email }}</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Contact name:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="text" class="form-control" formControlName="contactName" title="" required>
+          </div>
+          <span class="help-block">Change contact name</span>
+          <div class="alert alert-danger" *ngIf="!companySettingsForm.get('contactName').valid
+           && formErrors.contactName">{{ formErrors.contactName }}</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Contact phone:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="text" class="form-control" formControlName="phone" title="" required>
+          </div>
+          <span class="help-block">Change company phone</span>
+          <div class="alert alert-danger" *ngIf="!companySettingsForm.get('phone').valid
+          && formErrors.phone">{{ formErrors.phone }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form class="registrationForm-fieldsContainer" [formGroup]="securityForm">
+    <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Password:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="password" class="form-control" formControlName="password" title="" uninvited>
+          </div>
+          <span class="help-block">Enter new password</span>
+          <div class="alert alert-danger" *ngIf="!securityForm.get('password').valid && formErrors.password">{{ formErrors.password }}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Confirm password:</label>
+        <div class="col-md-6 col-xs-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-pencil"></i></span>
+            <input type="password" class="form-control" formControlName="confirmPassword" title=""
+                   invalidConfirmPassword>
+          </div>
+          <span class="help-block">Confirm password</span>
+          <div class="alert alert-danger" *ngIf="!securityForm.get('confirmPassword').valid && formErrors.confirmPassword">{{ formErrors.confirmPassword }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-lg-9 col-lg-offset-3">
+    <button class="btn btn-primary col-lg-3" (click)="onSaveHandler()">Save</button>
+    <button class="btn btn-primary col-lg-3" (click)="onCancel()">Cancel</button>
+  </div>
+
+</div>
+
+<div id="infoBox" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <div *ngIf="!infoMessage">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="infoMessage">
+          <h2>{{infoMessage}}</h2>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

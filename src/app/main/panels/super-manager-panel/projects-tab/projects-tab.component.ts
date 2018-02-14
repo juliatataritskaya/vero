@@ -170,7 +170,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
       this.selectedProject = this.projects[indexes[0]];
-      console.log(this.selectedProject);
       this.shipmentSelected.emit(this.projects[indexes[0]]);
     });
     this.tableWidget.on('deselect', () => {

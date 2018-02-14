@@ -4,12 +4,17 @@ import {ProjectsTabRoutes} from './projects-tab/projects-tab.routes';
 import {AuthGuard} from '../../../shared/guards/auth.guard';
 import {UsersTabRoutes} from './users-tab/users-tab.routes';
 import {DashboardTabRoutes} from './dashboard-tab/dashboard-tab.routes';
+import {RolesGuard} from '../../../shared/guards/roles.guard';
 
 export const ManagerPanelRoutes: Routes = [
   {path: '', redirectTo: 'managerpanel', pathMatch: 'full'},
-  {path: 'managerpanel', component: ManagerPanelComponent, canActivate: [AuthGuard], children: [
+  {
+    path: 'managerpanel', component: ManagerPanelComponent, canActivate: [AuthGuard, RolesGuard], data: {
+    expectedRole: 'Manager'
+  }, children: [
     ...ProjectsTabRoutes,
     ...UsersTabRoutes,
     ...DashboardTabRoutes
-  ]},
-  ];
+  ]
+  },
+];
