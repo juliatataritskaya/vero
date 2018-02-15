@@ -345,21 +345,21 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     });
   }
 
-  private addProjectPlan(result, plan, callback) {
-    $('#infoBox').modal('show');
-    const planFormData = new FormData();
-    planFormData.append('plans', plan[0]);
-    planFormData.append('projectId', result.project.id);
-    this.managerService.addProjectPlan(planFormData).then((res) => {
-      callback();
-    }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
-    });
-  }
+  // private addProjectPlan(result, plan, callback) {
+  //   $('#infoBox').modal('show');
+  //   const planFormData = new FormData();
+  //   planFormData.append('plans', plan[0]);
+  //   planFormData.append('projectId', result.project.id);
+  //   this.managerService.addProjectPlan(planFormData).then((res) => {
+  //     callback();
+  //   }, error => {
+  //     if (error.status === 401) {
+  //       this.redirectService.redirectOnLoginPage();
+  //     } else {
+  //       this.infoMessage = 'Something wrong, please try again.';
+  //     }
+  //   });
+  // }
 
   public onEditProject() {
     this.isClickOnEditProject = true;
@@ -478,9 +478,17 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
+    console.log(nameRoomId, interiorId, dayTime, namePlanId);
+    const findRoomName = this.selectedProject['roomsInfo'].find((info)=>{
+      return info.id == nameRoomId
+    });
+    const findRoom = this.listRooms.find((room) => {
+      return room.interiorId == interiorId && room.dayTime.toLowerCase() == dayTime && room.planId == namePlanId && findRoomName.name == room.name;
+    });
+    console.log(findRoom);
     $('#infoBox').modal('show');
-    if (!nameRoomId || !interiorId || !dayTime || !this.image) {
-      this.infoMessage = 'Plans data in invalid, please check it.';
+    if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
+      this.infoMessage = 'Rooms data in invalid, please check it.';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
@@ -763,8 +771,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         environment.serverUrl + photo);
       this.logo[0] = {name: environment.serverUrl + this.savedProjectData['miniImageUrl']};
       this.projectPhotos = photosLinks;
-      console.log(this.projectPhotos);
-
       this.styles = [];
       this.savedProjectData['interiorsInfo'].forEach((elem) => {
         this.styles.push(elem.name);
@@ -811,6 +817,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.listRooms.push({
                 name: room.name,
                 interior: interior.name,
+                interiorId: interior.id,
                 dayTime: time.id === 1 ? 'Day' : 'Night',
                 planName: plan.planName,
                 imgBase64: environment.serverUrl + time.imageUrl,

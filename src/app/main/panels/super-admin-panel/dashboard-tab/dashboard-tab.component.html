@@ -1,9 +1,9 @@
 <div class="page-content-wrap">
   <div class="row">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6">
 
       <!-- START WIDGET MESSAGES -->
-      <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
+      <div class="widget widget-default widget-item-icon">
         <div class="widget-item-left">
           <span class="fa fa-users"></span>
         </div>
@@ -16,10 +16,10 @@
       <!-- END WIDGET MESSAGES -->
 
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6">
 
       <!-- START WIDGET MESSAGES -->
-      <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
+      <div class="widget widget-default widget-item-icon">
         <div class="widget-item-left">
           <span class="fa fa-user"></span>
         </div>
@@ -31,10 +31,10 @@
       </div>
       <!-- END WIDGET MESSAGES -->
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6">
 
       <!-- START WIDGET MESSAGES -->
-      <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
+      <div class="widget widget-default widget-item-icon">
         <div class="widget-item-left">
           <span class="fa fa-user"></span>
         </div>
@@ -47,7 +47,7 @@
       <!-- END WIDGET MESSAGES -->
     </div>
 
-    <div class="col-md-3 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6">
 
       <!-- START WIDGET CLOCK -->
       <div class="widget widget-info widget-padding-sm">
@@ -70,21 +70,100 @@
     </div>
 
   </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="widget widget-default widget-item-icon">
+        <div class="widget-item-left">
+          <span class="fa fa-user"></span>
+        </div>
+        <div class="widget-data">
+          <div class="widget-int num-count">{{countCustomers}}</div>
+          <div class="widget-title">Amount of active users per month</div>
+          <div class="widget-subtitle">On your site</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="widget widget-default widget-item-icon">
+        <div class="widget-item-left">
+          <span class="fa fa-user"></span>
+        </div>
+        <div class="widget-data">
+          <div class="widget-int num-count">{{countCustomers}}</div>
+          <div class="widget-title">New users signed up per month</div>
+          <div class="widget-subtitle">On your site</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
 
+      <!-- START AGE BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Age</h3>
+            <span>Users age</span>
+          </div>
+        </div>
+        <div class="panel-body padding-0">
+          <div class="chart-holder" id="dashboard-donut-age" style="height: 200px;"></div>
+        </div>
+      </div>
+      <!-- END AGE BLOCK -->
+
+    </div>
+    <div class="col-md-6">
+
+      <!-- START VISITORS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Using devices</h3>
+            <span>Users devices which they use</span>
+          </div>
+        </div>
+        <div class="panel-body padding-0">
+          <div class="chart-holder" id="dashboard-donut-device" style="height: 200px;"></div>
+        </div>
+      </div>
+      <!-- END VISITORS BLOCK -->
+
+    </div>
+  </div>
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
 
       <!-- START SALES BLOCK -->
       <div class="panel panel-default">
         <div class="panel-heading">
-        Users location
-
+          <div class="panel-title-box">
+            <h3>Users location in Netherlands</h3>
+          </div>
         </div>
         <div class="panel-body">
             <div class="col-md-12">
-              <div id="dashboard-map" style="width: 100%; height: 200px"></div>
+              <div id="dashboard-map-nl" style="width: 100%; height: 200px"></div>
             </div>
+        </div>
+      </div>
+      <!-- END SALES BLOCK -->
+    </div>
+    <div class="col-md-6">
+
+      <!-- START SALES BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3> Users location in Germany</h3>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-12">
+            <div id="dashboard-map-de" style="width: 100%; height: 200px"></div>
+          </div>
         </div>
       </div>
       <!-- END SALES BLOCK -->

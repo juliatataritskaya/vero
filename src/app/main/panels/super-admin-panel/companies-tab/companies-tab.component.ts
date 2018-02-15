@@ -40,10 +40,12 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
         email: 'Email isn\'t valid'
       },
       phone: {
-        required: 'Phone is required.'
+        required: 'Phone is required.',
+        pattern: 'Phone number must be in the format +0123456789'
       },
       contactName: {
-        required: 'Contact name is required.'
+        required: 'Contact name is required.',
+        pattern: 'The name can not contain characters or numbers'
       },
       password: {
         uninvited: 'Enter new password',
@@ -126,9 +128,9 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
       password: ['', []],
-      contactName: ['', [Validators.required]]
+      contactName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]]
     });
 
     this.securityForm = this.fb.group({

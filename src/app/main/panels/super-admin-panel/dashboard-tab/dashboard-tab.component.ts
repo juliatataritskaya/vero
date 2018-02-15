@@ -3,6 +3,7 @@ import {DashboardService} from '../../../../services/dashboard.service';
 import {RedirectService} from '../../../../services/redirect.service';
 
 declare var $: any;
+declare var Morris: any;
 
 @Component({
   selector: 'app-dashboard-tab',
@@ -22,32 +23,8 @@ export class DashboardTabComponent implements OnInit {
     this.getCountCustomers();
     this.getCountSuperManagers();
     this.dashboardService.getTime();
-
-    $('#dashboard-map').vectorMap({
-      map: 'europe_mill_en',
-      backgroundColor: '#FFFFFF',
-      regionsSelectable: true,
-      regionStyle: {
-        selected: {fill: '#B64645'},
-        initial: {fill: '#33414E'}
-      },
-      markerStyle: {
-        initial: {
-          fill: '#1caf9a',
-          stroke: '#1caf9a'
-        }
-      },
-      markers: [{latLng: [50.27, 30.31], name: 'Kyiv - 1'},
-        {latLng: [52.52, 13.40], name: 'Berlin - 2'},
-        {latLng: [48.85, 2.35], name: 'Paris - 1'},
-        {latLng: [51.51, -0.13], name: 'London - 3'},
-        {latLng: [40.71, -74.00], name: 'New York - 5'},
-        {latLng: [35.38, 139.69], name: 'Tokyo - 12'},
-        {latLng: [37.78, -122.41], name: 'San Francisco - 8'},
-        {latLng: [28.61, 77.20], name: 'New Delhi - 4'},
-        {latLng: [39.91, 116.39], name: 'Beijing - 3'},
-        {latLng: [53.13684572, 26.01344031], name: 'Baranovichi - 1'}]
-    });
+    this.createJVectorMaps();
+    this.createDiagrams();
   }
 
   private getCountCustomers() {
@@ -78,6 +55,37 @@ export class DashboardTabComponent implements OnInit {
         this.redirectService.redirectOnLoginPage();
       }
     });
+  }
+  private createDiagrams() {
+    const dataAge = [
+      {label: 'under 18', value: 2513},
+      {label: '18-30', value: 764},
+      {label: '30-50', value: 311},
+      {label: 'over 50', value: 311}
+    ];
+    const dataDevices = [
+      {label: 'iphone', value: 253},
+      {label: 'android', value: 64},
+      {label: 'windows phone', value: 11},
+    ];
+    const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
+    const devicesDiagramColors = ['#33414E', '#1caf9a', '#FEA223'];
+    this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
+    this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
+  }
+
+  private createJVectorMaps() {
+    const markersDE = [{latLng: [53.1299986, 8.220004434], name: 'Oldenburg - 1'},
+      {latLng: [52.52, 13.40], name: 'Berlin - 2'},
+      {latLng: [52.40040489, 13.06999263], name: 'Potsdam - 2'},
+      {latLng: [53.55002464, 9.999999144], name: 'Hamburg - 1'},
+      {latLng: [48.12994204, 11.57499345], name: 'Munich - 1'}];
+    const markersNL = [{latLng: [51.9199691, 4.479974323], name: 'Rotterdam - 2'},
+          {latLng: [52.34996869, 4.916640176], name: 'Amsterdam - 1'},
+          {latLng: [52.52400009, 6.096996529], name: 'Zwolle - 1'},
+          {latLng: [51.42997316, 5.50001542], name: 'Eindhoven - 1'}];
+    this.dashboardService.createJVectorMap('dashboard-map-de', 'de_mill', markersDE);
+    this.dashboardService.createJVectorMap('dashboard-map-nl', 'nl_mill', markersNL);
   }
 
 }

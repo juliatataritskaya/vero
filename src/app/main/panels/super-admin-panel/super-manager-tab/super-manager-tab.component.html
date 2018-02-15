@@ -20,7 +20,7 @@
           <div class="col-md-6 col-xs-12">
             <div class="input-group">
               <span class="input-group-addon"><i class="icon-pencil"></i></span>
-              <input type="text" class="form-control" formControlName="name" title="" required>
+              <input type="text" class="form-control" formControlName="name" title="" required pattern>
             </div>
             <span class="help-block">Enter user name</span>
             <div class="alert alert-danger" *ngIf="!addSuperManagerForm.get('name').valid
@@ -46,7 +46,7 @@
           <div class="col-md-6 col-xs-12">
             <div class="input-group">
               <span class="input-group-addon"><i class="icon-pencil"></i></span>
-              <input type="text" class="form-control" formControlName="phone" title="" required>
+              <input type="text" class="form-control" formControlName="phone" title="" required pattern>
             </div>
             <span class="help-block">Enter phone</span>
             <div class="alert alert-danger" *ngIf="!addSuperManagerForm.get('phone').valid
@@ -87,7 +87,7 @@
           <div class="col-md-6 col-xs-12">
             <div class="input-group">
               <span class="input-group-addon"><i class="icon-pencil"></i></span>
-              <input type="text" class="form-control" formControlName="name" title="" required>
+              <input type="text" class="form-control" formControlName="name" title="" required pattern>
             </div>
             <span class="help-block">Change user name</span>
             <div class="alert alert-danger" *ngIf="!editSuperManagerForm.get('name').valid
@@ -113,7 +113,7 @@
           <div class="col-md-6 col-xs-12">
             <div class="input-group">
               <span class="input-group-addon"><i class="icon-pencil"></i></span>
-              <input type="text" class="form-control" formControlName="phone" title="" required>
+              <input type="text" class="form-control" formControlName="phone" title="" required pattern>
             </div>
             <span class="help-block">Change phone</span>
             <div class="alert alert-danger" *ngIf="!editSuperManagerForm.get('phone').valid

@@ -35,7 +35,12 @@
         "../src/assets/js/core/plugins.js",
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js",
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-europe-mill-en.js",
-        "../src/assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"
+        "../src/assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js",
+        "../src/assets/js/plugins/jvectormap/jquery-jvectormap-de-mill.js",
+        "../src/assets/js/plugins/jvectormap/jquery-jvectormap-nl-mill.js",
+        "../src/assets/js/plugins/morris/raphael-min.js",
+        "../src/assets/js/plugins/morris/morris.min.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

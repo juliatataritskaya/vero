@@ -43,14 +43,16 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
       companyName: ''
     }, {
       name: {
-        required: 'Name is required.'
+        required: 'Name is required.',
+        pattern: 'The name can not contain characters or numbers'
       },
       email: {
         required: 'Email is required.',
         email: 'Email isn\'t valid'
       },
       phone: {
-        required: 'Phone is required.'
+        required: 'Phone is required.',
+        pattern: 'Phone number must be in the format +0123456789'
       }
     });
   }
@@ -176,15 +178,15 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
 
   private createUserForm(): void {
     this.addSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d{10}$'))]],
     });
 
     this.editSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d{10}$'))]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],

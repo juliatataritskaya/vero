@@ -128,19 +128,19 @@
 }
 .widget.widget-item-icon .widget-item-left {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  margin-right: 10px;
-  padding-right: 10px;
+  margin-right: 5px;
+  padding-right: 5px;
 }
 .widget.widget-item-icon .widget-item-right {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
-  margin-left: 10px;
-  padding-left: 10px;
+  margin-left: 5px;
+  padding-left: 5px;
 }
 .widget .widget-item-left .fa,
 .widget .widget-item-right .fa,
 .widget .widget-item-left .glyphicon,
 .widget .widget-item-right .glyphicon {
-  font-size: 60px;
+  font-size: 45px;
 }
 .widget .widget-data {
   padding-left: 120px;

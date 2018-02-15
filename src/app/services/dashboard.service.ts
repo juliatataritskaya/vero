@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {DashboardApiService} from './api/dashboard.api.service';
 
+declare var Morris: any;
+declare var $: any;
+
 @Injectable()
 export class DashboardService {
 
@@ -17,13 +20,13 @@ export class DashboardService {
 
     function tp_clock_time() {
       const now     = new Date();
-      let hour    = now.getHours();
-      let minutes = now.getMinutes();
+      const hour    = now.getHours();
+      const minutes = now.getMinutes();
 
-      hour = hour < 10 ? 0 + hour : hour;
-      minutes = minutes < 10 ? 0 + minutes : minutes;
+      const hourStr = hour < 10 ? '0' + hour : hour;
+      const minutesStr = minutes < 10 ? '0' + minutes : minutes;
 
-      $('.plugin-clock').html(hour + "<span id='blink'> : </span>" + minutes);
+      $('.plugin-clock').html(hourStr + "<span id='blink'> : </span>" + minutesStr);
     }
     if ($('.plugin-clock').length > 0) {
 
@@ -53,6 +56,38 @@ export class DashboardService {
       $('.plugin-date').html(day + ', ' + month + ' ' + date + ', ' + year);
     }
 
+  }
+
+  public createDiagram(element, data, colors) {
+    Morris.Donut({
+      element: element,
+      data: data,
+      colors: colors,
+      resize: true
+    });
+  }
+
+  public createJVectorMap(htmlId, mapName, markers) {
+    $('#' + htmlId).vectorMap({
+      map: mapName,
+      backgroundColor: '#FFFFFF',
+      regionsSelectable: true,
+      regionStyle: {
+        selected: {fill: '#B64645'},
+        initial: {fill: '#33414E'}
+      },
+      markerStyle: {
+        initial: {
+          fill: '#1caf9a',
+          stroke: '#1caf9a'
+        }
+      },
+      markers: markers,
+      onMarkerClick: function(e, code, z, c, t){
+        console.log(e, code,  z, c, t)
+        alert('click');
+      }
+    });
   }
 
   public getCountManagers (): Promise<any> {
