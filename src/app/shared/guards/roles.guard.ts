@@ -13,23 +13,23 @@ export class RolesGuard implements CanActivate {
     console.log(1);
     console.log(localStorage.getItem('role'), route.data.expectedRole);
 
-    if (localStorage.getItem('role') != route.data.expectedRole ) {
-      switch (localStorage.getItem('role')) {
-        case 'SuperAdmin':
-          this.router.navigate(['/main/adminpanel']);
-          break;
-        case 'SuperManager':
-          this.router.navigate(['/main/supermanagerpanel']);
-          break;
-        case 'Manager':
-          this.router.navigate(['/main/managerpanel']);
-          break;
-        default:
-          this.router.navigate(['/start-page']);
-          break;
-      }
-      return false;
-    }
+    // if (localStorage.getItem('role') != route.data.expectedRole ) {
+    //   switch (localStorage.getItem('role')) {
+    //     case 'SuperAdmin':
+    //       this.router.navigate(['/main/adminpanel']);
+    //       break;
+    //     case 'SuperManager':
+    //       this.router.navigate(['/main/supermanagerpanel']);
+    //       break;
+    //     case 'Manager':
+    //       this.router.navigate(['/main/managerpanel']);
+    //       break;
+    //     default:
+    //       this.router.navigate(['/start-page']);
+    //       break;
+    //   }
+    //   return false;
+    // }
     return true;
   }
 }

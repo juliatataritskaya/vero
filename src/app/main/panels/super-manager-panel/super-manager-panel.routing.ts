@@ -13,7 +13,7 @@ import {RolesGuard} from "../../../shared/guards/roles.guard";
 export const SuperManagerPanelRoutes: Routes = [
   {path: '', redirectTo: 'supermanagerpanel', pathMatch: 'full'},
   {
-    path: 'supermanagerpanel', component: SuperManagerPanelComponent, canActivate: [AuthGuard, RolesGuard], data: {
+    path: 'supermanagerpanel', component: SuperManagerPanelComponent, canActivate: [AuthGuard], data: {
     expectedRole: 'SuperManager'
   }, children: [
     ...DashboardTabRoutes,
