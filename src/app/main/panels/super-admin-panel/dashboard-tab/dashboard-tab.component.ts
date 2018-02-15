@@ -45,7 +45,8 @@ export class DashboardTabComponent implements OnInit {
         {latLng: [35.38, 139.69], name: 'Tokyo - 12'},
         {latLng: [37.78, -122.41], name: 'San Francisco - 8'},
         {latLng: [28.61, 77.20], name: 'New Delhi - 4'},
-        {latLng: [39.91, 116.39], name: 'Beijing - 3'}]
+        {latLng: [39.91, 116.39], name: 'Beijing - 3'},
+        {latLng: [53.13684572, 26.01344031], name: 'Baranovichi - 1'}]
     });
   }
 

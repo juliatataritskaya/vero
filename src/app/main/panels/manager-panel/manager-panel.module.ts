@@ -8,13 +8,15 @@ import {ProjectsTabComponent} from './projects-tab/projects-tab.component';
 import {UsersTabComponent} from './users-tab/users-tab.component';
 import {RlTagInputModule} from 'angular2-tag-input';
 import {DashboardTabComponent} from './dashboard-tab/dashboard-tab.component';
+import {NotificationTabComponent} from './notification-tab/notification-tab.component';
 
 @NgModule({
   declarations: [
     ManagerPanelComponent,
     ProjectsTabComponent,
     UsersTabComponent,
-    DashboardTabComponent
+    DashboardTabComponent,
+    NotificationTabComponent
   ],
   imports: [
     FormsModule,

@@ -36,8 +36,6 @@ export class MainComponent implements OnInit {
       case 'SuperManager':
         this.linkItems = [
           { name: 'Dashboard', routerLink: 'supermanagerpanel/dashboard', icon: 'icon-screen3'},
-          { name: 'Company settings', routerLink: 'supermanagerpanel/company', icon: 'fa fa-cogs'},
-          { name: 'Super managers', routerLink: 'supermanagerpanel/super-manager', icon: 'fa fa-users'},
           { name: 'Managers', routerLink: 'supermanagerpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'supermanagerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'supermanagerpanel/user', icon: 'icon-person'},
@@ -49,6 +47,7 @@ export class MainComponent implements OnInit {
           { name: 'Dashboard', routerLink: 'managerpanel/dashboard', icon: 'icon-screen3'},
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'managerpanel/users', icon: 'icon-person'},
+          { name: 'Notification', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
           { name: 'View in real time', routerLink: 'managerpanel/users', icon: 'icon-person'}
         ];
         break;
