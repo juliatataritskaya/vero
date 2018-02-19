@@ -256,7 +256,7 @@
     <div class="mb-middle">
       <div class="mb-content">
         <h3>Add projects to user:</h3>
-        <div *ngFor="let project of listOfProjects">
+        <div *ngFor="let project of listOfProjects" style="display: flex">
           <input type="checkbox" value="{{project.id}}" class="projects" checked="{{project.checked}}">
           <label>{{project.name}}</label>
         </div>

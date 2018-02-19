@@ -1,10 +1,10 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
-import {ManagerService} from '../../../../services/manager.service';
+import {ProjectService} from '../../../../services/project.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
-import {UserService} from "../../../../services/user.service";
+import {UserService} from '../../../../services/user.service';
 
 declare var $: any;
 
@@ -63,7 +63,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   roomIdForDeleteOrEdit: any;
   arIdForDeleteOrEdit: any;
 
-  constructor(private el: ElementRef, private fb: FormBuilder, private managerService: ManagerService,
+  constructor(private el: ElementRef, private fb: FormBuilder, private projectService: ProjectService,
               private redirectService: RedirectService, private userService: UserService) {
     super({
       name: '',
@@ -113,7 +113,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public getAllProjects(callback) {
-    this.managerService.getAllProjects().then(projects => {
+    this.projectService.getAllProjects().then(projects => {
       this.projects = projects.projectList;
       this.projects.forEach((project) => {
         project['listUsers'] = project.users.join(', ');
@@ -156,10 +156,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         {title: 'Project description', data: 'description'},
         {title: 'Users', data: 'listUsers'},
         {title: 'Project code', data: 'projectCode'},
-        {title: 'Update list of users',
+        {
+          title: 'Update list of users',
           data: null,
           'bSortable': false,
-          'mRender': function(data) {
+          'mRender': function (data) {
             return '<button style="color: white; background-color: black;" class="btn btn-primary btn-sm" id="'
               + data['id'] + '">' + 'Update' + '</button>';
           }
@@ -250,16 +251,26 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           project: {
             id: this.selectedProject['id'],
             name: projectData.name,
-            description: projectData.description, videoUrl: projectData.videoUrl, miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans, arObjectsInfo: this.armodels
+            description: projectData.description,
+            videoUrl: projectData.videoUrl,
+            miniImageUrl: projectData.miniImageUrl,
+            interiorsInfo: this.styles,
+            roomsInfo: this.typesRooms,
+            plansInfo: this.plans,
+            arObjectsInfo: this.armodels
           }, error: null
         });
       } else {
-        this.managerService.addProjectInfo({
+        this.projectService.addProjectInfo({
           project: {
             name: projectData.name,
-            description: projectData.description, videoUrl: projectData.videoUrl, miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans, arObjectsInfo: this.armodels
+            description: projectData.description,
+            videoUrl: projectData.videoUrl,
+            miniImageUrl: projectData.miniImageUrl,
+            interiorsInfo: this.styles,
+            roomsInfo: this.typesRooms,
+            plansInfo: this.plans,
+            arObjectsInfo: this.armodels
           }, error: null
         }).then((result) => {
           this.savedProjectData = result.project;
@@ -289,7 +300,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       photosFormData.append('photos', photo);
     });
     photosFormData.append('projectId', result.project.id);
-    this.managerService.addProjectPhotos(photosFormData).then((res) => {
+    this.projectService.addProjectPhotos(photosFormData).then((res) => {
       callback();
     }, error => {
       if (error.status === 401) {
@@ -305,7 +316,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const photosFormData = new FormData();
     this.selectedProject['imageUrls'].forEach((img) => {
       this.projectPhotos.forEach((photo) => {
-        if( photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1){
+        if (photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1) {
           photosFormData.append('deletedPhotosPaths', img);
         }
       });
@@ -315,7 +326,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       photosFormData.append('photos', photo);
     });
     photosFormData.append('projectId', localStorage.getItem('projectId'));
-    this.managerService.updateProjectPhotos(photosFormData).then((res) => {
+    this.projectService.updateProjectPhotos(photosFormData).then((res) => {
       this.projectPhotosFiles = [];
       // this.projectPhotos = [];
       this.selectedProject = [];
@@ -334,7 +345,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   private updateProjectInfo(projectInfo) {
     $('#infoBox').modal('show');
-    this.managerService.updateProjectInfo(projectInfo).then((res) => {
+    this.projectService.updateProjectInfo(projectInfo).then((res) => {
       this.updateProjectPhotos();
     }, error => {
       if (error.status === 401) {
@@ -344,22 +355,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       }
     });
   }
-
-  // private addProjectPlan(result, plan, callback) {
-  //   $('#infoBox').modal('show');
-  //   const planFormData = new FormData();
-  //   planFormData.append('plans', plan[0]);
-  //   planFormData.append('projectId', result.project.id);
-  //   this.managerService.addProjectPlan(planFormData).then((res) => {
-  //     callback();
-  //   }, error => {
-  //     if (error.status === 401) {
-  //       this.redirectService.redirectOnLoginPage();
-  //     } else {
-  //       this.infoMessage = 'Something wrong, please try again.';
-  //     }
-  //   });
-  // }
 
   public onEditProject() {
     this.isClickOnEditProject = true;
@@ -478,16 +473,17 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
-    console.log(nameRoomId, interiorId, dayTime, namePlanId);
-    const findRoomName = this.selectedProject['roomsInfo'].find((info)=>{
-      return info.id == nameRoomId
+    $('#infoBox').modal('show');
+    const findRoomName = this.selectedProject['roomsInfo'].find((info) => {
+      return info.id == nameRoomId;
     });
     const findRoom = this.listRooms.find((room) => {
-      return room.interiorId == interiorId && room.dayTime.toLowerCase() == dayTime && room.planId == namePlanId && findRoomName.name == room.name;
+      return room.interiorId == interiorId && room.dayTime.toLowerCase() == dayTime
+        && room.planId == namePlanId && findRoomName.name == room.name;
     });
-    console.log(findRoom);
-    $('#infoBox').modal('show');
-    if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
+    if (findRoom) {
+      this.infoMessage = 'This room with the same parameters has already been added';
+    } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
       this.infoMessage = 'Rooms data in invalid, please check it.';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
@@ -512,7 +508,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         roomFormData.append('interiorId', interiorId);
         roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
         roomFormData.append('projectId', localStorage.getItem('projectId'));
-        this.managerService.updateRoom(roomFormData).then((res) => {
+        this.projectService.updateRoom(roomFormData).then((res) => {
           this.getAllNewProjectData();
           this.infoMessage = 'Room was updated';
           this.resetRoomsForm();
@@ -545,7 +541,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           roomFormData.append('objectPlanId', namePlanId);
           roomFormData.append('interiorId', interiorId);
           roomFormData.append('projectId', localStorage.getItem('projectId'));
-          this.managerService.addRoom(roomFormData).then((res) => {
+          this.projectService.addRoom(roomFormData).then((res) => {
             this.getAllNewProjectData();
             this.infoMessage = 'Room was added';
             this.resetRoomsForm();
@@ -569,7 +565,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#infoBox').modal('show');
     if (!namePlanId || !this.planImg || !floorNumber) {
       this.infoMessage = 'Plans data in invalid, please check it.';
-    } else if (this.listPlans.length  + 1 >  this.savedProjectData['plansInfo'].length && !this.isClickOnEditOrDeleteLayout) {
+    } else if (this.listPlans.length + 1 > this.savedProjectData['plansInfo'].length && !this.isClickOnEditOrDeleteLayout) {
       this.infoMessage = 'You can add only ' + this.savedProjectData['plansInfo'].length + ' plans. You can change count plans in common settings!';
     } else {
       const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
@@ -583,7 +579,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         planFormData.append('planInfoId', namePlanId);
         planFormData.append('floorNumber', floorNumber);
         planFormData.append('projectId', localStorage.getItem('projectId'));
-        this.managerService.updateProjectPlan(planFormData).then((res) => {
+        this.projectService.updateProjectPlan(planFormData).then((res) => {
           this.resetPlansForm();
           this.getAllNewProjectData();
           this.infoMessage = 'Layout was updated';
@@ -612,7 +608,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           planFormData.append('planInfoId', namePlanId);
           planFormData.append('floorNumber', floorNumber);
           planFormData.append('projectId', localStorage.getItem('projectId'));
-          this.managerService.addProjectPlan(planFormData).then((res) => {
+          this.projectService.addProjectPlan(planFormData).then((res) => {
             this.getAllNewProjectData();
             this.infoMessage = 'Layout was added';
           }, error => {
@@ -660,7 +656,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   onDeleteProject() {
     $('#infoBox').modal('show');
-    this.managerService.deleteProject(this.selectedProject['id']).then((res) => {
+    this.projectService.deleteProject(this.selectedProject['id']).then((res) => {
       this.infoMessage = 'Project was deleted';
       this.getAllProjects(() => {
         this.selectedProject = null;
@@ -689,7 +685,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   onDeletePlan() {
     $('#infoBox').modal('show');
-    this.managerService.deletePlan(this.planIdForDeleteOrEdit).then((res) => {
+    this.projectService.deletePlan(this.planIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'Plan was deleted';
     }, error => {
       if (error.status === 401) {
@@ -743,7 +739,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   onDeleteRoom() {
     $('#infoBox').modal('show');
-    this.managerService.deleteRoom(this.roomIdForDeleteOrEdit).then((res) => {
+    this.projectService.deleteRoom(this.roomIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'Room was deleted';
       this.getAllNewProjectData();
     }, error => {
@@ -857,7 +853,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodelFormData.append('arInfoId', arName);
       armodelFormData.append('size', arsize);
       armodelFormData.append('projectId', localStorage.getItem('projectId'));
-      this.managerService.addProjectAr(armodelFormData).then((res) => {
+      this.projectService.addProjectAr(armodelFormData).then((res) => {
         this.getAllNewProjectData();
         this.infoMessage = 'AR was added';
       }, error => {
@@ -878,7 +874,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   onDeleteArModel() {
     $('#infoBox').modal('show');
-    this.managerService.deleteArModel(this.arIdForDeleteOrEdit).then((res) => {
+    this.projectService.deleteArModel(this.arIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'AR model was deleted';
       this.getAllNewProjectData();
     }, error => {

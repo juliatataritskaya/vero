@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../services/user.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
-import {ManagerService} from '../../../../services/manager.service';
 import {environment} from '../../../../../environments/environment';
 
 declare var $: any;
@@ -27,10 +26,10 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   public selectedRow: any;
   public isClickOnCreateSuperManager = false;
   public isClickOnEditSuperManager = false;
-  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss', 'Sir'];
+  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss'];
   infoMessage: string;
 
-  constructor (private router: Router, private fb: FormBuilder, private userService: UserService, private managerService: ManagerService,
+  constructor (private router: Router, private fb: FormBuilder, private userService: UserService,
                private redirectService: RedirectService, private el: ElementRef) {
     super({
       name: '',

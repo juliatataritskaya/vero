@@ -17,15 +17,15 @@
           <div class="category-content no-padding">
             <ul class="navigation navigation-main navigation-accordion">
               <li class="xn-logo">
-                <a>{{userName}}</a>
+                <a>{{companyName ? companyName : userName}}</a>
               </li>
               <li class="xn-profile">
                 <div class="profile">
                   <div class="profile-image">
-                    <img src="{{avatar}}" alt="{{userName}}" />
+                    <img src="{{avatar}}" alt="{{userName ? userName : companyName}}" />
                   </div>
                   <div class="profile-data">
-                    <div class="profile-data-name">{{userName}}</div>
+                    <div class="profile-data-name">{{userName ? userName : companyName}}</div>
                     <div class="profile-data-title">{{role}}</div>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
           <ul class="nav navbar-nav navbar-right icons-list">
             <li class="dropdown dropdown-user">
               <a class="dropdown-toggle" data-toggle="dropdown">
-                <span>{{userName}}</span>
+                <span>{{userName ? userName : companyName}}</span>
                 <i class="caret"></i>
               </a>
 

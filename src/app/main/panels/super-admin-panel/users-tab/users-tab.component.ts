@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../services/user.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
-import {ManagerService} from '../../../../services/manager.service';
+import {ProjectService} from '../../../../services/project.service';
 import {environment} from '../../../../../environments/environment';
 
 declare var $: any;
@@ -27,12 +27,12 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   public selectedRow: any;
   public isClickOnCreateUser = false;
   public isClickOnEditUser = false;
-  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss', 'Sir'];
+  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss'];
   public listProjectsForAdd: any;
   public listProjectsIdsForAdd: any;
   infoMessage: string;
 
-  constructor (private router: Router, private fb: FormBuilder, private userService: UserService, private managerService: ManagerService,
+  constructor (private router: Router, private fb: FormBuilder, private userService: UserService, private projectService: ProjectService,
                private redirectService: RedirectService, private el: ElementRef) {
     super({
       name: '',
@@ -82,7 +82,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   }
 
   public getAllProjects() {
-    this.managerService.getAllProjects().then((result) => {
+    this.projectService.getAllProjects().then((result) => {
       this.listOfProjects = result.projectList;
     }, (error) => {
       if (error.status === 401) {
@@ -235,6 +235,9 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.addUserForm.reset();
     this.listProjectsForAdd = null;
     this.listProjectsIdsForAdd = null;
+    this.listOfProjects.forEach((project) => {
+      project.checked = '';
+    });
   }
 
   public cleanEditUserForm() {
@@ -243,6 +246,9 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.personalTitle = '';
     this.listProjectsForAdd = null;
     this.listProjectsIdsForAdd = null;
+    this.listOfProjects.forEach((project) => {
+      project.checked = '';
+    });
   }
 
   public onCancelAddNewUser() {

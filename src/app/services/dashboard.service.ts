@@ -84,7 +84,6 @@ export class DashboardService {
       },
       markers: markers,
       onMarkerClick: function(e, code, z, c, t){
-        console.log(e, code,  z, c, t)
         alert('click');
       }
     });
@@ -120,5 +119,34 @@ export class DashboardService {
     });
   }
 
+  public getActiveUsersPerMonth (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getActiveUsersPerMonth().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getNewUsersPerMonth (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getNewUsersPerMonth().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getListNewUsersIn24 (): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getListNewUsersIn24().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
 
 }

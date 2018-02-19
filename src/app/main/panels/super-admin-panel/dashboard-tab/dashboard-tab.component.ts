@@ -1,6 +1,9 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DashboardService} from '../../../../services/dashboard.service';
 import {RedirectService} from '../../../../services/redirect.service';
+import {ProjectService} from '../../../../services/project.service';
+import {environment} from '../../../../../environments/environment';
+import {UserService} from '../../../../services/user.service';
 
 declare var $: any;
 declare var Morris: any;
@@ -14,17 +17,28 @@ export class DashboardTabComponent implements OnInit {
   countSuperManagers: number;
   countManagers: number;
   countCustomers: number;
+  projectsAll: Array<any>;
+  usersAll: Array<any>;
+  url = environment.serverUrl;
+  numberOfActiveUsersPerMonth: number;
+  numberOfRegisteredUsersPerMonth: number;
 
-  constructor(private dashboardService: DashboardService, private redirectService: RedirectService) {
+  constructor(private dashboardService: DashboardService, private redirectService: RedirectService,
+              private projectService: ProjectService, private userService: UserService) {
   }
 
   ngOnInit() {
     this.getCountManagers();
     this.getCountCustomers();
     this.getCountSuperManagers();
+    this.getAllProjects();
+    this.getAllUsers();
     this.dashboardService.getTime();
     this.createJVectorMaps();
     this.createDiagrams();
+    this.getNewUsersPerMonth();
+    this.getActiveUsersPerMonth();
+    this.getListNewUsersIn24();
   }
 
   private getCountCustomers() {
@@ -56,6 +70,37 @@ export class DashboardTabComponent implements OnInit {
       }
     });
   }
+
+  private getNewUsersPerMonth() {
+    this.dashboardService.getNewUsersPerMonth().then(result => {
+      this.numberOfRegisteredUsersPerMonth = result.numberOfRegisteredUsersPerMonth;
+    }, error => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  private getActiveUsersPerMonth() {
+    this.dashboardService.getActiveUsersPerMonth().then((result) => {
+      this.numberOfActiveUsersPerMonth = result.numberOfActiveUsersPerMonth;
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  private getListNewUsersIn24() {
+    this.dashboardService.getListNewUsersIn24().then((result) => {
+      console.log(result);
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
   private createDiagrams() {
     const dataAge = [
       {label: 'under 18', value: 2513},
@@ -65,11 +110,10 @@ export class DashboardTabComponent implements OnInit {
     ];
     const dataDevices = [
       {label: 'iphone', value: 253},
-      {label: 'android', value: 64},
-      {label: 'windows phone', value: 11},
+      {label: 'android', value: 64}
     ];
     const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
-    const devicesDiagramColors = ['#33414E', '#1caf9a', '#FEA223'];
+    const devicesDiagramColors = ['#33414E', '#1caf9a'];
     this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
     this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
   }
@@ -86,6 +130,33 @@ export class DashboardTabComponent implements OnInit {
           {latLng: [51.42997316, 5.50001542], name: 'Eindhoven - 1'}];
     this.dashboardService.createJVectorMap('dashboard-map-de', 'de_mill', markersDE);
     this.dashboardService.createJVectorMap('dashboard-map-nl', 'nl_mill', markersNL);
+  }
+
+  private getAllProjects() {
+    this.projectService.getAllProjects().then((result) => {
+      this.projectsAll = result['projectList'];
+      console.log(this.projectsAll);
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  private getAllUsers() {
+    this.userService.getAllUserWithoutFilter().then((result) => {
+      this.usersAll = result['userList'];
+      console.log(this.usersAll);
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      }
+    });
+  }
+
+  goToEditor(id) {
+    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
+    localStorage.setItem('projectId', id);
   }
 
 }

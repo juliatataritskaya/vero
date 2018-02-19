@@ -6,7 +6,7 @@ import {IResultInfo} from '../../shared/models/success-response.model';
 import {IProject} from '../../shared/models/project.model';
 
 @Injectable()
-export class ManagerApiService extends BaseHttpService {
+export class ProjectApiService extends BaseHttpService {
   private static getAllProjectsUrl = environment.serverUrl + '/api/getProjectList';
   private static postAddProjectInfoUrl = environment.serverUrl + '/api/AddProjectInfo';
   private static postAddProjectPhotosUrl = environment.serverUrl + '/api/AddProjectPhotos';
@@ -28,7 +28,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public getAllProjects (): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.get(ManagerApiService.getAllProjectsUrl, {})
+      this.get(ProjectApiService.getAllProjectsUrl, {})
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -39,7 +39,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postAddProjectInfo (projectData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postAddProjectInfoUrl, {}, projectData)
+      this.post(ProjectApiService.postAddProjectInfoUrl, {}, projectData)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -50,7 +50,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postAddProjectPhotos (projectPhotos: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postAddProjectPhotosUrl, {}, projectPhotos)
+      this.post(ProjectApiService.postAddProjectPhotosUrl, {}, projectPhotos)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -61,7 +61,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postAddProjectPlan (projectPlan: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postAddProjectPlanUrl, {}, projectPlan)
+      this.post(ProjectApiService.postAddProjectPlanUrl, {}, projectPlan)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -72,7 +72,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postAddProjectAr (projectAr: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postAddProjectArUrl, {}, projectAr)
+      this.post(ProjectApiService.postAddProjectArUrl, {}, projectAr)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -83,7 +83,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postAddRoom (roomData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postAddRoomUrl, {}, roomData)
+      this.post(ProjectApiService.postAddRoomUrl, {}, roomData)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -94,7 +94,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public deleteProject (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.delete(ManagerApiService.deleteProjectUrl, {id})
+      this.delete(ProjectApiService.deleteProjectUrl, {id})
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -105,7 +105,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public putUpdateProjectPhotos(projectPhotos: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.put(ManagerApiService.putUpdateProjectPhotos, {}, projectPhotos)
+      this.put(ProjectApiService.putUpdateProjectPhotos, {}, projectPhotos)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -116,7 +116,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public postUpdateProjectInfo(projectInfo: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.post(ManagerApiService.postUpdateProjectInfo, {}, projectInfo)
+      this.post(ProjectApiService.postUpdateProjectInfo, {}, projectInfo)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -127,7 +127,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public putUpdateProjectPlan(projectPlan: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.put(ManagerApiService.putUpdateProjectPlan, {}, projectPlan)
+      this.put(ProjectApiService.putUpdateProjectPlan, {}, projectPlan)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -138,7 +138,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public putUpdateRoom(roomData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.put(ManagerApiService.putUpdateProjectRoomUrl, {}, roomData)
+      this.put(ProjectApiService.putUpdateProjectRoomUrl, {}, roomData)
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -149,7 +149,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public deletePlan (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.delete(ManagerApiService.deletePlanUrl, {id})
+      this.delete(ProjectApiService.deletePlanUrl, {id})
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -160,7 +160,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public deleteRoom (imageRoomId: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.delete(ManagerApiService.deleteRoomUrl, {imageRoomId})
+      this.delete(ProjectApiService.deleteRoomUrl, {imageRoomId})
         .subscribe(result => {
           resolve(result);
         }, error => {
@@ -171,7 +171,7 @@ export class ManagerApiService extends BaseHttpService {
 
   public deleteArModel (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.delete(ManagerApiService.deleteArModelUrl, {id})
+      this.delete(ProjectApiService.deleteArModelUrl, {id})
         .subscribe(result => {
           resolve(result);
         }, error => {

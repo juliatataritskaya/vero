@@ -35,7 +35,7 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
 
   public onLoginHandler(): void {
     if (!this.loginForm.valid) {
-      this.showError('Login data in invalid, please check it.');
+      this.showError('Login data is invalid, please check it.');
       return;
     }
     const formObject = this.loginForm.value;

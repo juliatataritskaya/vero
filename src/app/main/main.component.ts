@@ -11,6 +11,7 @@ export class MainComponent implements OnInit {
   private linkItems = [];
 
   private userName = localStorage.getItem('userName');
+  private companyName = localStorage.getItem('companyName');
   private role = localStorage.getItem('role');
   private avatar = localStorage.getItem('avatar');
   constructor (private router: Router, private authService: AuthService) {}

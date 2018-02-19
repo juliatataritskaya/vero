@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {ManagerApiService} from './api/manager.api.service';
+import {ProjectApiService} from './api/project.api.service';
 import {IProject} from '../shared/models/project.model';
 
 @Injectable()
-export class ManagerService {
+export class ProjectService {
 
-  constructor (private managerApi: ManagerApiService) {
+  constructor (private projectApi: ProjectApiService) {
   }
 
   public getAllProjects (): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.getAllProjects().then(result => {
+      this.projectApi.getAllProjects().then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -20,7 +20,7 @@ export class ManagerService {
 
   public addProjectInfo (projectData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postAddProjectInfo(JSON.stringify(projectData)).then(result => {
+      this.projectApi.postAddProjectInfo(JSON.stringify(projectData)).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -30,7 +30,7 @@ export class ManagerService {
 
   public addProjectPhotos (projectPhotos: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postAddProjectPhotos(projectPhotos).then(result => {
+      this.projectApi.postAddProjectPhotos(projectPhotos).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -40,7 +40,7 @@ export class ManagerService {
 
   public addProjectPlan (projectPlan: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postAddProjectPlan(projectPlan).then(result => {
+      this.projectApi.postAddProjectPlan(projectPlan).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -50,7 +50,7 @@ export class ManagerService {
 
   public addProjectAr (projectAr: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postAddProjectAr(projectAr).then(result => {
+      this.projectApi.postAddProjectAr(projectAr).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -60,7 +60,7 @@ export class ManagerService {
 
   public addRoom (roomdata: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postAddRoom(roomdata).then(result => {
+      this.projectApi.postAddRoom(roomdata).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -70,7 +70,7 @@ export class ManagerService {
 
   public deleteProject (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.deleteProject(id).then(result => {
+      this.projectApi.deleteProject(id).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -80,7 +80,7 @@ export class ManagerService {
 
   public updateProjectPhotos(projectPhotos): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.putUpdateProjectPhotos(projectPhotos).then(result => {
+      this.projectApi.putUpdateProjectPhotos(projectPhotos).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -90,7 +90,7 @@ export class ManagerService {
 
   public updateProjectInfo(projectInfo): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.postUpdateProjectInfo(JSON.stringify(projectInfo)).then(result => {
+      this.projectApi.postUpdateProjectInfo(JSON.stringify(projectInfo)).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -100,7 +100,7 @@ export class ManagerService {
 
   public updateProjectPlan(projectPlan): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.putUpdateProjectPlan(projectPlan).then(result => {
+      this.projectApi.putUpdateProjectPlan(projectPlan).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -110,7 +110,7 @@ export class ManagerService {
 
   public updateRoom(roomData): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.putUpdateRoom(roomData).then(result => {
+      this.projectApi.putUpdateRoom(roomData).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -120,7 +120,7 @@ export class ManagerService {
 
   public deletePlan (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.deletePlan(id).then(result => {
+      this.projectApi.deletePlan(id).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -130,7 +130,7 @@ export class ManagerService {
 
   public deleteRoom (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.deleteRoom(id).then(result => {
+      this.projectApi.deleteRoom(id).then(result => {
         resolve(result);
       }, error => {
         reject(error);
@@ -140,7 +140,7 @@ export class ManagerService {
 
   public deleteArModel (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.managerApi.deleteArModel(id).then(result => {
+      this.projectApi.deleteArModel(id).then(result => {
         resolve(result);
       }, error => {
         reject(error);

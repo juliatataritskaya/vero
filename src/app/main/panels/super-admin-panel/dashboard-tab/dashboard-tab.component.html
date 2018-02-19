@@ -54,15 +54,7 @@
         <div class="widget-big-int plugin-clock">00:00</div>
         <div class="widget-subtitle plugin-date">Loading...</div>
         <div class="widget-buttons widget-c3">
-          <div class="col">
-            <a href="#"><span class="fa fa-clock-o"></span></a>
-          </div>
-          <div class="col">
-            <a href="#"><span class="fa fa-bell"></span></a>
-          </div>
-          <div class="col">
-            <a href="#"><span class="fa fa-calendar"></span></a>
-          </div>
+          Current time
         </div>
       </div>
       <!-- END WIDGET CLOCK -->
@@ -77,7 +69,7 @@
           <span class="fa fa-user"></span>
         </div>
         <div class="widget-data">
-          <div class="widget-int num-count">{{countCustomers}}</div>
+          <div class="widget-int num-count">{{numberOfActiveUsersPerMonth}}</div>
           <div class="widget-title">Amount of active users per month</div>
           <div class="widget-subtitle">On your site</div>
         </div>
@@ -89,7 +81,7 @@
           <span class="fa fa-user"></span>
         </div>
         <div class="widget-data">
-          <div class="widget-int num-count">{{countCustomers}}</div>
+          <div class="widget-int num-count">{{numberOfRegisteredUsersPerMonth}}</div>
           <div class="widget-title">New users signed up per month</div>
           <div class="widget-subtitle">On your site</div>
         </div>
@@ -97,7 +89,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
 
       <!-- START AGE BLOCK -->
       <div class="panel panel-default">
@@ -114,7 +106,7 @@
       <!-- END AGE BLOCK -->
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
 
       <!-- START VISITORS BLOCK -->
       <div class="panel panel-default">
@@ -131,10 +123,65 @@
       <!-- END VISITORS BLOCK -->
 
     </div>
+    <div class="col-md-4">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Online users</h3>
+            <span>Users and current location in app</span>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="40%">User</th>
+                <th width="30%">App</th>
+                <th width="30%">Place</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><strong>Joli Admin</strong></td>
+                <td>Project name</td>
+                <td>Room 2</td>
+              </tr>
+              <tr>
+                <td><strong>Joli Admin</strong></td>
+                <td>Project name</td>
+                <td>Room 2</td>
+              </tr>
+              <tr>
+                <td><strong>Taurus</strong></td>
+                <td>Project name</td>
+                <td>Room 2</td>
+              </tr>
+              <tr>
+                <td><strong>Leo</strong></td>
+                <td>Project name</td>
+                <td>Room 2</td>
+              </tr>
+              <tr>
+                <td><strong>Virgo</strong></td>
+                <td>Project name</td>
+                <td>Room 2</td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+
+      </div>
+    </div>
   </div>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
 
       <!-- START SALES BLOCK -->
       <div class="panel panel-default">
@@ -144,14 +191,14 @@
           </div>
         </div>
         <div class="panel-body">
-            <div class="col-md-12">
-              <div id="dashboard-map-nl" style="width: 100%; height: 200px"></div>
-            </div>
+          <div class="col-md-12">
+            <div id="dashboard-map-nl" style="width: 100%; height: 200px"></div>
+          </div>
         </div>
       </div>
       <!-- END SALES BLOCK -->
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
 
       <!-- START SALES BLOCK -->
       <div class="panel panel-default">
@@ -167,6 +214,149 @@
         </div>
       </div>
       <!-- END SALES BLOCK -->
+    </div>
+    <div class="col-md-4">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>New users in 24 hours</h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="40%">User</th>
+                <th width="60%">Assign new projects</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><strong>Joli Admin</strong></td>
+                <td>Project name</td>
+              </tr>
+              <tr>
+                <td><strong>Joli Admin</strong></td>
+                <td>Project name</td>
+              </tr>
+              <tr>
+                <td><strong>Taurus</strong></td>
+                <td>Project name</td>
+              </tr>
+              <tr>
+                <td><strong>Leo</strong></td>
+                <td>Project name</td>
+              </tr>
+              <tr>
+                <td><strong>Virgo</strong></td>
+                <td>Project name</td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>History</h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="15%">User</th>
+                <th width="25%">Views</th>
+                <th width="40%">Times</th>
+                <th width="30%">Editor</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Photo</td>
+                <td><strong>Project name</strong></td>
+                <td>Description</td>
+                <td>Editor</td>
+              </tr>
+              <tr>
+                <td>Photo</td>
+                <td><strong>Project name</strong></td>
+                <td>Description</td>
+                <td>Editor</td>
+              </tr>
+              <tr>
+                <td>Photo</td>
+                <td><strong>Project name</strong></td>
+                <td>Description</td>
+                <td>Editor</td>
+              </tr>
+              <tr>
+                <td>Photo</td>
+                <td><strong>Project name</strong></td>
+                <td>Description</td>
+                <td>Editor</td>
+              </tr>
+              <tr>
+                <td>Photo</td>
+                <td><strong>Project name</strong></td>
+                <td>Description</td>
+                <td>Editor</td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Projects</h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="15%">Project view</th>
+                <th width="25%">Project name</th>
+                <th width="40%">Project description</th>
+                <th width="30%">Editor</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let project of projectsAll">
+                <td width="15%"><img src="{{url}}{{project.miniImageUrl}}" style="width: 90%; height: auto"></td>
+                <td width="25%"><strong>{{project.name}}</strong></td>
+                <td width="40%"><p style="line-break: auto;">{{project.description}}</p></td>
+                <td width="30%"><button class="btn" (click)="goToEditor(project.id)">Go</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+      </div>
     </div>
   </div>
 </div>

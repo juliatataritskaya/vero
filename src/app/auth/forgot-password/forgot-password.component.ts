@@ -30,7 +30,7 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
 
   public onForgotPasswordHandler(): void {
     if (!this.forgotPasswordForm.valid) {
-      this.showError('Email in invalid, please check it.');
+      this.showError('Email is invalid, please check it.');
       return;
     }
     const formObject = this.forgotPasswordForm.value;

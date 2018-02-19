@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {AuthService} from './auth.service';
 import {AuthApiService} from './api/auth.api.service';
-import {ManagerApiService} from './api/manager.api.service';
-import {ManagerService} from './manager.service';
+import {ProjectApiService} from './api/project.api.service';
+import {ProjectService} from './project.service';
 import {RedirectService} from './redirect.service';
 import {DashboardService} from './dashboard.service';
 import {UserApiService} from './api/user.api.service';
@@ -20,8 +20,8 @@ import {DashboardApiService} from './api/dashboard.api.service';
   providers: [
     AuthService,
     AuthApiService,
-    ManagerApiService,
-    ManagerService,
+    ProjectApiService,
+    ProjectService,
     RedirectService,
     DashboardService,
     DashboardApiService,

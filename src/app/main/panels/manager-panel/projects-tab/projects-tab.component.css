@@ -1,11 +1,15 @@
-input:not([type="file"]):not([type="radio"]), textarea{
+input:not([type="file"]):not([type="radio"]):not([type="checkbox"]), textarea{
   border: 1px solid #9d9d9d;
   border-radius: 5px;
   box-shadow: 0 0 1px rgba(0,0,0,0.5);;
   padding: 5px;
 }
 
-input, textarea{
+input[type="file"]{
+  width: 123px;
+}
+
+input:not([type="checkbox"]), textarea{
   width: 100%;
   margin-bottom: 10px;
 }
@@ -52,10 +56,9 @@ form button{
 .form-buttons{
   margin: 0 auto;
 }
-button:hover, button:active {
+button:hover, button:active, button:focus {
   color: white;
-  background-color: #1b1e24;
-  border-color: #1b1e24;
+  cursor: pointer;
 }
 
 /* tagsinput */
@@ -184,4 +187,12 @@ input[type=file]{
 }
 #infoBox .mb-container button{
   margin-top: 20px;
+}
+
+.activeButtonDT {
+  background-color: black !important;
+  border-color: black !important;
+}
+.col-for-5{
+  width: 20%;
 }

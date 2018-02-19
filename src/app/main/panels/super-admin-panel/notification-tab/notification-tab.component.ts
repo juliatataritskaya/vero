@@ -94,7 +94,8 @@ export class NotificationTabComponent implements OnInit {
       notificationData.append('message', this.message);
 
       this.notificationService.postNotification(notificationData).then(() => {
-        this.infoMessage = 'Messages were sent';
+        console.log(this.selectedRowsId.length);
+        this.infoMessage = this.selectedRowsId.length > 1 ? 'Messages were sent' : 'Message was sent';
         this.resetForm();
       }, error => {
         if (error.status === 401) {
