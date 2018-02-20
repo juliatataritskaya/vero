@@ -31,7 +31,8 @@ export class MainComponent implements OnInit {
           { name: 'Managers', routerLink: 'adminpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'adminpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'},
-          { name: 'Notification', routerLink: 'adminpanel/notification', icon: 'icon-mail5'}
+          { name: 'Notification', routerLink: 'adminpanel/notification', icon: 'icon-mail5'},
+          { name: 'Multi player', routerLink: 'adminpanel/multi-player', icon: 'icon-eye8'}
           ];
         break;
       case 'SuperManager':

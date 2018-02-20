@@ -108,6 +108,7 @@ export class NotificationTabComponent implements OnInit {
   }
 
   resetForm() {
+    $('#messageForNotification').modal('hide');
     this.title = '';
     this.message = '';
   }

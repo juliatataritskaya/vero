@@ -8,7 +8,8 @@ import {ProjectsTabRoutes} from './projects-tab/projects-tab.routes';
 import {SuperManagerTabRoutes} from './super-manager-tab/super-manager-tab.routes';
 import {ManagerTabRoutes} from './manager-tab/manager-tab.routes';
 import {NotificationTabRoutes} from './notification-tab/notification-tab.routes';
-import {RolesGuard} from "../../../shared/guards/roles.guard";
+import {RolesGuard} from '../../../shared/guards/roles.guard';
+import {MultiPlayerTabRoutes} from './multi-player-tab/multi-player-tab.routes';
 
 export const SuperAdminPanelRoutes: Routes = [
   {path: '', redirectTo: 'adminpanel', pathMatch: 'full'},
@@ -21,6 +22,7 @@ export const SuperAdminPanelRoutes: Routes = [
     ...ProjectsTabRoutes,
     ...SuperManagerTabRoutes,
     ...ManagerTabRoutes,
-    ...NotificationTabRoutes
+    ...NotificationTabRoutes,
+    ...MultiPlayerTabRoutes
   ]},
   ];

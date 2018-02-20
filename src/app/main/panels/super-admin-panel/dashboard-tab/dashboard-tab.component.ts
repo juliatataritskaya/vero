@@ -19,6 +19,7 @@ export class DashboardTabComponent implements OnInit {
   countCustomers: number;
   projectsAll: Array<any>;
   usersAll: Array<any>;
+  newUsersPerDay: Array<any>;
   url = environment.serverUrl;
   numberOfActiveUsersPerMonth: number;
   numberOfRegisteredUsersPerMonth: number;
@@ -39,7 +40,8 @@ export class DashboardTabComponent implements OnInit {
     this.getNewUsersPerMonth();
     this.getActiveUsersPerMonth();
     this.getListNewUsersIn24();
-  }
+    this.dashboardService.runOwlCarousel();
+}
 
   private getCountCustomers() {
     this.dashboardService.getCountCustomers().then(result => {
@@ -84,6 +86,7 @@ export class DashboardTabComponent implements OnInit {
   private getActiveUsersPerMonth() {
     this.dashboardService.getActiveUsersPerMonth().then((result) => {
       this.numberOfActiveUsersPerMonth = result.numberOfActiveUsersPerMonth;
+      console.log(this.numberOfActiveUsersPerMonth);
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -93,7 +96,8 @@ export class DashboardTabComponent implements OnInit {
 
   private getListNewUsersIn24() {
     this.dashboardService.getListNewUsersIn24().then((result) => {
-      console.log(result);
+      this.newUsersPerDay = result.newUsersPerDay;
+      console.log(this.newUsersPerDay);
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -157,6 +161,7 @@ export class DashboardTabComponent implements OnInit {
   goToEditor(id) {
     const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
     localStorage.setItem('projectId', id);
+    localStorage.setItem('type', 'edit');
   }
 
 }

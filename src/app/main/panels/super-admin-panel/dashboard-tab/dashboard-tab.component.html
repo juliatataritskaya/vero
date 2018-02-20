@@ -1,21 +1,33 @@
 <div class="page-content-wrap">
   <div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-6">
 
-      <!-- START WIDGET MESSAGES -->
-      <div class="widget widget-default widget-item-icon">
-        <div class="widget-item-left">
-          <span class="fa fa-users"></span>
+      <!-- START WIDGET SLIDER -->
+      <div class="col-md-3 col-lg-3">
+        <div class="widget widget-default widget-carousel">
+          <div class="owl-carousel">
+            <div>
+              <div class="widget-title">Total Super Manager</div>
+              <div class="widget-subtitle">On your site</div>
+              <div class="widget-int">{{countSuperManagers}}</div>
+            </div>
+            <div>
+              <div class="widget-title">Total Manager</div>
+              <div class="widget-subtitle">On your site</div>
+              <div class="widget-int">{{countManagers}}</div>
+            </div>
+            <div>
+              <div class="widget-title">Total Users</div>
+              <div class="widget-subtitle">On your site</div>
+              <div class="widget-int">{{countCustomers}}</div>
+            </div>
+          </div>
         </div>
-        <div class="widget-data">
-          <div class="widget-int num-count">{{countSuperManagers}}</div>
-          <div class="widget-title">Number of the super managers</div>
-          <div class="widget-subtitle">In your site</div>
-        </div>
+
       </div>
-      <!-- END WIDGET MESSAGES -->
+      <!-- END WIDGET SLIDER -->
 
-    </div>
+
+
     <div class="col-lg-3 col-md-6 col-sm-6">
 
       <!-- START WIDGET MESSAGES -->
@@ -228,32 +240,22 @@
             <table class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th width="40%">User</th>
-                <th width="60%">Assign new projects</th>
+                <th width="20%">User</th>
+                <th width="30%">Email</th>
+                <th width="30%">List of projects</th>
+                <th width="20%">Assign new projects</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td><strong>Joli Admin</strong></td>
-                <td>Project name</td>
+              <tr *ngFor="let newUser of newUsersPerDay">
+                <td><strong>{{newUser.displayName}}</strong></td>
+                <td>{{newUser.email}}</td>
+                <td><ul style="padding-left: 12px;">
+                  <li *ngFor="let project of newUser.projects">{{project.name}}</li>
+                </ul>
+                </td>
+                <td> + </td>
               </tr>
-              <tr>
-                <td><strong>Joli Admin</strong></td>
-                <td>Project name</td>
-              </tr>
-              <tr>
-                <td><strong>Taurus</strong></td>
-                <td>Project name</td>
-              </tr>
-              <tr>
-                <td><strong>Leo</strong></td>
-                <td>Project name</td>
-              </tr>
-              <tr>
-                <td><strong>Virgo</strong></td>
-                <td>Project name</td>
-              </tr>
-
               </tbody>
             </table>
           </div>

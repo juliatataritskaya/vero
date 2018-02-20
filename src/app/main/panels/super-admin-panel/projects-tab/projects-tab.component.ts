@@ -468,8 +468,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public openEditor() {
-    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
-    localStorage.setItem('projectId', localStorage.getItem('projectId'));
+    console.log(this.selectedProject['id']);
+    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=700,height=500');
+    localStorage.setItem('projectId', this.selectedProject['id']);
+    localStorage.setItem('type', 'edit');
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {

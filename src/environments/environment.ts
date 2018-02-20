@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://verovrcorewebapi-dev.eu-central-1.elasticbeanstalk.com'
+  serverUrl: 'http://ec2-18-197-5-170.eu-central-1.compute.amazonaws.com'
 }

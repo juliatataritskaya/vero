@@ -89,6 +89,12 @@ export class DashboardService {
     });
   }
 
+  public runOwlCarousel(){
+    $(".owl-carousel").owlCarousel
+    ({mouseDrag: false, touchDrag: true, slideSpeed: 300, paginationSpeed: 400,
+      singleItem: true, navigation: false, autoPlay: true, item: 1});
+  }
+
   public getCountManagers (): Promise<any> {
     return new Promise((resolve, reject) => {
       this.dashboardApi.getCountManagers().then(result => {

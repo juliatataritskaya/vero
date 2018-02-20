@@ -39,7 +39,8 @@
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-de-mill.js",
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-nl-mill.js",
         "../src/assets/js/plugins/morris/raphael-min.js",
-        "../src/assets/js/plugins/morris/morris.min.js"
+        "../src/assets/js/plugins/morris/morris.min.js",
+        "../src/assets/js/plugins/owl/owl.carousel.min.js"
 
       ],
       "environmentSource": "environments/environment.ts",
