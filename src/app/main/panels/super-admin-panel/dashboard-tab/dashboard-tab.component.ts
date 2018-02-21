@@ -41,6 +41,7 @@ export class DashboardTabComponent implements OnInit {
     this.getActiveUsersPerMonth();
     this.getListNewUsersIn24();
     this.dashboardService.runOwlCarousel();
+    this.dashboardService.getGraph();
 }
 
   private getCountCustomers() {
@@ -113,11 +114,13 @@ export class DashboardTabComponent implements OnInit {
       {label: 'over 50', value: 311}
     ];
     const dataDevices = [
-      {label: 'iphone', value: 253},
-      {label: 'android', value: 64}
+      {label: 'iPhone', value: 253},
+      {label: 'iPad', value: 25},
+      {label: 'Android device', value: 64},
+      {label: 'Android tablet', value: 103}
     ];
     const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
-    const devicesDiagramColors = ['#33414E', '#1caf9a'];
+    const devicesDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
     this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
     this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
   }

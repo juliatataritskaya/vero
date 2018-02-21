@@ -9,12 +9,11 @@ import {ServicesModule} from './services/services.module';
 import {SharedModule} from './shared/shared.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MainModule} from './main/main.module';
-import {SharingTabComponent} from './shared/pages/sharing/sharing-tab.component';
+import {SharingPageModule} from './shared/pages/project/sharing-page.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SharingTabComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +23,8 @@ import {SharingTabComponent} from './shared/pages/sharing/sharing-tab.component'
     HttpClientModule,
     SharedModule,
     ServicesModule,
-    MainModule
+    MainModule,
+    SharingPageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

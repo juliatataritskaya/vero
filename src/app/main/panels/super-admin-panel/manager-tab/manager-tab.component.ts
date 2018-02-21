@@ -21,13 +21,13 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   editManagerForm: FormGroup;
   project: any;
   avatar: any;
-  personalTitle: any;
+  ageRange: any;
   private usersTable: any;
   private tableWidget: any;
   public selectedRow: any;
   public isClickOnCreateManager = false;
   public isClickOnEditManager = false;
-  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss'];
+  public listAgeRange = [{title: 'under 18', val: 13}, {title: '18-21', val: 18}, {title: 'more than 21', val: 21}];
   public listProjectsForAdd: any;
   public listProjectsIdsForAdd: any;
   infoMessage: string;
@@ -176,7 +176,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
       city: this.selectedRow.city,
       companyName: this.selectedRow.companyName,
     });
-    this.personalTitle = this.selectedRow.personalTitle;
+    this.ageRange = this.selectedRow.ageRange;
     this.listProjectsForAdd = [];
     this.listOfProjects.forEach((project) => {
       if (this.selectedRow['projectIds'].includes(project.id)) {
@@ -206,21 +206,21 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
 
   private createUserForm(): void {
     this.addManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
     });
 
     this.editManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],
       city: ['', []],
       address: ['', []],
-      personalTitle: ['', []],
+      ageRange: ['', []],
       companyName: ['', []],
     });
 
@@ -239,7 +239,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   public cleanEditManagerForm() {
     this.editManagerForm.reset();
     this.project = '';
-    this.personalTitle = '';
+    this.ageRange = '';
     this.listProjectsForAdd = null;
     this.listProjectsIdsForAdd = null;
   }
@@ -270,7 +270,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
           country: formObject.country,
           city: formObject.city,
           address: formObject.address,
-          personalTitle: this.personalTitle,
+          ageRange: this.ageRange,
           mail: formObject.email,
           companyName: formObject.companyName
         },

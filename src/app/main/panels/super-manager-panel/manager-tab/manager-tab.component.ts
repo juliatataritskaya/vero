@@ -203,15 +203,15 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
 
   private createUserForm(): void {
     this.addManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
     });
 
     this.editManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],

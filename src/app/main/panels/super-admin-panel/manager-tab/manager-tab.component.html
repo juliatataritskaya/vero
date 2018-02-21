@@ -83,12 +83,12 @@
       <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
 
         <div class="form-group">
-          <label class="col-md-3 col-xs-12 control-label">Personal title:</label>
+          <label class="col-md-3 col-xs-12 control-label">Age range:</label>
           <div class="col-md-6 col-xs-12">
             <div class="select-group">
-              <select type="text" class="form-control" title="" [(ngModel)]="personalTitle" [ngModelOptions]="{standalone: true}">
+              <select type="text" class="form-control" title="" [(ngModel)]="ageRange" [ngModelOptions]="{standalone: true}">
                 <option value=""></option>
-                <option  *ngFor="let formalTitle of listFormalTitles" value="{{formalTitle}}">{{formalTitle}}</option>
+                <option  *ngFor="let formalTitle of listAgeRange" value="{{formalTitle.val}}">{{formalTitle.title}}</option>
               </select>
             </div>
             <span class="help-block">Change personal title</span>

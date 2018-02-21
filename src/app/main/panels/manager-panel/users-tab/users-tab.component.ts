@@ -207,15 +207,15 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
 
   private createUserForm(): void {
     this.addUserForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]]
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]]
     });
 
     this.editUserForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],

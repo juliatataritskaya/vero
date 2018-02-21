@@ -128,9 +128,9 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
       password: ['', []],
-      contactName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]]
+      contactName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]]
     });
 
     this.securityForm = this.fb.group({

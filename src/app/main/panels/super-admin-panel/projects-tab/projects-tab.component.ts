@@ -895,4 +895,16 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.infoMessage = null;
   }
 
+  changeDescription(target) {
+    const myRe = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    const regexWithBreakets = /[https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*])/g;
+     if(target.value.match(myRe)) {
+       console.log(target.value.match(myRe));
+     }
+     if(target.value.match(regexWithBreakets)) {
+       console.log(target.value.match(regexWithBreakets));
+     }
+    console.log(target.value);
+  }
+
 }

@@ -20,13 +20,13 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   editSuperManagerForm: FormGroup;
   project: any;
   avatar: any;
-  personalTitle: any;
+  ageRange: any;
   private usersTable: any;
   private tableWidget: any;
   public selectedRow: any;
   public isClickOnCreateSuperManager = false;
   public isClickOnEditSuperManager = false;
-  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss'];
+  public listAgeRange = [{title: 'under 18', val: 13}, {title: '18-21', val: 18}, {title: 'more than 21', val: 21}];
   infoMessage: string;
 
   constructor (private router: Router, private fb: FormBuilder, private userService: UserService,
@@ -156,7 +156,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
       city: this.selectedRow.city,
       companyName: this.selectedRow.companyName,
     });
-    this.personalTitle = this.selectedRow.personalTitle;
+    this.ageRange = this.selectedRow.ageRange;
   }
 
   onDeleteUser() {
@@ -177,21 +177,21 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
 
   private createUserForm(): void {
     this.addSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d{10}$'))]],
+      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d+$'))]],
     });
 
     this.editSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d{10}$'))]],
+      phone: ['', [Validators.required, Validators.pattern(('^[+]\\d+$'))]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],
       city: ['', []],
       address: ['', []],
-      personalTitle: ['', []],
+      ageRange: ['', []],
       companyName: ['', []],
     });
 
@@ -208,7 +208,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   public cleanEditSuperManagerForm() {
     this.editSuperManagerForm.reset();
     this.project = '';
-    this.personalTitle = '';
+    this.ageRange = '';
   }
 
   public onCancelAddNewSuperManager() {
@@ -239,7 +239,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
           address: formObject.address,
           mail: formObject.email,
           companyName: formObject.companyName,
-          personalTitle: this.personalTitle,
+          ageRange: this.ageRange,
         },
         'error': ''
       };
