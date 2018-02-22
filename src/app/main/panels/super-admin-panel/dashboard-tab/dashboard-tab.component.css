@@ -338,3 +338,34 @@
   padding: 15px;
   position: relative;
 }
+
+.btn-primary {
+  background-color: #1b1e24;
+  border-color: #1b1e24;
+  margin: 5px;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background-color: #101215;
+  border-color: #101215;
+}
+.btn-primary[disabled],
+.btn-primary.disabled {
+  background: #313641;
+  border-color: #2c313b;
+}
+
+.btn .fa,
+.btn .glyphicon {
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.online-point{
+  vertical-align: middle;
+  color: #1caf9a;
+  font-size: x-small;
+}

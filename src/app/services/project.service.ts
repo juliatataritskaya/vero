@@ -148,4 +148,14 @@ export class ProjectService {
     });
   }
 
+  public getShareProject (id): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.projectApi.getShareProject(id).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
 }

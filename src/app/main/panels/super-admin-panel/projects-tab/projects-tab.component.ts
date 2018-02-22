@@ -164,6 +164,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             return '<button style="color: white; background-color: black;" class="btn btn-primary btn-sm" id="'
               + data['id'] + '">' + 'Update' + '</button>';
           }
+        }, {
+          title: 'Share project',
+          data: null,
+          'bSortable': false,
+          'mRender': function (data) {
+            return '<a style="color: white; background-color: black;" class="btn btn-primary btn-sm" id="'
+              + data['id'] + '">' + 'Share' + '</a>';
+          }
         }
       ]
     };
@@ -181,6 +189,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
     this.tableWidget.on('click', 'button', (event) => {
       this.choiceUsersToProject(event.target.id);
+    });
+
+    this.tableWidget.on('click', 'a', (event) => {
+      this.shareProject(event.target.id);
     });
   }
 
@@ -896,15 +908,19 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   changeDescription(target) {
-    const myRe = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-    const regexWithBreakets = /[https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*])/g;
-     if(target.value.match(myRe)) {
-       console.log(target.value.match(myRe));
+    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/;
+     if(new RegExp(myRe, 'gm').test(target.value)) {
+       target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
+       console.log(target.value);
      }
-     if(target.value.match(regexWithBreakets)) {
-       console.log(target.value.match(regexWithBreakets));
-     }
-    console.log(target.value);
+  }
+
+  shareProject(id) {
+    this.projectService.getShareProject(id).then((result) => {
+      console.log(result);
+    }, (error) => {
+      console.log(error);
+    });
   }
 
 }

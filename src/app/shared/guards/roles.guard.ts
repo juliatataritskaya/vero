@@ -25,6 +25,8 @@ export class RolesGuard implements CanActivate {
           this.router.navigate(['/main/managerpanel']);
           break;
         default:
+          alert('You don\'t have permission to login!');
+          localStorage.clear();
           this.router.navigate(['/start-page']);
           break;
       }

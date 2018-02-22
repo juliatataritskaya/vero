@@ -155,22 +155,14 @@ export class DashboardService {
     });
   }
 
-  public getGraph(){
+  public getGraph(element, data, xkey, ykeys, labels, barColors) {
     Morris.Bar({
-      element: 'dashboard-bar-1',
-      data: [
-        { y: 'Oct 10', a: 75, b: 35 },
-        { y: 'Oct 11', a: 64, b: 26 },
-        { y: 'Oct 12', a: 78, b: 39 },
-        { y: 'Oct 13', a: 82, b: 34 },
-        { y: 'Oct 14', a: 86, b: 39 },
-        { y: 'Oct 15', a: 94, b: 40 },
-        { y: 'Oct 16', a: 96, b: 41 }
-      ],
-      xkey: 'y',
-      ykeys: ['a', 'b'],
-      labels: ['New Users', 'Returned'],
-      barColors: ['#33414E', '#1caf9a'],
+      element: element,
+      data: data,
+      xkey: xkey,
+      ykeys: ykeys,
+      labels: labels,
+      barColors: barColors,
       gridTextSize: '10px',
       hideHover: true,
       resize: true,

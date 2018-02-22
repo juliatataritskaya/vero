@@ -21,6 +21,7 @@ export class ProjectApiService extends BaseHttpService {
   private static deleteRoomUrl = environment.serverUrl + '/api/DeleteRoom';
   private static putUpdateProjectRoomUrl = environment.serverUrl + '/api/UpdateRoom';
   private static deleteArModelUrl = environment.serverUrl + '/api/DeleteArObject';
+  private static getShareProjectUrl = environment.serverUrl + '/api/GetLinkForShareProject';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -172,6 +173,17 @@ export class ProjectApiService extends BaseHttpService {
   public deleteArModel (id: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.delete(ProjectApiService.deleteArModelUrl, {id})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public getShareProject (id): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.get(ProjectApiService.getShareProjectUrl, {id})
         .subscribe(result => {
           resolve(result);
         }, error => {

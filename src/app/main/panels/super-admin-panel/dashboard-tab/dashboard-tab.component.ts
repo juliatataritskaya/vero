@@ -4,6 +4,7 @@ import {RedirectService} from '../../../../services/redirect.service';
 import {ProjectService} from '../../../../services/project.service';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
+import {Router} from '@angular/router';
 
 declare var $: any;
 declare var Morris: any;
@@ -17,15 +18,18 @@ export class DashboardTabComponent implements OnInit {
   countSuperManagers: number;
   countManagers: number;
   countCustomers: number;
-  projectsAll: Array<any>;
-  usersAll: Array<any>;
-  newUsersPerDay: Array<any>;
+  projectsAll: Array<any> = [];
+  usersAll: Array<any> = [];
+  newUsersPerDay: Array<any> = [];
   url = environment.serverUrl;
   numberOfActiveUsersPerMonth: number;
   numberOfRegisteredUsersPerMonth: number;
+  onlineUsers: Array<any> = [];
+  onlineUsersForDisplaying: Array<any> = [];
 
   constructor(private dashboardService: DashboardService, private redirectService: RedirectService,
-              private projectService: ProjectService, private userService: UserService) {
+              private projectService: ProjectService, private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -41,7 +45,7 @@ export class DashboardTabComponent implements OnInit {
     this.getActiveUsersPerMonth();
     this.getListNewUsersIn24();
     this.dashboardService.runOwlCarousel();
-    this.dashboardService.getGraph();
+    this.getGraph();
 }
 
   private getCountCustomers() {
@@ -153,7 +157,8 @@ export class DashboardTabComponent implements OnInit {
   private getAllUsers() {
     this.userService.getAllUserWithoutFilter().then((result) => {
       this.usersAll = result['userList'];
-      console.log(this.usersAll);
+      this.onlineUsers = this.usersAll;
+      this.onlineUsersForDisplaying = this.usersAll;
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -162,9 +167,36 @@ export class DashboardTabComponent implements OnInit {
   }
 
   goToEditor(id) {
-    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
+    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html',
+      '', 'width=600,height=400');
     localStorage.setItem('projectId', id);
     localStorage.setItem('type', 'edit');
+  }
+
+  search(target) {
+    this.onlineUsersForDisplaying = this.onlineUsers.filter(function (user) {
+      return user.name.indexOf(target.value) !== -1;
+    });
+  }
+
+  connect(email) {
+    localStorage.setItem('userId', email);
+    this.router.navigate(['main/adminpanel/multi-player']);
+  }
+
+  public getGraph() {
+    const data = [
+      { y: 'September', a: 75, b: 35, c: 0},
+      { y: 'October', a: 64, b: 26, c: 2},
+      { y: 'November', a: 78, b: 39, c: 4},
+      { y: 'December', a: 82, b: 34, c: 3},
+      { y: 'January', a: 86, b: 39, c: 2 },
+      { y: 'February', a: 94, b: 40, c: 1 },
+    ];
+    const ykeys = ['a', 'b', 'c'];
+    const labels = ['Active Users', 'New Users', 'Returned'];
+    const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+    this.dashboardService.getGraph('dashboard-bar-user-activity', data, 'y', ykeys, labels, barColors);
   }
 
 }
