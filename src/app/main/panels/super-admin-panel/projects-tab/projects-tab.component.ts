@@ -5,6 +5,7 @@ import {ProjectService} from '../../../../services/project.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
+import {Clipboard} from 'ts-clipboard';
 
 declare var $: any;
 
@@ -198,6 +199,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   public choiceUsersToProject(id) {
     this.projectId = id;
+    $('#usersModal').modal('show');
     const findProject = this.projects.find((project) => {
       return project.id == id;
     });
@@ -206,7 +208,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         findProject['users'].includes(user.email) ? user.checked = 'true' : user.checked = '';
       });
     });
-    $('#usersModal').modal('show');
+
   }
 
   public addUsersToProject() {
@@ -904,6 +906,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   closeModal() {
     $('#infoBox').modal('hide');
+    $('#projectSharingModal').modal('hide');
     this.infoMessage = null;
   }
 
@@ -916,11 +919,35 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   shareProject(id) {
+    $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
+      this.infoMessage = result.shareLink;
       console.log(result);
     }, (error) => {
-      console.log(error);
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      } else {
+        this.infoMessage = 'Something wrong, please try again.';
+      }
     });
+  }
+
+  copyLink() {
+    Clipboard.copy($('#linkForSharing').val());
+    this.setTooltip('Copied');
+    this.hideTooltip();
+  }
+
+  setTooltip(message) {
+    $('#copy-btn').tooltip('hide')
+      .attr('data-original-title', message)
+      .tooltip('show');
+  }
+
+  hideTooltip() {
+    setTimeout(function() {
+      $('#copy-button').tooltip('hide');
+    }, 1000);
   }
 
 }

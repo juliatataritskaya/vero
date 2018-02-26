@@ -4,13 +4,17 @@
 </div>
 
 <div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3">
-  <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="clickOnCreate()">Create new user</button>
-  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="onEditUser()">Edit</button>
+  <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="clickOnCreate()">Create new user
+  </button>
+  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="onEditUser()">
+    Edit
+  </button>
   <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3"
-          data-toggle="modal" data-target="#infoDeleteUser">Delete</button>
+          data-toggle="modal" data-target="#infoDeleteUser">Delete
+  </button>
 </div>
 
-<div *ngIf="isClickOnCreateUser" class="animated fadeInRight">
+<div *ngIf="isClickOnCreateUser" class="animated fadeInLeft">
   <div class="panel col-lg-10 col-lg-offset-1">
     <form [formGroup]="addUserForm">
       <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
@@ -24,7 +28,8 @@
             </div>
             <span class="help-block">Enter user name</span>
             <div class="alert alert-danger" *ngIf="!addUserForm.get('name').valid
-          && formErrors.name">{{ formErrors.name }}</div>
+          && formErrors.name">{{ formErrors.name }}
+            </div>
           </div>
         </div>
 
@@ -37,7 +42,8 @@
             </div>
             <span class="help-block">Enter email</span>
             <div class="alert alert-danger" *ngIf="!addUserForm.get('email').valid
-           && formErrors.email">{{ formErrors.email }}</div>
+           && formErrors.email">{{ formErrors.email }}
+            </div>
           </div>
         </div>
 
@@ -50,14 +56,17 @@
             </div>
             <span class="help-block">Enter phone</span>
             <div class="alert alert-danger" *ngIf="!addUserForm.get('phone').valid
-          && formErrors.phone">{{ formErrors.phone }}</div>
+          && formErrors.phone">{{ formErrors.phone }}
+            </div>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-md-3 col-xs-12 control-label">Project:</label>
           <div class="col-md-6 col-xs-12">
-            <button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or remove project</button>
+            <button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or
+              remove project
+            </button>
             <span class="help-block">Add projects to user</span>
             <div *ngIf="listProjectsForAdd && listProjectsForAdd.length != 0">
               <h4>List of projects: </h4>
@@ -77,8 +86,7 @@
 </div>
 
 
-
-<div *ngIf="isClickOnEditUser" class="animated fadeInRight">
+<div *ngIf="isClickOnEditUser" class="animated fadeInLeft">
   <div class="panel col-lg-10 col-lg-offset-1">
     <form [formGroup]="editUserForm">
       <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
@@ -87,9 +95,11 @@
           <label class="col-md-3 col-xs-12 control-label">Age range:</label>
           <div class="col-md-6 col-xs-12">
             <div class="select-group">
-              <select type="text" class="form-control" title="" [(ngModel)]="ageRange" [ngModelOptions]="{standalone: true}">
+              <select type="text" class="form-control" title="" [(ngModel)]="ageRange"
+                      [ngModelOptions]="{standalone: true}">
                 <option value=""></option>
-                <option  *ngFor="let formalTitle of listAgeRange" value="{{formalTitle.val}}">{{formalTitle.title}}</option>
+                <option *ngFor="let formalTitle of listAgeRange" value="{{formalTitle.val}}">{{formalTitle.title}}
+                </option>
               </select>
             </div>
             <span class="help-block">Change personal title</span>
@@ -105,7 +115,8 @@
             </div>
             <span class="help-block">Change user name</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('name').valid
-          && formErrors.name">{{ formErrors.name }}</div>
+          && formErrors.name">{{ formErrors.name }}
+            </div>
           </div>
         </div>
 
@@ -118,7 +129,8 @@
             </div>
             <span class="help-block">Change email</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('email').valid
-           && formErrors.email">{{ formErrors.email }}</div>
+           && formErrors.email">{{ formErrors.email }}
+            </div>
           </div>
         </div>
 
@@ -131,7 +143,8 @@
             </div>
             <span class="help-block">Change phone</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('phone').valid
-          && formErrors.phone">{{ formErrors.phone }}</div>
+          && formErrors.phone">{{ formErrors.phone }}
+            </div>
           </div>
         </div>
 
@@ -144,7 +157,8 @@
             </div>
             <span class="help-block">Change country</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('country').valid
-          && formErrors.country">{{ formErrors.country }}</div>
+          && formErrors.country">{{ formErrors.country }}
+            </div>
           </div>
         </div>
 
@@ -157,7 +171,8 @@
             </div>
             <span class="help-block">Change city</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('city').valid
-          && formErrors.city">{{ formErrors.city }}</div>
+          && formErrors.city">{{ formErrors.city }}
+            </div>
           </div>
         </div>
 
@@ -170,7 +185,8 @@
             </div>
             <span class="help-block">Change address</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('address').valid
-          && formErrors.address">{{ formErrors.address }}</div>
+          && formErrors.address">{{ formErrors.address }}
+            </div>
           </div>
         </div>
 
@@ -183,7 +199,8 @@
             </div>
             <span class="help-block">Change occupation</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('occupation').valid
-          && formErrors.occupation">{{ formErrors.occupation }}</div>
+          && formErrors.occupation">{{ formErrors.occupation }}
+            </div>
           </div>
         </div>
 
@@ -196,7 +213,8 @@
             </div>
             <span class="help-block">Change company name</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('companyName').valid
-          && formErrors.companyName">{{ formErrors.companyName }}</div>
+          && formErrors.companyName">{{ formErrors.companyName }}
+            </div>
           </div>
         </div>
 
@@ -209,14 +227,17 @@
             </div>
             <span class="help-block">Change Facebook link</span>
             <div class="alert alert-danger" *ngIf="!editUserForm.get('facebookLink').valid
-          && formErrors.facebookLink">{{ formErrors.facebookLink}}</div>
+          && formErrors.facebookLink">{{ formErrors.facebookLink}}
+            </div>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-md-3 col-xs-12 control-label">Project:</label>
           <div class="col-md-6 col-xs-12">
-            <button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or remove project</button>
+            <button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or
+              remove project
+            </button>
             <span class="help-block">Add projects to user</span>
             <div *ngIf="listProjectsForAdd && listProjectsForAdd.length != 0">
               <h4>List of projects: </h4>
@@ -235,53 +256,112 @@
   </div>
 </div>
 
-<div id="infoDeleteUser" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h4>Are you sure that you want to delete this user?</h4>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteUser()">Yes</button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+<div *ngIf="isSelectedRow" class="animated fadeInLeft">
+  <div style="padding: 10px" class="panel col-lg-10 col-lg-offset-1">
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Name: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.name ? selectedRow.name : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Email: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.email ? selectedRow.email : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Country: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.country ? selectedRow.country : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>City: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.city ? selectedRow.city : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Address: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.address ? selectedRow.address : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Phone: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.phone ? selectedRow.phone : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Occupation: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.ocupation ? selectedRow.ocupation : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Company name: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.companyName ? selectedRow.companyName : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>Facebook link: </b></h5></div>
+      <div class="col-lg-7">{{selectedRow.facebookLink ? selectedRow.facebookLink : 'NA'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4"><h5><b>List of projects: </b></h5></div>
+      <div class="col-lg-7">
+        <span *ngIf="listProjectsForAdd.length == 0">NA</span>
+        <!--<button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or-->
+          <!--remove project-->
+        <!--</button>-->
+        <!--<span class="help-block">Add projects to user</span>-->
+        <div *ngIf="listProjectsForAdd && listProjectsForAdd.length != 0">
+          <h4>List of projects: </h4>
+          <ul>
+            <li *ngFor="let project of listProjectsForAdd">{{project}}</li>
+          </ul>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
-<div id="addProject" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h3>Add projects to user:</h3>
-        <div *ngFor="let project of listOfProjects" style="display: flex">
-          <input type="checkbox" value="{{project.id}}" class="projects" checked="{{project.checked}}">
-          <label>{{project.name}}</label>
-        </div>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProject()">OK</button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div id="infoBox" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  <div id="infoDeleteUser" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <div *ngIf="!infoMessage">
-          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
-        </div>
-        <div *ngIf="infoMessage">
-          <h2>{{infoMessage}}</h2>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h4>Are you sure that you want to delete this user?</h4>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteUser()">Yes</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div id="addProject" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h3>Add projects to user:</h3>
+          <div *ngFor="let project of listOfProjects" style="display: flex">
+            <input type="checkbox" value="{{project.id}}" class="projects" checked="{{project.checked}}">
+            <label>{{project.name}}</label>
+          </div>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProject()">OK</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="infoBox" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+      <div class="mb-middle">
+        <div class="mb-content">
+          <div *ngIf="!infoMessage">
+            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+          </div>
+          <div *ngIf="infoMessage">
+            <h2>{{infoMessage}}</h2>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

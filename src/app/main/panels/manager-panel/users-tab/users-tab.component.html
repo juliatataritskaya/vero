@@ -10,7 +10,7 @@
           data-toggle="modal" data-target="#infoDeleteUser">Delete</button>
 </div>
 
-<div *ngIf="isClickOnCreateUser" class="animated fadeInRight">
+<div *ngIf="isClickOnCreateUser" class="animated fadeInLeft">
   <div class="panel col-lg-10 col-lg-offset-1">
     <form [formGroup]="addUserForm">
       <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">
@@ -78,7 +78,7 @@
 
 
 
-<div *ngIf="isClickOnEditUser" class="animated fadeInRight">
+<div *ngIf="isClickOnEditUser" class="animated fadeInLeft">
   <div class="panel col-lg-10 col-lg-offset-1">
     <form [formGroup]="editUserForm">
       <div class="form-horizontal col-lg-10 col-lg-offset-2 col-md-offset-2">

@@ -2033,7 +2033,7 @@ input[class*=bg-] + .form-control-feedback {
 }
 .dropdown-menu > li > a > img,
 .dropdown-menu > .dropdown-header > img {
-  max-height: 16px;
+  max-height: 24px;
 }
 .dropdown-menu > li > label:hover,
 .dropdown-menu > li > label:focus {

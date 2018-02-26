@@ -155,6 +155,76 @@ export class DashboardService {
     });
   }
 
+  public getOnlineUsers(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getOnlineUsers().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getAgeRangeUserInfo(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getAgeRangeUserInfo().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getUsersForMap(filter): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getUsersForMap(filter).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public changeProjectCode(projectdata): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.putChangeProjectCode(projectdata).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getTypesOfUserDevices(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getTypesOfUserDevices().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getProjectAndUsersInfo(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getProjectAndUsersInfo().then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public exportToExcelUsersWithProjects(projectdata): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.exportToExcelUsersWithProjects(projectdata).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
   public getGraph(element, data, xkey, ykeys, labels, barColors) {
     Morris.Bar({
       element: element,
