@@ -225,6 +225,26 @@ export class DashboardService {
     });
   }
 
+  public getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
   public getGraph(element, data, xkey, ykeys, labels, barColors) {
     Morris.Bar({
       element: element,

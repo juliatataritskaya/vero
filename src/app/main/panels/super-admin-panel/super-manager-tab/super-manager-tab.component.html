@@ -75,7 +75,7 @@
             <div class="select-group">
               <select type="text" class="form-control" title="" [(ngModel)]="ageRange" [ngModelOptions]="{standalone: true}">
                 <option value=""></option>
-                <option  *ngFor="let formalTitle of listAgeRange" value="{{formalTitle.val}}">{{formalTitle.title}}</option>
+                <option  *ngFor="let formalTitle of listAgeRange" value="{{formalTitle}}">{{formalTitle}}</option>
               </select>
             </div>
             <span class="help-block">Change personal title</span>

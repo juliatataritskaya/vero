@@ -8,7 +8,6 @@ import {Router} from '@angular/router';
 import * as FileSaver from 'file-saver';
 
 declare var $: any;
-declare var Morris: any;
 
 @Component({
   selector: 'app-dashboard-tab',
@@ -19,15 +18,15 @@ export class DashboardTabComponent implements OnInit {
   countSuperManagers: number;
   countManagers: number;
   countCustomers: number;
+  countNewUsers: number;
   projectsAll: Array<any> = [];
   projectsWithUserData: Array<any> = [];
-  testprojects: object;
+  listUsersForMaps: Array<any> = [];
+  userHistory: Array<any> = [];
   infoMessage: string;
   usersAll: Array<any> = [];
   newUsersPerDay: Array<any> = [];
   url = environment.serverUrl;
-  numberOfActiveUsersPerMonth: number;
-  numberOfRegisteredUsersPerMonth: number;
   onlineUsers: Array<any> = [];
   onlineUsersForDisplaying: Array<any> = [];
   usersOverviewList: Array<any> = [];
@@ -39,23 +38,24 @@ export class DashboardTabComponent implements OnInit {
 
   ngOnInit() {
     this.getCountManagers();
+    this.getAllProjects(() => {
+      this.getAllUsers();
+    });
+    this.getOnlineUsers();
     setInterval(() => {
-      this.getOnlineUsers()
+      this.getOnlineUsers();
     }, 15000);
     this.getCountCustomers();
     this.getCountSuperManagers();
-    this.getAllProjects();
-    this.getAllUsers();
     this.dashboardService.getTime();
     this.createJVectorMaps();
     this.getTypesOfUserDevices();
     this.getNewUsersPerMonth();
-    // this.getActiveUsersPerMonth();
     this.getListNewUsersIn24();
     this.dashboardService.runOwlCarousel();
-    this.getGraph();
     this.getAgeRangeUserInfo();
     this.getProjectAndUsersInfo();
+    this.getUserActivity();
   }
 
   private getCountCustomers() {
@@ -90,18 +90,8 @@ export class DashboardTabComponent implements OnInit {
 
   private getNewUsersPerMonth() {
     this.dashboardService.getNewUsersPerMonth().then(result => {
-      this.numberOfRegisteredUsersPerMonth = result.numberOfRegisteredUsersPerMonth;
+      this.countNewUsers = result.numberOfRegisteredUsersPerMonth;
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }
-    });
-  }
-
-  private getActiveUsersPerMonth() {
-    this.dashboardService.getActiveUsersPerMonth().then((result) => {
-      this.numberOfActiveUsersPerMonth = result.numberOfActiveUsersPerMonth;
-    }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
       }
@@ -120,7 +110,6 @@ export class DashboardTabComponent implements OnInit {
 
   private getProjectAndUsersInfo() {
     this.dashboardService.getProjectAndUsersInfo().then((result) => {
-      console.log(result);
       this.projectsWithUserData = result.users;
     }, (error) => {
       if (error.status === 401) {
@@ -129,14 +118,30 @@ export class DashboardTabComponent implements OnInit {
     });
   }
 
-  // private createDiagrams() {
-  //   // const dataAge = [
-  //   //   {label: 'under 18', value: 2513},
-  //   //   {label: '18-21', value: 764},
-  //   //   {label: 'more than 21', value: 311}
-  //   // ];
-  //
-  // }
+  private getUserActivity() {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    const toMonth = date.getMonth() + 1;
+    const toYear = date.getFullYear();
+    date.setMonth(date.getMonth() - 2);
+    const fromMonth = date.getMonth() + 1;
+    const fromYear = date.getFullYear();
+    this.dashboardService.getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear).then((result) => {
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      let data = [];
+      result.userStatistics.forEach((monthData) => {
+          data.push(
+            {y: monthNames[monthData.month - 1],
+            a: monthData.numberOfActiveUsers ,
+            b: monthData.numberOfNewUsers,
+            c: monthData.numberOfReturnedUsers}
+            );
+      });
+      this.getGraph(data);
+    });
+  }
 
   private createJVectorMaps() {
     let markersNL = [];
@@ -156,10 +161,10 @@ export class DashboardTabComponent implements OnInit {
     });
   }
 
-  private getAllProjects() {
+  private getAllProjects(callback) {
     this.projectService.getAllProjects().then((result) => {
       this.projectsAll = result['projectList'];
-      this.testprojects = result;
+      callback();
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -170,6 +175,23 @@ export class DashboardTabComponent implements OnInit {
   private getAllUsers() {
     this.userService.getAllUserWithoutFilter().then((result) => {
       this.usersAll = result['userList'];
+      this.usersAll.forEach((user) => {
+        if(user.country == 'Netherlands' || user.country == 'Germany'){
+          user.projectIds.forEach((id) => {
+            const foundProject = this.projectsAll.find((project) => {
+              return project.id == id;
+            });
+            if (foundProject) {
+              if (user.projects) {
+                user.projects.push(foundProject);
+              } else {
+                user.projects = [foundProject];
+              }
+            }
+          });
+          this.listUsersForMaps.push(user);
+        }
+      });
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -179,7 +201,6 @@ export class DashboardTabComponent implements OnInit {
 
   private getOnlineUsers() {
     this.dashboardService.getOnlineUsers().then((result) => {
-      console.log(result['onlineUsers']);
       this.onlineUsers = result['onlineUsers'];
       this.onlineUsersForDisplaying = this.onlineUsers;
     }, (error) => {
@@ -204,7 +225,7 @@ export class DashboardTabComponent implements OnInit {
 
   connect(email) {
     localStorage.setItem('userId', email);
-    this.router.navigate(['main/adminpanel/multi-player']);
+    this.router.navigate(['main/adminpanel/vr-tracking']);
   }
 
   public getTypesOfUserDevices() {
@@ -222,15 +243,7 @@ export class DashboardTabComponent implements OnInit {
     });
   }
 
-  public getGraph() {
-    const data = [
-      {y: 'September', a: 75, b: 35, c: 0},
-      {y: 'October', a: 64, b: 26, c: 2},
-      {y: 'November', a: 78, b: 39, c: 4},
-      {y: 'December', a: 82, b: 34, c: 3},
-      {y: 'January', a: 86, b: 39, c: 2},
-      {y: 'February', a: 94, b: 40, c: 1},
-    ];
+  public getGraph(data) {
     const ykeys = ['a', 'b', 'c'];
     const labels = ['Active Users', 'New Users', 'Returned'];
     const barColors = ['#33414E', '#1caf9a', '#FEA223'];
@@ -239,24 +252,34 @@ export class DashboardTabComponent implements OnInit {
 
   getAgeRangeUserInfo() {
     this.dashboardService.getAgeRangeUserInfo().then((result) => {
-      let thirteen = 0;
-      let eighteen = 0;
-      let twentyOne = 0;
+      let ageRange24 = 0;
+      let ageRange25_34 = 0;
+      let ageRange35_44 = 0;
+      let ageRange45_64 = 0;
+      let ageRange65 = 0;
       result.users.forEach((user) => {
-        if (user.ageRange == 13) {
-          thirteen = thirteen + 1;
+        if (user.ageRange == '24-') {
+          ageRange24 = ageRange24 + 1;
         }
-        if (user.ageRange == 18) {
-          eighteen = eighteen + 1;
+        if (user.ageRange == '25-34') {
+          ageRange25_34 = ageRange25_34 + 1;
         }
-        if (user.ageRange == 21) {
-          twentyOne = twentyOne + 1;
+        if (user.ageRange == '35-44') {
+          ageRange35_44 = ageRange35_44 + 1;
+        }
+        if (user.ageRange == '45-64') {
+          ageRange45_64 = ageRange45_64 + 1;
+        }
+        if (user.ageRange == '65+') {
+          ageRange65 = ageRange65 + 1;
         }
       });
       const dataAge = [
-        {label: 'under 18', value: thirteen},
-        {label: '18-21', value: eighteen},
-        {label: 'more than 21', value: twentyOne}
+        {label: '24-', value: ageRange24},
+        {label: '25-34', value: ageRange25_34},
+        {label: '35-44', value: ageRange35_44},
+        {label: '45-64', value: ageRange45_64},
+        {label: '65+', value: ageRange65}
       ];
       const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
@@ -272,12 +295,16 @@ export class DashboardTabComponent implements OnInit {
   }
 
   public exportData(type, data) {
-    console.log(data);
     if (type == 'excel') {
       const projectData = new FormData();
       projectData.append('projectId', data.id);
         this.dashboardService.exportToExcelUsersWithProjects(projectData).then((result) => {
           console.log(result);
+          const file = new Blob([result.blob()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          console.log(file);
+          const fileName = result.headers.get('Content-Disposition').split(';')[1].trim().split('=')[1];
+          console.log(fileName);
+          FileSaver.saveAs(file, fileName);
         }, (error) => {
           if (error.status === 401) {
             this.redirectService.redirectOnLoginPage();
@@ -289,38 +316,6 @@ export class DashboardTabComponent implements OnInit {
       const blob = new Blob([JSON.stringify({project: data})], {type: 'text/json'});
       FileSaver.saveAs(blob, 'project.json');
     }
-
-// let a = JSON.stringify(this.projectsAll);
-// console.log(a);
-//     var json3 = { "listOfProjects": a};
-//
-//
-//     let DownloadJSON2CSV = function(objArray) {
-//       let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-//
-//       var str = '';
-//
-//       for (var i = 0; i < array.length; i++) {
-//         var line = '';
-//
-//         for (var index in array[i]) {
-//           line += array[i][index] + ',';
-//         }
-//
-//         // Here is an example where you would wrap the values in double quotes
-//         // for (var index in array[i]) {
-//         //    line += '"' + array[i][index] + '",';
-//         // }
-//
-//         line.slice(0, line.length - 1);
-//
-//         str += line + '\r\n';
-//       }
-//       window.open( "data:text/csv;charset=utf-8," + encodeURI(str));
-//       window.open( "data:text/docx;charset=utf-8," + encodeURI(str));
-//     }
-//     DownloadJSON2CSV(json3.listOfProjects);
-
   }
 
   changeProjectCode(id) {
@@ -358,6 +353,31 @@ export class DashboardTabComponent implements OnInit {
     this.usersOverviewList = this.projectsWithUserData[idx];
     console.log(this.usersOverviewList);
     console.log(id, idx);
+  }
+
+  seeHistory(id) {
+    // $('#userHistory').modal('show');
+    const date = new Date();
+    date.setDate(date.getDate());
+    const toDay = date.getDate();
+    const toMonth = date.getMonth() + 1;
+    const toYear = date.getFullYear();
+    date.setDate(date.getDate() - 6);
+    const fromDay = date.getDate();
+    const fromMonth = date.getMonth() + 1;
+    const fromYear = date.getFullYear();
+    console.log(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear);
+    this.dashboardService.getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear)
+      .then((result) => {
+      this.userHistory = result.userHistory;
+      if(this.userHistory['projects'].length != 0) {
+        this.userHistory['projects'].forEach((project) => {
+          project.places.forEach((place) => {
+            place['projectName'] = project.name;
+          });
+        });
+      }
+    });
   }
 
 }

@@ -27,7 +27,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   public selectedRow: any;
   public isClickOnCreateManager = false;
   public isClickOnEditManager = false;
-  public listAgeRange = [{title: 'under 18', val: 13}, {title: '18-21', val: 18}, {title: 'more than 21', val: 21}];
+  public listAgeRange = ['24-', '25-34', '35-44', '45-64', '65+'];
   public listProjectsForAdd: any;
   public listProjectsIdsForAdd: any;
   infoMessage: string;

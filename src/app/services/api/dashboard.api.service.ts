@@ -161,6 +161,30 @@ export class DashboardApiService extends BaseHttpService {
     return new Promise((resolve, reject) => {
       this.post(DashboardApiService.exportToExcelUsersWithProjects, {}, projectData)
         .subscribe(result => {
+          console.log(result);
+          resolve(result);
+        }, error => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
+  public getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.get(DashboardApiService.getUsersHistoryByPeriod, {fromMonth, fromYear, toMonth, toYear})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.get(DashboardApiService.getUserHistoryOfTimeSpent, {id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear})
+        .subscribe(result => {
           resolve(result);
         }, error => {
           reject(error);

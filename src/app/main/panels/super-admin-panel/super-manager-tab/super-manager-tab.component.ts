@@ -26,7 +26,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   public selectedRow: any;
   public isClickOnCreateSuperManager = false;
   public isClickOnEditSuperManager = false;
-  public listAgeRange = [{title: 'under 18', val: 13}, {title: '18-21', val: 18}, {title: 'more than 21', val: 21}];
+  public listAgeRange = ['24-', '25-34', '35-44', '45-64', '65+'];
   infoMessage: string;
 
   constructor (private router: Router, private fb: FormBuilder, private userService: UserService,
