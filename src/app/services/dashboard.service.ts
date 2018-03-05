@@ -215,14 +215,8 @@ export class DashboardService {
     });
   }
 
-  public exportToExcelUsersWithProjects(projectdata): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.dashboardApi.exportToExcelUsersWithProjects(projectdata).then(result => {
-        resolve(result);
-      }, error => {
-        reject(error);
-      });
-    });
+  public exportToExcelUsersWithProjects(projectdata) {
+      this.dashboardApi.exportToExcelUsersWithProjects(projectdata);
   }
 
   public getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear): Promise<any> {
@@ -238,6 +232,16 @@ export class DashboardService {
   public getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear): Promise<any> {
     return new Promise((resolve, reject) => {
       this.dashboardApi.getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear).then(result => {
+        resolve(result);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  public addUserToProjects(data): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.dashboardApi.postAddUserToProjects(data).then(result => {
         resolve(result);
       }, error => {
         reject(error);

@@ -6,6 +6,7 @@ import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
 import {Router} from '@angular/router';
 import * as FileSaver from 'file-saver';
+var xhttp = new XMLHttpRequest();
 
 declare var $: any;
 
@@ -24,12 +25,14 @@ export class DashboardTabComponent implements OnInit {
   listUsersForMaps: Array<any> = [];
   userHistory: Array<any> = [];
   infoMessage: string;
+  listProjectsForAdd: Array<any> = [];
   usersAll: Array<any> = [];
   newUsersPerDay: Array<any> = [];
   url = environment.serverUrl;
   onlineUsers: Array<any> = [];
   onlineUsersForDisplaying: Array<any> = [];
   usersOverviewList: Array<any> = [];
+  userIdForAssignProject: number;
 
   constructor(private dashboardService: DashboardService, private redirectService: RedirectService,
               private projectService: ProjectService, private userService: UserService,
@@ -132,12 +135,14 @@ export class DashboardTabComponent implements OnInit {
       ];
       let data = [];
       result.userStatistics.forEach((monthData) => {
-          data.push(
-            {y: monthNames[monthData.month - 1],
-            a: monthData.numberOfActiveUsers ,
+        data.push(
+          {
+            y: monthNames[monthData.month - 1],
+            a: monthData.numberOfActiveUsers,
             b: monthData.numberOfNewUsers,
-            c: monthData.numberOfReturnedUsers}
-            );
+            c: monthData.numberOfReturnedUsers
+          }
+        );
       });
       this.getGraph(data);
     });
@@ -176,7 +181,7 @@ export class DashboardTabComponent implements OnInit {
     this.userService.getAllUserWithoutFilter().then((result) => {
       this.usersAll = result['userList'];
       this.usersAll.forEach((user) => {
-        if(user.country == 'Netherlands' || user.country == 'Germany'){
+        if (user.country == 'Netherlands' || user.country == 'Germany') {
           user.projectIds.forEach((id) => {
             const foundProject = this.projectsAll.find((project) => {
               return project.id == id;
@@ -212,7 +217,7 @@ export class DashboardTabComponent implements OnInit {
 
   goToEditor(id) {
     const newWin = window.open('../../../../../assets/js/plugins/unity/index.html',
-      '', 'width=600,height=400');
+      '', 'width=800,height=600');
     localStorage.setItem('projectId', id);
     localStorage.setItem('type', 'edit');
   }
@@ -250,7 +255,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getGraph('dashboard-bar-user-activity', data, 'y', ykeys, labels, barColors);
   }
 
-  getAgeRangeUserInfo() {
+  public getAgeRangeUserInfo() {
     this.dashboardService.getAgeRangeUserInfo().then((result) => {
       let ageRange24 = 0;
       let ageRange25_34 = 0;
@@ -283,8 +288,13 @@ export class DashboardTabComponent implements OnInit {
       ];
       const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
-      $('#dashboard-donut-age').on('click', function () {
-        alert('qqwqqq');
+      $('#dashboard-donut-age').on('click', () => {
+        //
+        this.createAgeDiagram();
+        // console.log(this.projectsWithUserData);
+      });
+      $('#dashboard-donut-device').on('click', function () {
+        $('#ageRangeModal').modal('show');
       });
 
     }, (error) => {
@@ -296,26 +306,61 @@ export class DashboardTabComponent implements OnInit {
 
   public exportData(type, data) {
     if (type == 'excel') {
-      const projectData = new FormData();
-      projectData.append('projectId', data.id);
-        this.dashboardService.exportToExcelUsersWithProjects(projectData).then((result) => {
-          console.log(result);
-          const file = new Blob([result.blob()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          console.log(file);
-          const fileName = result.headers.get('Content-Disposition').split(';')[1].trim().split('=')[1];
-          console.log(fileName);
-          FileSaver.saveAs(file, fileName);
-        }, (error) => {
-          if (error.status === 401) {
-            this.redirectService.redirectOnLoginPage();
-          }
-        });
+      // const projectData = new FormData();
+      // projectData.append('projectId', data.id);
+      this.dashboardService.exportToExcelUsersWithProjects(1);
     }
 
     if (type == 'json') {
       const blob = new Blob([JSON.stringify({project: data})], {type: 'text/json'});
       FileSaver.saveAs(blob, 'project.json');
     }
+  }
+
+  public createAgeDiagram() {
+    // console.log(this.projectsWithUserData);
+    // $('.ageRange').html('');
+    //
+    // this.projectsWithUserData.forEach((project) => {
+    //   let ageRange24 = 3;
+    //   let ageRange25_34 = 4;
+    //   let ageRange35_44 = 0;
+    //   let ageRange45_64 = 5;
+    //   let ageRange65 = 0;
+    //   $('.ageRange').append('<div class="chart-holder col-lg-12 id="project' +
+    //    + project.id +'" style="height: 200px"></div>');
+    //   project.users.forEach((user) => {
+    //     if (user.ageRange == '24-') {
+    //       ageRange24 = ageRange24 + 1;
+    //     }
+    //     if (user.ageRange == '25-34') {
+    //       ageRange25_34 = ageRange25_34 + 1;
+    //     }
+    //     if (user.ageRange == '35-44') {
+    //       ageRange35_44 = ageRange35_44 + 1;
+    //     }
+    //     if (user.ageRange == '45-64') {
+    //       ageRange45_64 = ageRange45_64 + 1;
+    //     }
+    //     if (user.ageRange == '65+') {
+    //       ageRange65 = ageRange65 + 1;
+    //     }
+    //   });
+    //   let data = [{
+    //     y: project.name,
+    //     a: ageRange24,
+    //     b: ageRange25_34,
+    //     c: ageRange35_44,
+    //     d: ageRange45_64,
+    //     e: ageRange65
+    //   }];
+    //   console.log(data);
+    //   const ykeys = ['a', 'b', 'c', 'd', 'e'];
+    //   const labels = ['24-', '25-34', '35-44', '45-64', '65+'];
+    //   const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+    //   this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
+    //   $('#ageRangeModal').modal('show');
+    // });
   }
 
   changeProjectCode(id) {
@@ -340,8 +385,10 @@ export class DashboardTabComponent implements OnInit {
   closeModal() {
     $('#infoBox').modal('hide');
     $('#userOverview').modal('hide');
+    $('#projectsModal').modal('hide');
     this.usersOverviewList = [];
     this.infoMessage = null;
+    this.userIdForAssignProject = null;
   }
 
   goToProfile(id) {
@@ -356,7 +403,7 @@ export class DashboardTabComponent implements OnInit {
   }
 
   seeHistory(id) {
-    // $('#userHistory').modal('show');
+    $('#userHistory').modal('show');
     const date = new Date();
     date.setDate(date.getDate());
     const toDay = date.getDate();
@@ -366,18 +413,66 @@ export class DashboardTabComponent implements OnInit {
     const fromDay = date.getDate();
     const fromMonth = date.getMonth() + 1;
     const fromYear = date.getFullYear();
-    console.log(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear);
     this.dashboardService.getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear)
       .then((result) => {
-      this.userHistory = result.userHistory;
-      if(this.userHistory['projects'].length != 0) {
-        this.userHistory['projects'].forEach((project) => {
-          project.places.forEach((place) => {
-            place['projectName'] = project.name;
+        this.userHistory = result.userHistory;
+        console.log(result.userHistory);
+        if (this.userHistory['projects'].length != 0) {
+          this.userHistory['projects'].forEach((project) => {
+            project.places.forEach((place) => {
+              place['projectName'] = project.name;
+            });
           });
+        }
+      });
+  }
+
+  assignNewProject(userId) {
+    this.getBelongProject(userId);
+    $('#projectsModal').modal('show');
+  }
+
+  private getBelongProject(userId) {
+    this.userIdForAssignProject = userId;
+    const newUser = this.newUsersPerDay.find((user) => {
+      return user.id == userId;
+    });
+    if (newUser) {
+      this.projectsAll.forEach((project) => {
+        project.checked = '';
+        console.log(newUser['projects']);
+        newUser['projects'].forEach((projectUser) => {
+          console.log(project.id , projectUser.id);
+          if (project.id == projectUser.id) {
+            project.checked = 'true';
+          }
         });
+      });
+    }
+  }
+
+  addProjectsToUser() {
+    const listProjectsIdsForAdd = [];
+    $('.assignProjects').each((index, elem) => {
+      if ($(elem).prop('checked')) {
+        listProjectsIdsForAdd.push(this.projectsAll[index].id);
+      }
+    });
+    const projectData = new FormData();
+    listProjectsIdsForAdd.forEach((elem) => {
+      projectData.append('projectIds', elem);
+    });
+    projectData.append('userId', this.userIdForAssignProject.toString());
+    this.dashboardService.addUserToProjects(projectData).then((result) => {
+      console.log(result);
+      this.infoMessage = 'Projects were changed';
+      $('#infoBox').modal('show');
+      this.userIdForAssignProject = null;
+      this.getListNewUsersIn24();
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
       }
     });
   }
-
 }

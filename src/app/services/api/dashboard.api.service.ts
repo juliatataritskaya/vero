@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {BaseHttpService} from './base.http.service';
+import * as FileSaver from 'file-saver';
 
 @Injectable()
 export class DashboardApiService extends BaseHttpService {
@@ -20,6 +21,7 @@ export class DashboardApiService extends BaseHttpService {
   private static getUserHistoryOfTimeSpent = environment.serverUrl + '/api/GetUserHistoryOfTimeSpent';
   private static getUsersHistoryByPeriod = environment.serverUrl + '/api/GetUsersHistoryByPeriod';
   private static exportToExcelUsersWithProjects = environment.serverUrl + '/api/ExportToExcelUsersWithProjects';
+  private static addUserToProjectsUrl = environment.serverUrl + '/api/AddUserToProjects';
 
   constructor (protected http: HttpClient) {
     super(http);
@@ -157,17 +159,21 @@ export class DashboardApiService extends BaseHttpService {
     });
   }
 
-  public exportToExcelUsersWithProjects (projectData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.post(DashboardApiService.exportToExcelUsersWithProjects, {}, projectData)
-        .subscribe(result => {
-          console.log(result);
-          resolve(result);
-        }, error => {
-          console.log(error);
-          reject(error);
-        });
-    });
+  public exportToExcelUsersWithProjects (projectData: any) {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (xhttp.readyState === 4 && xhttp.status == 200) {
+        let file = new File([xhttp.response], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        let filename = 'project.xlsx';
+
+        FileSaver.saveAs(file, filename);
+      }
+    }
+    xhttp.responseType = 'arraybuffer';
+    xhttp.open('GET', DashboardApiService.exportToExcelUsersWithProjects, true);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    xhttp.send();
   }
 
   public getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear): Promise<any> {
@@ -184,6 +190,17 @@ export class DashboardApiService extends BaseHttpService {
   public getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear): Promise<any> {
     return new Promise((resolve, reject) => {
       this.get(DashboardApiService.getUserHistoryOfTimeSpent, {id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear})
+        .subscribe(result => {
+          resolve(result);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  public postAddUserToProjects(data): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.post(DashboardApiService.addUserToProjectsUrl, {}, data)
         .subscribe(result => {
           resolve(result);
         }, error => {

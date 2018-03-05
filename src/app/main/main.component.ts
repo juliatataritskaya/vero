@@ -19,6 +19,10 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.checkUserRight();
+    setInterval(function() {
+      this.userName = localStorage.getItem('userName');
+      this.companyName = localStorage.getItem('companyName');
+    }, 5000);
   }
 
   checkUserRight() {
@@ -31,7 +35,7 @@ export class MainComponent implements OnInit {
           { name: 'Managers', routerLink: 'adminpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'adminpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'adminpanel/user', icon: 'icon-person'},
-          { name: 'Notification', routerLink: 'adminpanel/notification', icon: 'icon-mail5'},
+          { name: 'Notifications', routerLink: 'adminpanel/notification', icon: 'icon-mail5'},
           { name: 'VR-tracking', routerLink: 'adminpanel/vr-tracking', icon: 'icon-eye8'}
           ];
         break;
@@ -41,7 +45,7 @@ export class MainComponent implements OnInit {
           { name: 'Managers', routerLink: 'supermanagerpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'supermanagerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'supermanagerpanel/user', icon: 'icon-person'},
-          { name: 'Notification', routerLink: 'supermanagerpanel/notification', icon: 'icon-mail5'}
+          { name: 'Notifications', routerLink: 'supermanagerpanel/notification', icon: 'icon-mail5'}
         ];
         break;
       case 'Manager':
@@ -49,7 +53,7 @@ export class MainComponent implements OnInit {
           { name: 'Dashboard', routerLink: 'managerpanel/dashboard', icon: 'icon-screen3'},
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'managerpanel/users', icon: 'icon-person'},
-          { name: 'Notification', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
+          { name: 'Notifications', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
           { name: 'View in real time', routerLink: 'managerpanel/users', icon: 'icon-person'}
         ];
         break;
