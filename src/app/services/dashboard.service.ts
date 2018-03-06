@@ -215,8 +215,8 @@ export class DashboardService {
     });
   }
 
-  public exportToExcelUsersWithProjects() {
-      this.dashboardApi.exportToExcelUsersWithProjects();
+  public exportToExcelUsersWithProjects(projectdata) {
+      this.dashboardApi.exportToExcelUsersWithProjects(projectdata);
   }
 
   public getUsersHistoryByPeriod(fromMonth, fromYear, toMonth, toYear): Promise<any> {

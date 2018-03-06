@@ -2,7 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {BaseHttpService} from './base.http.service';
-
 import * as FileSaver from 'file-saver';
 
 @Injectable()
@@ -160,19 +159,20 @@ export class DashboardApiService extends BaseHttpService {
     });
   }
 
-  public exportToExcelUsersWithProjects () {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (xhttp.readyState === 4) {
-        var blob = new Blob([xhttp.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        var url= window.URL.createObjectURL(blob);
-        window.open(url);
+  public exportToExcelUsersWithProjects (projectData: any) {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (xhttp.readyState === 4 && xhttp.status == 200) {
+        let file = new File([xhttp.response], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-        // console.log(xhttp.response); //Outputs a DOMString by default
+        let filename = 'project.xlsx';
+
+        FileSaver.saveAs(file, filename);
       }
     }
-    xhttp.open("GET", DashboardApiService.exportToExcelUsersWithProjects, true);
-    xhttp.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem('token'));
+    xhttp.responseType = 'arraybuffer';
+    xhttp.open('GET', DashboardApiService.exportToExcelUsersWithProjects, true);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
     xhttp.send();
   }
 

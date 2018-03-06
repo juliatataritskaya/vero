@@ -308,7 +308,7 @@ export class DashboardTabComponent implements OnInit {
     if (type == 'excel') {
       // const projectData = new FormData();
       // projectData.append('projectId', data.id);
-      this.dashboardService.exportToExcelUsersWithProjects();
+      this.dashboardService.exportToExcelUsersWithProjects(1);
     }
 
     if (type == 'json') {

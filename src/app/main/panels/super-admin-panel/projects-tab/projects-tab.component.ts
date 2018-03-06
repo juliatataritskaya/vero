@@ -251,7 +251,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
       || !this.projectForm.value['armodels'] || !this.projectForm.value['typesRooms']
       || !this.projectForm.value['styles'] || !this.projectForm.value['plansName']) {
-      this.infoMessage = 'Project data in invalid, please check it.';
+      this.infoMessage = 'Project data is invalid, please check it.';
     } else if (this.styles.length > 3) {
       this.infoMessage = 'Max count interior styles are 3';
     } else {
