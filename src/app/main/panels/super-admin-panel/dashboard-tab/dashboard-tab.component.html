@@ -134,8 +134,8 @@
           </div>
         </div>
         <div class="panel-body panel-body-table">
-          <div class="table-responsive" style="height: 100%">
-            <table class="table table-bordered table-striped">
+          <div class="table-responsive" style="height: 220px">
+            <table class="table table-bordered table-striped" style="height: 100%">
               <thead>
               <tr>
                 <th width="15%">Project view</th>
@@ -244,7 +244,7 @@
             <h3>New users (24h)</h3>
           </div>
         </div>
-        <div class="panel-body panel-body-table" style="height: 230px">
+        <div class="panel-body panel-body-table" style="height: 260px">
           <div class="table-responsive" style="height: 100%">
             <table class="table table-bordered table-striped">
               <thead>
@@ -264,7 +264,7 @@
                     <li *ngFor="let project of newUser.projects">{{project.name}}</li>
                   </ul>
                 </td>
-                <td> +</td>
+                <td style="text-align: center"><button class="btn btn-primary" (click)="assignNewProject(newUser.id)">+</button></td>
               </tr>
               <tr *ngIf="newUsersPerDay.length == 0">
                 <td colspan="4" style="text-align: center;">
@@ -444,40 +444,82 @@
 </div>
 
 
-<!--<div id="userHistory" class="modal message-box animated fade" role="dialog">-->
-  <!--<div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2-->
-  <!--col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">-->
-    <!--<div class="">-->
-      <!--<div class="mb-content">-->
-        <!--<div *ngIf="!userHistory">-->
-          <!--<img src="../../../../../assets/img/loading.gif" width="150" height="150"/>-->
-        <!--</div>-->
-        <!--<div *ngIf="userHistory">-->
-          <!--<h5 style="text-align: center">{{userHistory.name}}</h5>-->
-          <!--<div class="col-lg-12 col-md-12 table-responsive">-->
-            <!--<table class="table table-bordered table-striped">-->
-              <!--<thead>-->
-              <!--<tr>-->
-                <!--<th width="14%">Project name</th>-->
-                <!--<th width="14%">Place</th>-->
-                <!--<th width="14%">Time</th>-->
-              <!--</tr>-->
-              <!--</thead>-->
-              <!--<tbody>-->
-              <!--<tr *ngFor="let project of userHistory.projects">-->
-                <!--<td [attr.rowspan]="project.places.length">{{project.name}}</td>-->
-                <!--<td [attr.rowspan]="project.places.length" *ngFor="let place of project.places">{{place.name}}</td>-->
-                <!--<td>{{project.places.length}}</td>-->
-              <!--</tr>-->
-              <!--<tr *ngIf="!userHistory.projects || userHistory.projects.length == 0">-->
-                <!--<td colspan="3" style="text-align: center;">User doesn't have activity</td>-->
-              <!--</tr>-->
-              <!--</tbody>-->
-            <!--</table>-->
-          <!--</div>-->
-          <!--<button class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
+<div id="userHistory" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="">
+      <div class="mb-content">
+        <div *ngIf="!userHistory">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="userHistory">
+          <h2 style="text-align: center">{{userHistory.name}}</h2>
+          <div class="col-lg-12 col-md-12">
+            <div class="col-lg-6 col-lg-offset-3" *ngFor="let project of userHistory.projects" style="max-height: 500px; overflow-y: auto">
+              <h4>{{project.name}}</h4>
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                <th width="50%" style="text-align: center">Place</th>
+                <th width="50%" style="text-align: center">Time (hh/mm/ss)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let place of project.places">
+                <td>{{place.name}}</td>
+                <td>{{place.timeHours > 10 ? place.timeHours :  '0' + place.timeHours}}
+                  : {{place.timeMinutes > 10 ? place.timeMinutes :  '0' + place.timeMinutes}}
+                  : {{place.timeSeconds > 10 ? place.timeSeconds :  '0' + place.timeSeconds}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="!userHistory.projects || userHistory.projects.length == 0">
+              <h4>User doesn't have activity</h4>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="projectsModal" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle col-lg-12">
+      <div class="mb-content col-lg-12">
+        <div *ngIf="!projectsAll">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="projectsAll">
+          <h3>Add projects to user:</h3>
+          <div *ngFor="let project of projectsAll" style="display: flex">
+            <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
+            <label>{{project.name}} , {{project.description}}</label>
+          </div>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProjectsToUser()">OK</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ageRangeModal" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="mb-middle col-lg-12"  style="height: 400px; overflow-y: auto;">
+      <div class="mb-content col-lg-12">
+        <div class="ageRange col-lg-12">
+        </div>
+        <div>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

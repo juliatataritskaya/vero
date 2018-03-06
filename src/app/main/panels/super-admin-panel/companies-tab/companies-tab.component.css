@@ -67,7 +67,7 @@ button, button:hover, button:active, button:focus {
 .message-box .mb-container {
   position: absolute;
   left: 0px;
-  top: 35%;
+  top: 25%;
   background: rgba(255, 255, 255, 1);
   padding: 20px;
   /*width: 100%;*/
