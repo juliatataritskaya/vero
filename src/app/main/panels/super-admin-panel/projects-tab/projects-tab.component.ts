@@ -153,6 +153,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       select: true,
       paging: true,
       columns: [
+        {
+          title: 'Project view',
+          data: 'miniImageUrl',
+          'bSortable': false,
+          'mRender': function (data) {
+              return '<img style="height: 80px; width: auto;" src="' + environment.serverUrl + data + '" />';
+          }
+        },
         {title: 'Project name', data: 'name'},
         {title: 'Project description', data: 'description'},
         {title: 'Users', data: 'listUsers'},

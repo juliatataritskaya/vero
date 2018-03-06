@@ -237,7 +237,9 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getTypesOfUserDevices().then((result) => {
       let dataDevices = [];
       result.devicetypes.forEach((dev) => {
-        dataDevices.push({label: dev.deviceType, value: dev.number});
+        if(dev.deviceType){
+          dataDevices.push({label: dev.deviceType, value: dev.number});
+        }
       });
       const devicesDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
@@ -289,9 +291,7 @@ export class DashboardTabComponent implements OnInit {
       const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
       $('#dashboard-donut-age').on('click', () => {
-        //
         this.createAgeDiagram();
-        // console.log(this.projectsWithUserData);
       });
       $('#dashboard-donut-device').on('click', function () {
         $('#ageRangeModal').modal('show');
@@ -306,8 +306,6 @@ export class DashboardTabComponent implements OnInit {
 
   public exportData(type, data) {
     if (type == 'excel') {
-      // const projectData = new FormData();
-      // projectData.append('projectId', data.id);
       this.dashboardService.exportToExcelUsersWithProjects(1);
     }
 
@@ -318,49 +316,50 @@ export class DashboardTabComponent implements OnInit {
   }
 
   public createAgeDiagram() {
-    // console.log(this.projectsWithUserData);
-    // $('.ageRange').html('');
-    //
-    // this.projectsWithUserData.forEach((project) => {
-    //   let ageRange24 = 3;
-    //   let ageRange25_34 = 4;
-    //   let ageRange35_44 = 0;
-    //   let ageRange45_64 = 5;
-    //   let ageRange65 = 0;
-    //   $('.ageRange').append('<div class="chart-holder col-lg-12 id="project' +
-    //    + project.id +'" style="height: 200px"></div>');
-    //   project.users.forEach((user) => {
-    //     if (user.ageRange == '24-') {
-    //       ageRange24 = ageRange24 + 1;
-    //     }
-    //     if (user.ageRange == '25-34') {
-    //       ageRange25_34 = ageRange25_34 + 1;
-    //     }
-    //     if (user.ageRange == '35-44') {
-    //       ageRange35_44 = ageRange35_44 + 1;
-    //     }
-    //     if (user.ageRange == '45-64') {
-    //       ageRange45_64 = ageRange45_64 + 1;
-    //     }
-    //     if (user.ageRange == '65+') {
-    //       ageRange65 = ageRange65 + 1;
-    //     }
-    //   });
-    //   let data = [{
-    //     y: project.name,
-    //     a: ageRange24,
-    //     b: ageRange25_34,
-    //     c: ageRange35_44,
-    //     d: ageRange45_64,
-    //     e: ageRange65
-    //   }];
-    //   console.log(data);
-    //   const ykeys = ['a', 'b', 'c', 'd', 'e'];
-    //   const labels = ['24-', '25-34', '35-44', '45-64', '65+'];
-    //   const barColors = ['#33414E', '#1caf9a', '#FEA223'];
-    //   this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
-    //   $('#ageRangeModal').modal('show');
-    // });
+    $('.ageRange').html('');
+    $('#ageRangeModal').modal('show');
+    console.log(this.projectsWithUserData);
+
+
+    this.projectsWithUserData.forEach((project) => {
+      let ageRange24 = 3;
+      let ageRange25_34 = 4;
+      let ageRange35_44 = 0;
+      let ageRange45_64 = 5;
+      let ageRange65 = 0;
+      $('.ageRange').append('<div class="col-lg-5">' + project.name + '<div  id="project' +
+       + project.id + '" style="height: 200px; width: 200px;"></div></div>');
+      project.users.forEach((user) => {
+        if (user.ageRange == '24-') {
+          ageRange24 = ageRange24 + 1;
+        }
+        if (user.ageRange == '25-34') {
+          ageRange25_34 = ageRange25_34 + 1;
+        }
+        if (user.ageRange == '35-44') {
+          ageRange35_44 = ageRange35_44 + 1;
+        }
+        if (user.ageRange == '45-64') {
+          ageRange45_64 = ageRange45_64 + 1;
+        }
+        if (user.ageRange == '65+') {
+          ageRange65 = ageRange65 + 1;
+        }
+      });
+      let data = [{
+        y: project.name,
+        a: ageRange24,
+        b: ageRange25_34,
+        c: ageRange35_44,
+        d: ageRange45_64,
+        e: ageRange65
+      }];
+      console.log(data);
+      const ykeys = ['a', 'b', 'c', 'd', 'e'];
+      const labels = ['24-', '25-34', '35-44', '45-64', '65+'];
+      const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+      this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
+    });
   }
 
   changeProjectCode(id) {
