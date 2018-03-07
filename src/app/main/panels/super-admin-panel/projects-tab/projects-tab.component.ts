@@ -18,7 +18,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   private projectsTable: any;
   projectForm: FormGroup;
   projectPhotos: any = [];
+  mapsPhotos: any = [];
   projectPhotosFiles: any = [];
+  projectMapsFiles: any = [];
   photos360: any = [];
   logo: any = [];
   typesRooms = [];
@@ -418,6 +420,27 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     }
   }
 
+  public onUpdateMapFiles(result) {
+    if (this.mapsPhotos.length + result.target.files.length > 15) {
+      $('#infoBox').modal('show');
+      this.infoMessage = 'Max length is 15 photos';
+    } else {
+      const tgt = result.target || window.event.srcElement,
+        files = tgt.files;
+      const filesArr = Array.prototype.slice.call(files);
+      if (FileReader && files && files.length) {
+        filesArr.forEach((i) => {
+          const fr = new FileReader();
+          this.projectMapsFiles.push(i);
+          fr.onload = () => {
+            this.mapsPhotos.push(fr.result);
+          };
+          fr.readAsDataURL(i);
+        });
+      }
+    }
+  }
+
   onClearForm() {
     this.projectForm.reset();
     this.photos360 = [];
@@ -487,6 +510,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   public deleteProjectPhoto(event) {
     this.projectPhotos.splice(this.projectPhotos.indexOf(event.target.src), 1);
     this.projectPhotosFiles.slice(this.projectPhotos.indexOf(event.target.src), 1);
+  }
+
+  public deleteMapsPhoto(event) {
+    this.mapsPhotos.splice(this.mapsPhotos.indexOf(event.target.src), 1);
+    this.projectMapsFiles.slice(this.projectMapsFiles.indexOf(event.target.src), 1);
   }
 
   public openEditor() {
@@ -786,6 +814,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       localStorage.setItem('projectId', projectId);
 
       this.savedProjectData = currentProject;
+      console.log(this.savedProjectData);
 
       const photosLinks = this.savedProjectData['imageUrls'].map(photo =>
         environment.serverUrl + photo);
@@ -814,12 +843,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.listRooms = [];
       this.listARModels = [];
       this.savedProjectData['arObjects'].forEach((model) => {
+        const additional = model.mtlUrl.map(mtl => environment.serverUrl + mtl);
+        console.log(additional);
         this.listARModels.push({
           name: model.name,
           size: model.size,
           modelId: model.id,
           objectFile: environment.serverUrl + model.url,
-          materialFile: environment.serverUrl + model.mtlUrl,
+          materialFiles: additional,
         });
       });
 
@@ -877,6 +908,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodelFormData.append('arInfoId', arName);
       armodelFormData.append('size', arsize);
       armodelFormData.append('projectId', localStorage.getItem('projectId'));
+      this.projectMapsFiles.forEach((file) => {
+        armodelFormData.append('arMapsObjects', file);
+      });
       this.projectService.addProjectAr(armodelFormData).then((res) => {
         this.getAllNewProjectData();
         this.infoMessage = 'AR was added';

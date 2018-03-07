@@ -199,7 +199,8 @@
                   <div class="col-lg-6 col-lg-offset-2">
                     <p>Name: {{model.name}}</p>
                     <p>Object file: {{model.objectFile}}</p>
-                    <p>Material file: {{model.materialFile}}</p>
+                    <p>Additional files: </p>
+                    <ul style="overflow: auto;"><li *ngFor="let link of model.materialFiles">{{link}}</li></ul>
                     <p>Size: {{model.size}}</p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteARModel(model.modelId)"></i>
@@ -382,6 +383,16 @@
                    (change)="onFileChange($event, 'materialFile')"
                    accept=".mtl">
             <p *ngIf="materialFile">{{materialFile.name || materialFile}}</p>
+          </div>
+          <div class="form-group">
+            <label for="img">Maps : </label>
+            <input type="file" multiple title="" accept="image/png"
+                   (change)="onUpdateMapFiles($event)"/>
+            <p *ngIf="mapsPhotos">{{mapsPhotos.length}} files</p>
+          </div>
+          <div class="photo-container" *ngIf="mapsPhotos.length != 0">
+            <img *ngFor="let photo of mapsPhotos" src="{{photo}}" width="100px" height="70px"
+                 (click)="deleteMapsPhoto($event)" title="Click if you want delete it">
           </div>
           <div class="form-group">
             <label for="floorNumber">Size, % : </label>
