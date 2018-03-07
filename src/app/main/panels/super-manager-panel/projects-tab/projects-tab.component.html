@@ -13,7 +13,8 @@
     <button type="submit" class="btn btn-block" *ngIf="selectedProject" (click)="onEditProject()">Edit project</button>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" *ngIf="selectedProject" data-toggle="modal" data-target="#infoDeleteBox">Delete project
+    <button type="submit" class="btn btn-block" *ngIf="selectedProject" data-toggle="modal"
+            data-target="#infoDeleteBox">Delete project
     </button>
   </div>
 </div>
@@ -57,7 +58,8 @@
                       <label>Project description:</label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
-                      <textarea type="text" formControlName="description" title=""></textarea>
+                      <textarea type="text" formControlName="description" title=""
+                                (keyup)="changeDescription($event.target)"></textarea>
                     </div>
                   </div>
                   <div class="col-lg-12 ">
@@ -124,11 +126,11 @@
 
                   <div class="col-lg-12 ">
                     <div class="col-lg-3 col-sm-12">
-                      <label>Interior: </label>
+                      <label>Styles: </label>
                     </div>
                     <div class="col-lg-8 col-sm-12">
                       <rl-tag-input [(ngModel)]="styles" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Enter interior ... "
+                                    placeholder="Enter style ... "
                                     style="border: 1px solid #9d9d9d; border-radius: 5px;
                                     box-shadow: 0 0 1px rgba(0,0,0,0.5); padding-top: 0;
                                      padding-bottom: 0; padding-left: 5px; margin-top: 5px;
@@ -169,7 +171,6 @@
             <!--=============================-->
             <div class="tab-pane fade" id="plans-settings">
               <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#planImg">+</button>
-              <!--<button class="btn btn-primary" (click)="saveSettingsPlan()">Save settings of layout</button>-->
               <div class="rooms-container">
                 <div *ngFor="let plan of listPlans" class="col-lg-12 room">
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
@@ -198,7 +199,8 @@
                   <div class="col-lg-6 col-lg-offset-2">
                     <p>Name: {{model.name}}</p>
                     <p>Object file: {{model.objectFile}}</p>
-                    <p>Material file: {{model.materialFile}}</p>
+                    <p>Additional files: </p>
+                    <ul style="overflow: auto;"><li *ngFor="let link of model.materialFiles">{{link}}</li></ul>
                     <p>Size: {{model.size}}</p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteARModel(model.modelId)"></i>
@@ -222,7 +224,7 @@
                   <div class="col-lg-4"><img src="{{room.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4">
                     <p>Name: {{room.name}}</p>
-                    <p>Interior: {{room.interior}} </p>
+                    <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
                   </div>
@@ -266,7 +268,7 @@
             <p *ngIf="image">{{image.name || image}}</p>
           </div>
           <div class="form-group">
-            <label for="interior">Interior: </label>
+            <label for="interior">Style: </label>
             <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
                     [ngModelOptions]="{standalone: true}">
               <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
@@ -305,7 +307,8 @@
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
              (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">OK</a>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -320,7 +323,7 @@
       <div class="mb-content">
         <form enctype="multipart/form-data">
           <div class="form-group">
-            <label for="img">Layout file: </label>
+            <label>Layout file: </label>
             <input type="file" id="imgplan" name="img" placeholder="Plan" (change)="onFileChange($event, 'planFile')"
                    accept="image/jpg,image/jpeg">
             <p *ngIf="planImg">{{planImg.name || planImg}}</p>
@@ -333,7 +336,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="floorNumber">Layout number : </label>
+            <label for="floorNumber">Floor number : </label>
             <input type="number" id="floorNumber" name="floorNumber" placeholder="Floor number" class="form-control"
                    [(ngModel)]="floorNumber"
                    [ngModelOptions]="{standalone: true}">
@@ -344,7 +347,8 @@
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
              (click)="addNewImgPlan(planName, floorNumber)">OK</a>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -362,20 +366,33 @@
             <label for="armodelName">AR modal name: </label>
             <select id="armodelName" name="planName" class="form-control" [(ngModel)]="arName"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let arinfo of savedProjectData.arObjectsInfo" value="{{arinfo.id}}">{{arinfo.name}}</option>
+              <option *ngFor="let arinfo of savedProjectData.arObjectsInfo" value="{{arinfo.id}}">{{arinfo.name}}
+              </option>
             </select>
           </div>
           <div class="form-group">
             <label for="img">Object file : </label>
-            <input type="file" id="obj" name="obj" placeholder="Object file" (change)="onFileChange($event, 'objectFile')"
+            <input type="file" id="obj" name="obj" placeholder="Object file"
+                   (change)="onFileChange($event, 'objectFile')"
                    accept=".obj">
             <p *ngIf="objectFile">{{objectFile.name || objectFile}}</p>
           </div>
           <div class="form-group">
             <label for="img">Material file : </label>
-            <input type="file" id="mtl" name="mtl" placeholder="Material file" (change)="onFileChange($event, 'materialFile')"
+            <input type="file" id="mtl" name="mtl" placeholder="Material file"
+                   (change)="onFileChange($event, 'materialFile')"
                    accept=".mtl">
             <p *ngIf="materialFile">{{materialFile.name || materialFile}}</p>
+          </div>
+          <div class="form-group">
+            <label for="img">Maps : </label>
+            <input type="file" multiple title="" accept="image/png"
+                   (change)="onUpdateMapFiles($event)"/>
+            <p *ngIf="mapsPhotos">{{mapsPhotos.length}} files</p>
+          </div>
+          <div class="photo-container" *ngIf="mapsPhotos.length != 0">
+            <img *ngFor="let photo of mapsPhotos" src="{{photo}}" width="100px" height="70px"
+                 (click)="deleteMapsPhoto($event)" title="Click if you want delete it">
           </div>
           <div class="form-group">
             <label for="floorNumber">Size, % : </label>
@@ -388,7 +405,8 @@
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
              (click)="addNewARModel(arName, arsize)">OK</a>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetARModelForm()">Cancel</button>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetARModelForm()">Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -413,88 +431,112 @@
   </div>
 </div>
 
-<div id="usersModal" class="modal message-box animated fade" role="dialog">
+<div id="projectSharingModal" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle col-lg-12">
       <div class="mb-content col-lg-12">
-        <div *ngIf="!users">
-          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
-        </div>
-        <div *ngIf="users">
-          <h3>Add users to project:</h3>
-          <div *ngFor="let user of users" style="display: flex">
-            <input type="checkbox" value="{{user.userId}}" class="users" checked="{{user.checked}}">
-            <label>{{user.name}} , {{user.email}}</label>
+        <div class="mb-content">
+          <div *ngIf="!infoMessage" style="text-align: center">
+            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
           </div>
+          <div *ngIf="infoMessage">
+            <input id="linkForSharing" value="{{infoMessage}}" class="col-md-8">
+            <button id="copy-btn" style="margin-right: 10px" class="btn btn-default col-md-3 col-md-offset-3"
+                    (click)="copyLink()">Copy
+            </button>
+            <button class="btn btn-default col-md-3" data-dismiss="modal" (click)="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="usersModal" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+      <div class="mb-middle col-lg-12">
+        <div class="mb-content col-lg-12">
+          <div *ngIf="!users">
+            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+          </div>
+          <div *ngIf="users">
+            <h3>Add users to project:</h3>
+            <div *ngFor="let user of users" style="display: flex">
+              <input type="checkbox" value="{{user.userId}}" class="users" checked="{{user.checked}}">
+              <label>{{user.name}} , {{user.email}}</label>
+            </div>
+            <div>
+              <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addUsersToProject()">OK
+              </button>
+              <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h4>Are you sure that you want to delete the project?</h4>
           <div>
-            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addUsersToProject()">OK</button>
-            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes
+            </button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  <div id="infoDeletePlan" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h4>Are you sure that you want to delete the project?</h4>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes
-          </button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h4>Are you sure that you want to delete the layout?</h4>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeletePlan()">Yes</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="infoDeletePlan" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  <div id="infoDeleteRoom" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h4>Are you sure that you want to delete the layout?</h4>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeletePlan()">Yes</button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h4>Are you sure that you want to delete the room?</h4>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteRoom()">Yes</button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="infoDeleteRoom" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+
+  <div id="infoDeleteArmodel" class="modal message-box animated fade" role="dialog">
+    <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h4>Are you sure that you want to delete the room?</h4>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteRoom()">Yes</button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+      <div class="mb-middle">
+        <div class="mb-content">
+          <h4>Are you sure that you want to delete the AR model?</h4>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteArModel()">Yes
+            </button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
-<div id="infoDeleteArmodel" class="modal message-box animated fade" role="dialog">
-  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle">
-      <div class="mb-content">
-        <h4>Are you sure that you want to delete the AR model?</h4>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteArModel()">Yes</button>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

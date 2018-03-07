@@ -34,6 +34,7 @@ export class NotificationTabComponent implements OnInit {
   public getAllUsers(callback) {
     this.userService.getAllUserWithoutFilter().then((result) => {
       this.listOfUsers = result['userList'];
+      console.log(this.listOfUsers);
       callback();
     }, (error) => {
       if (error.status === 401) {
@@ -60,6 +61,17 @@ export class NotificationTabComponent implements OnInit {
       },
       paging: true,
       columns: [
+        {
+          "title": "",
+          "data": 'userId',
+          "render": function(data, type, row) {
+            if (type === 'display') {
+              return '<input id="check' + data +'" type="checkbox" class="watchlist-checkbox">';
+            }
+            return data;
+          },
+          "className": "dt-body-center"
+        },
         {title: 'User name', data: 'name'},
         {title: 'Email', data: 'email'},
         {title: 'Role', data: 'role'},
@@ -69,10 +81,17 @@ export class NotificationTabComponent implements OnInit {
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
+      console.log(indexes);
       this.selectedRowsId = this.tableWidget.rows('.selected')[0];
+      if (indexes.length <= 1) {
+        $('#check' + this.listOfUsers[indexes].userId).attr('checked', 'checked');
+      }
     });
     this.tableWidget.on('deselect', (e, dt, type, indexes) => {
       this.selectedRowsId = this.tableWidget.rows('.selected')[0];
+      if (indexes.length <= 1) {
+        $('#check' + this.listOfUsers[indexes].userId).removeAttr('checked');
+      }
     });
   }
 
@@ -94,7 +113,8 @@ export class NotificationTabComponent implements OnInit {
       notificationData.append('message', this.message);
 
       this.notificationService.postNotification(notificationData).then(() => {
-        this.infoMessage = 'Messages were sent';
+        console.log(this.selectedRowsId.length);
+        this.infoMessage = this.selectedRowsId.length > 1 ? 'Messages were sent' : 'Message was sent';
         this.resetForm();
       }, error => {
         if (error.status === 401) {
@@ -107,18 +127,21 @@ export class NotificationTabComponent implements OnInit {
   }
 
   resetForm() {
+    $('#messageForNotification').modal('hide');
     this.title = '';
     this.message = '';
   }
 
   onSelectAll() {
     this.tableWidget.rows().select();
+    $('input').attr('checked', 'checked');
     this.selectedRowsId = this.tableWidget.rows('.selected')[0];
   }
 
   onSelectNone() {
     this.tableWidget.rows().deselect();
     this.selectedRowsId = [];
+    $('input').removeAttr('checked');
   }
 
   closeModal() {

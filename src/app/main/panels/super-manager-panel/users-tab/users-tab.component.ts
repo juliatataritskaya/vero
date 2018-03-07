@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../services/user.service';
 import {RedirectService} from '../../../../services/redirect.service';
@@ -21,20 +21,20 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   editUserForm: FormGroup;
   project: any;
   avatar: any;
-  personalTitle: any;
+  ageRange: any;
   private usersTable: any;
   private tableWidget: any;
   public selectedRow: any;
   public isClickOnCreateUser = false;
   public isClickOnEditUser = false;
-  public listFormalTitles = ['Mr', 'Ms', 'Mrs', 'Miss'];
+  public isSelectedRow = false;
+  public listAgeRange = ['24-', '25-34', '35-44', '45-64', '65+'];
   public listProjectsForAdd: any;
   public listProjectsIdsForAdd: any;
   infoMessage: string;
 
-  constructor (private router: Router, private fb: FormBuilder, private userService: UserService,
-               private projectService: ProjectService, private redirectService: RedirectService,
-               private el: ElementRef) {
+  constructor (private router: Router, private fb: FormBuilder, private userService: UserService, private projectService: ProjectService,
+               private redirectService: RedirectService, private el: ElementRef, private route: ActivatedRoute) {
     super({
       name: '',
       email: '',
@@ -65,6 +65,18 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.createUserForm();
     this.getAllUsers(() => {
       this.loadUsers();
+      this.route.params.subscribe(params => {
+        if( params['id'] ){
+          const user = this.listOfUsers.find((user) => {
+            return user.userId == Number(params['id']);
+          });
+          if(user){
+            this.getBelongProject();
+            this.selectedRow = user;
+            this.isSelectedRow = true;
+          }
+        }
+      });
     });
   }
 
@@ -119,15 +131,22 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.tableWidget = this.usersTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
       this.selectedRow = this.listOfUsers[indexes[0]];
+      this.getBelongProject();
+      this.isSelectedRow = true;
+      this.isClickOnCreateUser = false;
+      this.isClickOnEditUser = false;
+      console.log(this.selectedRow);
     });
     this.tableWidget.on('deselect', (e, dt, type, indexes) => {
       this.selectedRow = null;
+      this.isSelectedRow = false;
     });
   }
 
   clickOnCreate() {
     this.isClickOnCreateUser = true;
     this.isClickOnEditUser = false;
+    this.isSelectedRow = false;
   }
 
   onCreateUser() {
@@ -166,6 +185,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   onEditUser() {
     this.isClickOnEditUser = true;
     this.isClickOnCreateUser = false;
+    this.isSelectedRow = false;
 
     this.editUserForm.patchValue({
       name: this.selectedRow.name,
@@ -178,7 +198,20 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       city: this.selectedRow.city,
       companyName: this.selectedRow.companyName,
     });
-    this.personalTitle = this.selectedRow.personalTitle;
+    this.ageRange = this.selectedRow.ageRange;
+    // this.listProjectsForAdd = [];
+    this.getBelongProject();
+    // this.listOfProjects.forEach((project) => {
+    //   if (this.selectedRow['projectIds'].includes(project.id)) {
+    //     project.checked = 'true';
+    //     this.listProjectsForAdd.push(project.name);
+    //   } else {
+    //     project.checked = '';
+    //   }
+    // });
+  }
+
+  private getBelongProject() {
     this.listProjectsForAdd = [];
     this.listOfProjects.forEach((project) => {
       if (this.selectedRow['projectIds'].includes(project.id)) {
@@ -194,6 +227,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     $('#infoBox').modal('show');
     this.userService.deleteUser(this.selectedRow['userId']).then((result) => {
       this.infoMessage = 'User was deleted';
+      this.isSelectedRow = false;
       this.getAllUsers(() => {
         this.loadUsers();
       });
@@ -210,7 +244,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.addUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]]
     });
 
     this.editUserForm = this.fb.group({
@@ -222,7 +256,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       country: ['', []],
       city: ['', []],
       address: ['', []],
-      personalTitle: ['', []],
+      ageRange: ['', []],
       companyName: ['', []],
     });
 
@@ -236,14 +270,20 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.addUserForm.reset();
     this.listProjectsForAdd = null;
     this.listProjectsIdsForAdd = null;
+    this.listOfProjects.forEach((project) => {
+      project.checked = '';
+    });
   }
 
   public cleanEditUserForm() {
     this.editUserForm.reset();
     this.project = '';
-    this.personalTitle = '';
+    this.ageRange = '';
     this.listProjectsForAdd = null;
     this.listProjectsIdsForAdd = null;
+    this.listOfProjects.forEach((project) => {
+      project.checked = '';
+    });
   }
 
   public onCancelAddNewUser() {
@@ -276,7 +316,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
           companyName: formObject.companyName,
           address: formObject.address,
           mail: formObject.email,
-          personalTitle: this.personalTitle,
+          ageRange: this.ageRange,
         },
         'error': ''
       };

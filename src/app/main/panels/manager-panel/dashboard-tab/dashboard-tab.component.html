@@ -1,105 +1,553 @@
 <div class="page-content-wrap">
-  <div class="col-md-3">
+  <div class="row">
 
-    <!-- START WIDGET MESSAGES -->
-    <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
-      <div class="widget-item-left">
-        <span class="fa fa-envelope"></span>
-      </div>
-      <div class="widget-data">
-        <div class="widget-int num-count">48</div>
-        <div class="widget-title">New messages</div>
-        <div class="widget-subtitle">In your mailbox</div>
-      </div>
-      <div class="widget-controls">
-        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top"
-           title="Remove Widget"><span class="fa fa-times"></span></a>
-      </div>
-    </div>
-    <!-- END WIDGET MESSAGES -->
-
-  </div>
-  <div class="col-md-3">
-
-    <!-- START WIDGET MESSAGES -->
-    <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
-      <div class="widget-item-left">
-        <span class="fa fa-envelope"></span>
-      </div>
-      <div class="widget-data">
-        <div class="widget-int num-count">48</div>
-        <div class="widget-title">New messages</div>
-        <div class="widget-subtitle">In your mailbox</div>
-      </div>
-      <div class="widget-controls">
-        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top"
-           title="Remove Widget"><span class="fa fa-times"></span></a>
-      </div>
-    </div>
-    <!-- END WIDGET MESSAGES -->
-  </div>
-  <div class="col-md-3">
-
-    <!-- START WIDGET MESSAGES -->
-    <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
-      <div class="widget-item-left">
-        <span class="fa fa-envelope"></span>
-      </div>
-      <div class="widget-data">
-        <div class="widget-int num-count">48</div>
-        <div class="widget-title">New messages</div>
-        <div class="widget-subtitle">In your mailbox</div>
-      </div>
-      <div class="widget-controls">
-        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top"
-           title="Remove Widget"><span class="fa fa-times"></span></a>
-      </div>
-    </div>
-    <!-- END WIDGET MESSAGES -->
-  </div>
-
-  <div class="col-md-3">
-
-    <!-- START WIDGET CLOCK -->
-    <div class="widget widget-info widget-padding-sm">
-      <div class="widget-big-int plugin-clock">00:00</div>
-      <div class="widget-subtitle plugin-date">Loading...</div>
-      <div class="widget-controls">
-        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left"
-           title="Remove Widget"><span class="fa fa-times"></span></a>
-      </div>
-      <div class="widget-buttons widget-c3">
-        <div class="col">
-          <a href="#"><span class="fa fa-clock-o"></span></a>
+    <!-- START WIDGET SLIDER -->
+    <div class="col-md-6 col-sm-6 col-lg-3">
+      <div class="widget widget-default widget-carousel">
+        <div class="owl-carousel">
+          <div>
+            <div class="widget-title">Total Manager</div>
+            <div class="widget-subtitle">On your site</div>
+            <div class="widget-int">{{countManagers}}</div>
+          </div>
+          <div>
+            <div class="widget-title">Total Users</div>
+            <div class="widget-subtitle">On your site</div>
+            <div class="widget-int">{{countCustomers}}</div>
+          </div>
+          <div>
+            <div class="widget-title">New Users</div>
+            <div class="widget-subtitle">On your site per last month</div>
+            <div class="widget-int">{{countNewUsers}}</div>
+          </div>
         </div>
-        <div class="col">
-          <a href="#"><span class="fa fa-bell"></span></a>
+      </div>
+
+    </div>
+    <!-- END WIDGET SLIDER -->
+    <div class="col-lg-3 col-md-6 col-sm-6 pull-right">
+
+      <!-- START WIDGET CLOCK -->
+      <div class="widget widget-info widget-padding-sm">
+        <div class="widget-big-int plugin-clock">00:00</div>
+        <div class="widget-subtitle plugin-date">Loading...</div>
+        <div class="widget-buttons widget-c3">
+          Current time
         </div>
-        <div class="col">
-          <a href="#"><span class="fa fa-calendar"></span></a>
+      </div>
+      <!-- END WIDGET CLOCK -->
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-lg-6">
+      <div class="widget widget-default">
+        <div class="item-row">
+          <div class="inner">
+            <div class="col-lg-4 col-md-4 col-sm-4 item" style="text-align: center">
+              <p>Create project</p>
+              <a [routerLink]="['../projects']" class="btn btn-success">Create <i class="fa fa-arrow-right"></i></a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 item" style="text-align: center">
+              <p>Change code</p>
+              <button class="btn btn-success" data-toggle="collapse" data-target="#codeProject">
+                <i class="fa fa-bars"></i>Choice project
+              </button>
+
+              <ul id="codeProject" class="panel-collapse dropdown-menu collapse" style="right: 0; left: 0; position: absolute;
+        top: 85px;">
+                <li *ngFor="let project of projectsAll" style="text-align: center">
+                  <div class="col-md-12">{{project.name}}</div>
+                  <div class="col-md-12" >
+                    <input id="code{{project.id}}" style="width: 85px"
+                                               value="{{project.projectCode}}">
+                    <button style="height: 26px; background-color: black; border: black; color: white;"
+                            (click)="changeProjectCode(project.id)">Change
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 item" style="text-align: center">
+              <p>VR-tracking</p>
+              <a [routerLink]="['../vr-tracking']" class="btn btn-success">Start <i class="fa fa-arrow-right"></i></a>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-    <!-- END WIDGET CLOCK -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+
+      <!-- START USERS ACTIVITY BLOCK -->
+      <div class="panel panel-default" style="height: 311px">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Users Activity</h3>
+            <span>Count active / new / returned users per 3 month</span>
+          </div>
+        </div>
+        <div class="panel-body padding-0">
+          <div class="chart-holder" id="dashboard-bar-user-activity" style="height: 200px;"></div>
+        </div>
+      </div>
+      <!-- END USERS ACTIVITY BLOCK -->
+
+    </div>
+
+    <div class="col-md-4">
+
+      <!-- START AGE BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>User statistics</h3>
+            <span>Users age / Users devices which they use</span>
+          </div>
+        </div>
+        <div class="panel-body padding-0">
+          <div class="owl-carousel">
+            <div>
+              <div class="chart-holder" id="dashboard-donut-age" style="height: 200px;"></div>
+            </div>
+            <div>
+              <div class="chart-holder" id="dashboard-donut-device" style="height: 200px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END AGE BLOCK -->
+
+    </div>
+
+    <div class="col-md-4">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default" style="height: 311px">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Projects</h3>
+            <span>List all projects</span>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table">
+          <div class="table-responsive" style="height: 220px">
+            <table class="table table-bordered table-striped" style="height: 90%">
+              <thead>
+              <tr>
+                <th width="15%">Project view</th>
+                <th width="25%">Project name</th>
+                <th width="30%">Users overview</th>
+                <th width="30%">Editor</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let project of projectsWithUserData; let i = index">
+                <td width="15%"><img src="{{url}}{{project.miniImageUrl}}" style="width: 90%; height: auto"></td>
+                <td width="25%"><strong>{{project.name}}</strong></td>
+                <td width="30%" style="text-align: center">
+                  <button class="btn btn-primary" (click)="goUserOverview(project.id, i)">View</button>
+                </td>
+                <td width="30%" style="text-align: center">
+                  <button class="btn btn-primary" (click)="goToEditor(project.id)">Go</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+      </div>
+    </div>
+
 
   </div>
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
 
       <!-- START SALES BLOCK -->
       <div class="panel panel-default">
         <div class="panel-heading">
-        Users location
-
+          <div class="panel-title-box">
+            <h3>Users location (Netherlands and Germany)</h3>
+          </div>
         </div>
         <div class="panel-body">
-            <div class="col-md-12">
-              <div id="dashboard-map-seles" style="width: 100%; height: 200px"></div>
+          <div class="owl-carousel">
+            <div>
+              <div id="dashboard-map-nl" style="width: 100%; height: 200px" class="col-lg-12"></div>
             </div>
+            <div>
+              <div id="dashboard-map-de" class="col-lg-12" style="width: 100%; height: 200px"></div>
+            </div>
+          </div>
+          <div class="col-lg-12"><i data-toggle="collapse" data-target="#mapUsers"
+                                    class="icon-arrow-down12 pull-right" style="font-size: 20px"></i></div>
+
+
         </div>
       </div>
+
+
+      <div id="mapUsers" class="panel-collapse collapse col-lg-12"
+           style="padding: 0; position: absolute; z-index: 999; width: 100%; top: 96%;">
+        <div class="panel panel-default">
+          <div class="panel-body panel-body-table" style="height: 230px">
+            <div class="table-responsive" style="height: 100%">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th width="15%">Country</th>
+                  <th width="15%">City</th>
+                  <th width="30%">User</th>
+                  <th width="30%">List of projects</th>
+                  <th width="10%">Choose projects</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of listUsersForMaps">
+                  <td>{{user.country}}</td>
+                  <td>{{user.city}}</td>
+                  <td><strong style="cursor: pointer" (click)="goToProfile(user.id)">{{user.name}}</strong>
+                  </td>
+                  <td>
+                    <ul style="padding-left: 12px;">
+                      <li *ngFor="let project of user.projects">{{project.name}}</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" (click)="assignNewProject(user.userId)">+</button>
+                  </td>
+                </tr>
+                <tr *ngIf="listUsersForMaps.length == 0">
+                  <td colspan="5" style="text-align: center;">
+                    Users weren't found
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+
       <!-- END SALES BLOCK -->
+    </div>
+
+    <div class="col-md-8">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default" style="height: 311px">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>New users (24h)</h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 260px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="20%">User</th>
+                <th width="30%">Email</th>
+                <th width="30%">List of projects</th>
+                <th width="20%">Assign new projects</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let newUser of newUsersPerDay">
+                <td><strong style="cursor: pointer" (click)="goToProfile(newUser.id)">{{newUser.displayName}}</strong>
+                </td>
+                <td>{{newUser.email}}</td>
+                <td>
+                  <ul style="padding-left: 12px;">
+                    <li *ngFor="let project of newUser.projects">{{project.name}}</li>
+                  </ul>
+                </td>
+                <td style="text-align: center">
+                  <button class="btn btn-primary" (click)="assignNewProject(newUser.id)">+</button>
+                </td>
+              </tr>
+              <tr *ngIf="newUsersPerDay.length == 0">
+                <td colspan="4" style="text-align: center;">
+                  Users weren't found
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+
+      </div>
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box" style="width: 100%">
+            <h3>Online users <i class="fa fa-search pull-right"></i>
+              <input id="search" class="pull-right" style="border: none; box-shadow: 0 1px 0 0 black;
+               background-color: #f5f5f5;" type="text" placeholder="Search by name" (keyup)="search($event.target)">
+            </h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="35%">User</th>
+                <th width="25%">App</th>
+                <th width="25%">Place</th>
+                <th width="15%">VR-tracking</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of onlineUsersForDisplaying">
+                <td width="200px"><i class="fa fa-circle online-point"> </i>
+                  <strong style="cursor: pointer" (click)="goToProfile(user.id)"> {{user.name}}</strong></td>
+                <td>{{user.project.projectName ? user.project.projectName : ''}}</td>
+                <td>{{user.project.projectPlace}}</td>
+                <td>
+                  <button class="btn btn-primary" (click)="connect(user.mail)">Connect</button>
+                </td>
+              </tr>
+              <tr *ngIf="onlineUsersForDisplaying.length == 0">
+                <td colspan="4" style="text-align: center;">
+                  Users weren't found
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- START PROJECTS BLOCK -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>History</h3>
+          </div>
+        </div>
+        <div class="panel-body panel-body-table" style="height: 230px">
+          <div class="table-responsive" style="height: 100%">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="15%">User</th>
+                <th width="15%">Email</th>
+                <th width="15%">User history</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of usersAll">
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td style="text-align: center">
+                  <button class="btn btn-primary" (click)="seeHistory(user.userId)">See</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <!-- END PROJECTS BLOCK -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="infoBox" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle">
+      <div class="mb-content">
+        <div *ngIf="!infoMessage">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="infoMessage">
+          <h2>{{infoMessage}}</h2>
+          <button class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="userOverview" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="">
+      <div class="mb-content">
+        <div *ngIf="!usersOverviewList">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="usersOverviewList">
+          <div class="col-lg-3 pull-right">
+            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export
+              Data
+            </button>
+            <ul class="dropdown-menu" style="right: 0; left: 0; position: absolute;
+            top: 35px;">
+              <li><a (click)="exportData('json', usersOverviewList)">
+                <img src='../../../../../assets/img/json.png' width="24"/> JSON</a></li>
+              <li><a (click)="exportData('excel', usersOverviewList)">
+                <img src='../../../../../assets/img/xls.png' width="24"/> XLS</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-12 col-md-12 table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th width="14%">User name</th>
+                <th width="14%">Email</th>
+                <th width="14%">Phone</th>
+                <th width="14%">Age range</th>
+                <th width="14%">Device</th>
+                <th width="15%">Facebook link</th>
+                <th width="15%">Facebook interests</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of usersOverviewList.users">
+                <td>{{user.name}}</td>
+                <td>{{user.mail}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.ageRange ? user.ageRange : 'NA'}}</td>
+                <td>{{user.device ? user.device : 'NA' }}</td>
+                <td>{{user.facebookLink ? user.facebookLink : 'NA' }}</td>
+                <td>{{user.facebookLikes ? user.facebookLikes : 'NA'}}</td>
+              </tr>
+              <tr *ngIf="!usersOverviewList.users">
+                <td colspan="7" style="text-align: center;">Users weren't found</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="userHistory" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="">
+      <div class="mb-content">
+        <div *ngIf="!userHistory">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="userHistory">
+          <h2 style="text-align: center">{{userHistory.name}}</h2>
+          <div class="col-lg-12 col-md-12">
+            <div class="col-lg-6 col-lg-offset-3" *ngFor="let project of userHistory.projects"
+                 style="max-height: 500px; overflow-y: auto">
+              <h4>{{project.name}}</h4>
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th width="50%" style="text-align: center">Place</th>
+                  <th width="50%" style="text-align: center">Time (hh/mm/ss)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let place of project.places">
+                  <td>{{place.name}}</td>
+                  <td>{{place.timeHours > 10 ? place.timeHours : '0' + place.timeHours}}
+                    : {{place.timeMinutes > 10 ? place.timeMinutes : '0' + place.timeMinutes}}
+                    : {{place.timeSeconds > 10 ? place.timeSeconds : '0' + place.timeSeconds}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="!userHistory.projects || userHistory.projects.length == 0">
+              <h4>User doesn't have activity</h4>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="projectsModal" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="mb-middle col-lg-12">
+      <div class="mb-content col-lg-12">
+        <div *ngIf="!projectsAll">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="projectsAll">
+          <h3>Add projects to user:</h3>
+          <div *ngFor="let project of projectsAll" style="display: flex">
+            <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
+            <label>{{project.name}} , {{project.description}}</label>
+          </div>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProjectsToUser()">OK
+            </button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ageRangeModal" class="modal message-box animated fade">
+  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="mb-middle col-lg-12" style="">
+      <div class="container">
+        <div class="ageRange col-lg-12" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        </div>
+        <div>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
+
+      </div>
+  </div>
+</div>
+
+<div id="deviceModal" class="modal message-box animated fade">
+  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="mb-middle col-lg-12" style="">
+      <div class="container">
+        <div class="device col-lg-12" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        </div>
+        <div>
+          <button style="text-align: center" class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
 
     </div>
   </div>

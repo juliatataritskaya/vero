@@ -159,7 +159,7 @@ export class DashboardApiService extends BaseHttpService {
     });
   }
 
-  public exportToExcelUsersWithProjects (projectData: any) {
+  public exportToExcelUsersWithProjects (projectId: any) {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4 && xhttp.status == 200) {
@@ -171,7 +171,7 @@ export class DashboardApiService extends BaseHttpService {
       }
     }
     xhttp.responseType = 'arraybuffer';
-    xhttp.open('GET', DashboardApiService.exportToExcelUsersWithProjects, true);
+    xhttp.open('GET', DashboardApiService.exportToExcelUsersWithProjects + '?ProjectId=' + projectId, true);
     xhttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
     xhttp.send();
   }

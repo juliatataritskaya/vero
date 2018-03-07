@@ -5,6 +5,7 @@ import {ProjectService} from '../../../../services/project.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
+import {Clipboard} from 'ts-clipboard';
 
 declare var $: any;
 
@@ -17,7 +18,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   private projectsTable: any;
   projectForm: FormGroup;
   projectPhotos: any = [];
+  mapsPhotos: any = [];
   projectPhotosFiles: any = [];
+  projectMapsFiles: any = [];
   photos360: any = [];
   logo: any = [];
   typesRooms = [];
@@ -152,16 +155,33 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       select: true,
       paging: true,
       columns: [
+        {
+          title: 'Project view',
+          data: 'miniImageUrl',
+          'bSortable': false,
+          'mRender': function (data) {
+              return '<img style="height: 80px; width: auto;" src="' + environment.serverUrl + data + '" />';
+          }
+        },
         {title: 'Project name', data: 'name'},
         {title: 'Project description', data: 'description'},
         {title: 'Users', data: 'listUsers'},
         {title: 'Project code', data: 'projectCode'},
-        {title: 'Update list of users',
+        {
+          title: 'Update list of users',
           data: null,
           'bSortable': false,
-          'mRender': function(data) {
+          'mRender': function (data) {
             return '<button style="color: white; background-color: black;" class="btn btn-primary btn-sm" id="'
               + data['id'] + '">' + 'Update' + '</button>';
+          }
+        }, {
+          title: 'Share project',
+          data: null,
+          'bSortable': false,
+          'mRender': function (data) {
+            return '<a style="color: white; background-color: black;" class="btn btn-primary btn-sm" id="'
+              + data['id'] + '">' + 'Share' + '</a>';
           }
         }
       ]
@@ -170,6 +190,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
       this.selectedProject = this.projects[indexes[0]];
+      console.log(this.selectedProject);
       this.shipmentSelected.emit(this.projects[indexes[0]]);
     });
     this.tableWidget.on('deselect', () => {
@@ -180,10 +201,15 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.tableWidget.on('click', 'button', (event) => {
       this.choiceUsersToProject(event.target.id);
     });
+
+    this.tableWidget.on('click', 'a', (event) => {
+      this.shareProject(event.target.id);
+    });
   }
 
   public choiceUsersToProject(id) {
     this.projectId = id;
+    $('#usersModal').modal('show');
     const findProject = this.projects.find((project) => {
       return project.id == id;
     });
@@ -192,7 +218,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         findProject['users'].includes(user.email) ? user.checked = 'true' : user.checked = '';
       });
     });
-    $('#usersModal').modal('show');
+
   }
 
   public addUsersToProject() {
@@ -235,7 +261,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
       || !this.projectForm.value['armodels'] || !this.projectForm.value['typesRooms']
       || !this.projectForm.value['styles'] || !this.projectForm.value['plansName']) {
-      this.infoMessage = 'Project data in invalid, please check it.';
+      this.infoMessage = 'Project data is invalid, please check it.';
     } else if (this.styles.length > 3) {
       this.infoMessage = 'Max count interior styles are 3';
     } else {
@@ -249,16 +275,26 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           project: {
             id: this.selectedProject['id'],
             name: projectData.name,
-            description: projectData.description, videoUrl: projectData.videoUrl, miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans, arObjectsInfo: this.armodels
+            description: projectData.description,
+            videoUrl: projectData.videoUrl,
+            miniImageUrl: projectData.miniImageUrl,
+            interiorsInfo: this.styles,
+            roomsInfo: this.typesRooms,
+            plansInfo: this.plans,
+            arObjectsInfo: this.armodels
           }, error: null
         });
       } else {
         this.projectService.addProjectInfo({
           project: {
             name: projectData.name,
-            description: projectData.description, videoUrl: projectData.videoUrl, miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles, roomsInfo: this.typesRooms, plansInfo: this.plans, arObjectsInfo: this.armodels
+            description: projectData.description,
+            videoUrl: projectData.videoUrl,
+            miniImageUrl: projectData.miniImageUrl,
+            interiorsInfo: this.styles,
+            roomsInfo: this.typesRooms,
+            plansInfo: this.plans,
+            arObjectsInfo: this.armodels
           }, error: null
         }).then((result) => {
           this.savedProjectData = result.project;
@@ -304,7 +340,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const photosFormData = new FormData();
     this.selectedProject['imageUrls'].forEach((img) => {
       this.projectPhotos.forEach((photo) => {
-        if( photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1){
+        if (photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1) {
           photosFormData.append('deletedPhotosPaths', img);
         }
       });
@@ -335,22 +371,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#infoBox').modal('show');
     this.projectService.updateProjectInfo(projectInfo).then((res) => {
       this.updateProjectPhotos();
-    }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
-    });
-  }
-
-  private addProjectPlan(result, plan, callback) {
-    $('#infoBox').modal('show');
-    const planFormData = new FormData();
-    planFormData.append('plans', plan[0]);
-    planFormData.append('projectId', result.project.id);
-    this.projectService.addProjectPlan(planFormData).then((res) => {
-      callback();
     }, error => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -393,6 +413,27 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           this.projectPhotosFiles.push(i);
           fr.onload = () => {
             this.projectPhotos.push(fr.result);
+          };
+          fr.readAsDataURL(i);
+        });
+      }
+    }
+  }
+
+  public onUpdateMapFiles(result) {
+    if (this.mapsPhotos.length + result.target.files.length > 15) {
+      $('#infoBox').modal('show');
+      this.infoMessage = 'Max length is 15 photos';
+    } else {
+      const tgt = result.target || window.event.srcElement,
+        files = tgt.files;
+      const filesArr = Array.prototype.slice.call(files);
+      if (FileReader && files && files.length) {
+        filesArr.forEach((i) => {
+          const fr = new FileReader();
+          this.projectMapsFiles.push(i);
+          fr.onload = () => {
+            this.mapsPhotos.push(fr.result);
           };
           fr.readAsDataURL(i);
         });
@@ -471,14 +512,21 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectPhotosFiles.slice(this.projectPhotos.indexOf(event.target.src), 1);
   }
 
+  public deleteMapsPhoto(event) {
+    this.mapsPhotos.splice(this.mapsPhotos.indexOf(event.target.src), 1);
+    this.projectMapsFiles.slice(this.projectMapsFiles.indexOf(event.target.src), 1);
+  }
+
   public openEditor() {
-    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
-    localStorage.setItem('projectId', localStorage.getItem('projectId'));
+    console.log(this.selectedProject['id']);
+    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=700,height=500');
+    localStorage.setItem('projectId', this.selectedProject['id']);
+    localStorage.setItem('type', 'edit');
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
     $('#infoBox').modal('show');
-    const findRoomName = this.selectedProject['roomsInfo'].find((info) => {
+    const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
     const findRoom = this.listRooms.find((room) => {
@@ -487,8 +535,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     });
     if (findRoom) {
       this.infoMessage = 'This room with the same parameters has already been added';
-    } else if (!nameRoomId || !interiorId || !dayTime || !this.image) {
-      this.infoMessage = 'Plans data in invalid, please check it.';
+    } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
+      this.infoMessage = 'Rooms data in invalid, please check it.';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
@@ -569,7 +617,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#infoBox').modal('show');
     if (!namePlanId || !this.planImg || !floorNumber) {
       this.infoMessage = 'Plans data in invalid, please check it.';
-    } else if (this.listPlans.length  + 1 >  this.savedProjectData['plansInfo'].length && !this.isClickOnEditOrDeleteLayout) {
+    } else if (this.listPlans.length + 1 > this.savedProjectData['plansInfo'].length && !this.isClickOnEditOrDeleteLayout) {
       this.infoMessage = 'You can add only ' + this.savedProjectData['plansInfo'].length + ' plans. You can change count plans in common settings!';
     } else {
       const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
@@ -766,13 +814,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       localStorage.setItem('projectId', projectId);
 
       this.savedProjectData = currentProject;
+      console.log(this.savedProjectData);
 
       const photosLinks = this.savedProjectData['imageUrls'].map(photo =>
         environment.serverUrl + photo);
       this.logo[0] = {name: environment.serverUrl + this.savedProjectData['miniImageUrl']};
       this.projectPhotos = photosLinks;
-      console.log(this.projectPhotos);
-
       this.styles = [];
       this.savedProjectData['interiorsInfo'].forEach((elem) => {
         this.styles.push(elem.name);
@@ -796,12 +843,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.listRooms = [];
       this.listARModels = [];
       this.savedProjectData['arObjects'].forEach((model) => {
+        const additional = model.mtlUrl.map(mtl => environment.serverUrl + mtl);
+        console.log(additional);
         this.listARModels.push({
           name: model.name,
           size: model.size,
           modelId: model.id,
           objectFile: environment.serverUrl + model.url,
-          materialFile: environment.serverUrl + model.mtlUrl,
+          materialFiles: additional,
         });
       });
 
@@ -819,6 +868,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.listRooms.push({
                 name: room.name,
                 interior: interior.name,
+                interiorId: interior.id,
                 dayTime: time.id === 1 ? 'Day' : 'Night',
                 planName: plan.planName,
                 imgBase64: environment.serverUrl + time.imageUrl,
@@ -858,6 +908,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodelFormData.append('arInfoId', arName);
       armodelFormData.append('size', arsize);
       armodelFormData.append('projectId', localStorage.getItem('projectId'));
+      this.projectMapsFiles.forEach((file) => {
+        armodelFormData.append('arMapsObjects', file);
+      });
       this.projectService.addProjectAr(armodelFormData).then((res) => {
         this.getAllNewProjectData();
         this.infoMessage = 'AR was added';
@@ -895,7 +948,48 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   closeModal() {
     $('#infoBox').modal('hide');
+    $('#projectSharingModal').modal('hide');
     this.infoMessage = null;
+  }
+
+  changeDescription(target) {
+    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/;
+     if(new RegExp(myRe, 'gm').test(target.value)) {
+       target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
+       console.log(target.value);
+     }
+  }
+
+  shareProject(id) {
+    $('#projectSharingModal').modal('show');
+    this.projectService.getShareProject(id).then((result) => {
+      this.infoMessage = result.shareLink;
+      console.log(result);
+    }, (error) => {
+      if (error.status === 401) {
+        this.redirectService.redirectOnLoginPage();
+      } else {
+        this.infoMessage = 'Something wrong, please try again.';
+      }
+    });
+  }
+
+  copyLink() {
+    Clipboard.copy($('#linkForSharing').val());
+    this.setTooltip('Copied');
+    this.hideTooltip();
+  }
+
+  setTooltip(message) {
+    $('#copy-btn').tooltip('hide')
+      .attr('data-original-title', message)
+      .tooltip('show');
+  }
+
+  hideTooltip() {
+    setTimeout(function() {
+      $('#copy-button').tooltip('hide');
+    }, 1000);
   }
 
 }

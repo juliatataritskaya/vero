@@ -526,7 +526,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
     $('#infoBox').modal('show');
-    const findRoomName = this.selectedProject['roomsInfo'].find((info) => {
+    const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
     const findRoom = this.listRooms.find((room) => {

@@ -411,14 +411,12 @@
 
 #codeProject li {
   list-style-type: none;
-  height: 40px;
   padding-top: 5px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #E9E9E9;
 }
 
-#codeProject li:hover {
-  background-color: #eeeeee;
+#codeProject li > div:last-child{
+  padding-bottom: 5px;
+  border-bottom: 1px solid #E9E9E9;
 }
 
 .message-box .mb-container {
@@ -458,3 +456,19 @@
 .mb-content > div{
   text-align: center;
 }
+
+/*.inner{*/
+  /*display: table;*/
+  /*width: 100%;*/
+/*}*/
+
+/*.inner .item-row{*/
+  /*display: table-row;*/
+/*}*/
+
+/*.inner .item{*/
+  /*display: table-cell;*/
+  /*vertical-align: middle;*/
+  /*box-sizing: border-box;*/
+  /*height: 100%;*/
+/*}*/
