@@ -56,3 +56,71 @@ small {
 h5{
   font-weight: 700;
 }
+
+@media (max-width: 466px) {
+  .page-container {
+    padding-top: 0;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+
+    align-items: center;
+  }
+
+  .page-content{
+    width: 100%;
+  }
+}
+
+@media (max-height: 466px) {
+   body{
+     height: 100%
+   }
+  .page-container {
+    padding-top: 0;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+
+    align-items: center;
+  }
+
+  .page-content{
+    width: 100%;
+  }
+  .logo{
+    height: 72px;
+  }
+
+  .login-cover{
+    height: auto;
+  }
+}
+
+@media (max-height: 600px) {
+  .page-container {
+    padding-top: 3%;
+  }
+}
+
+@media screen and (max-width: 599px), screen and (max-height: 599px) {
+  .content-wrapper{
+    display: block;
+  }
+
+  .page-container{
+    padding-top: 1%;
+  }
+
+  .content{
+    padding-top: 4px;
+  }
+}
