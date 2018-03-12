@@ -457,18 +457,8 @@
   text-align: center;
 }
 
-/*.inner{*/
-  /*display: table;*/
-  /*width: 100%;*/
-/*}*/
-
-/*.inner .item-row{*/
-  /*display: table-row;*/
-/*}*/
-
-/*.inner .item{*/
-  /*display: table-cell;*/
-  /*vertical-align: middle;*/
-  /*box-sizing: border-box;*/
-  /*height: 100%;*/
-/*}*/
+@media (min-width: 992px) {
+  .pull-right-lg {
+    float: right;
+  }
+}

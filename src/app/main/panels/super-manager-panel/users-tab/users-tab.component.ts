@@ -55,7 +55,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       },
       phone: {
         required: 'Phone is required.',
-        pattern: 'Phone number must be in the format +0123456789'
+        pattern: 'Phone number must be in the format +0123456789 or 89021234567'
       }
     });
   }
@@ -135,7 +135,6 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       this.isSelectedRow = true;
       this.isClickOnCreateUser = false;
       this.isClickOnEditUser = false;
-      console.log(this.selectedRow);
     });
     this.tableWidget.on('deselect', (e, dt, type, indexes) => {
       this.selectedRow = null;
@@ -199,16 +198,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       companyName: this.selectedRow.companyName,
     });
     this.ageRange = this.selectedRow.ageRange;
-    // this.listProjectsForAdd = [];
     this.getBelongProject();
-    // this.listOfProjects.forEach((project) => {
-    //   if (this.selectedRow['projectIds'].includes(project.id)) {
-    //     project.checked = 'true';
-    //     this.listProjectsForAdd.push(project.name);
-    //   } else {
-    //     project.checked = '';
-    //   }
-    // });
   }
 
   private getBelongProject() {
@@ -244,13 +234,13 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     this.addUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]]
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]]
     });
 
     this.editUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],

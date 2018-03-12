@@ -13,7 +13,6 @@ export class SharingProjectComponent implements OnInit {
 
   ngOnInit () {
     this.route.queryParams.subscribe(params => {
-      console.log(params);
       localStorage.setItem('projectId', params.project);
       params.user ? localStorage.setItem('userId', params.user) : localStorage.setItem('userId', '');
       localStorage.setItem('type', 'view');

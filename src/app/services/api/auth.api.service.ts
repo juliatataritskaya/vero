@@ -51,7 +51,6 @@ export class AuthApiService extends BaseHttpService {
   }
 
   public postCheckoutResetPassword (token: any): Promise<string> {
-    console.log(token);
     return new Promise((resolve, reject) => {
       this.post(AuthApiService.checkoutResetPasswordUrl, {}, token)
         .subscribe(result => {

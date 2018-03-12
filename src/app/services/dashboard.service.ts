@@ -89,10 +89,10 @@ export class DashboardService {
     });
   }
 
-  public runOwlCarousel(){
-    $(".owl-carousel").owlCarousel
+  public runOwlCarousel() {
+    $('.owl-carousel').owlCarousel
     ({mouseDrag: false, touchDrag: true, slideSpeed: 300, paginationSpeed: 400,
-      singleItem: true, navigation: false, autoPlay: true, item: 1});
+      singleItem: true, navigation: false, autoPlay: true, stopOnHover : true,  item: 1});
   }
 
   public getCountManagers (): Promise<any> {

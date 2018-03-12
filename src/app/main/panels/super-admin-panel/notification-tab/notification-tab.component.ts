@@ -34,7 +34,6 @@ export class NotificationTabComponent implements OnInit {
   public getAllUsers(callback) {
     this.userService.getAllUserWithoutFilter().then((result) => {
       this.listOfUsers = result['userList'];
-      console.log(this.listOfUsers);
       callback();
     }, (error) => {
       if (error.status === 401) {
@@ -81,7 +80,6 @@ export class NotificationTabComponent implements OnInit {
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
-      console.log(indexes);
       this.selectedRowsId = this.tableWidget.rows('.selected')[0];
       if (indexes.length <= 1) {
         $('#check' + this.listOfUsers[indexes].userId).attr('checked', 'checked');
@@ -113,7 +111,6 @@ export class NotificationTabComponent implements OnInit {
       notificationData.append('message', this.message);
 
       this.notificationService.postNotification(notificationData).then(() => {
-        console.log(this.selectedRowsId.length);
         this.infoMessage = this.selectedRowsId.length > 1 ? 'Messages were sent' : 'Message was sent';
         this.resetForm();
       }, error => {

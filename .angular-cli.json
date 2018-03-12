@@ -40,12 +40,7 @@
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-nl-mill.js",
         "../src/assets/js/plugins/morris/raphael-min.js",
         "../src/assets/js/plugins/morris/morris.min.js",
-        "../src/assets/js/plugins/owl/owl.carousel.min.js",
-        "../src/assets/js/plugins/tableexport/jquery.base64.js",
-        "../src/assets/js/plugins/tableexport/jspdf/libs/base64.js",
-        "../src/assets/js/plugins/tableexport/jspdf/libs/sprintf.js"
-
-
+        "../src/assets/js/plugins/owl/owl.carousel.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

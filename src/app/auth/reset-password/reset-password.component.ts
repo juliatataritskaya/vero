@@ -41,7 +41,6 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     const tokenData = new FormData();
     tokenData.append('token', this.token);
     this.authService.checkoutResetPassword(tokenData).then((res) => {
-      console.log(res);
     }, error => {
       alert('Something wrong, please try again.');
       this.router.navigate(['/auth/login']);
@@ -56,9 +55,6 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     const passwordData = new FormData();
     passwordData.set('token', this.token);
     passwordData.set('password', this.forgotPasswordForm.get('password').value);
-    console.log(this.forgotPasswordForm.get('password').value);
-    console.log(this.token);
-    console.log(passwordData);
     this.authService.submitResetPassword(passwordData).then(() => {
       alert('Password was changed');
       this.router.navigate(['/auth/login']);

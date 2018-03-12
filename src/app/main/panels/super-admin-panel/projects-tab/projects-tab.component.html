@@ -285,8 +285,8 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plans" value="{{plan.id}}">
-                {{plan.planName}}
+              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">
+                {{plan.name}}
               </option>
             </select>
           </div>

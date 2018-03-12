@@ -190,7 +190,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
       this.selectedProject = this.projects[indexes[0]];
-      console.log(this.selectedProject);
       this.shipmentSelected.emit(this.projects[indexes[0]]);
     });
     this.tableWidget.on('deselect', () => {
@@ -318,7 +317,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   private addProjectPhotos(result, callback) {
     $('#infoBox').modal('show');
-    console.log(this.projectPhotosFiles);
     const photosFormData = new FormData();
     this.projectPhotosFiles.forEach((photo) => {
       photosFormData.append('photos', photo);
@@ -518,7 +516,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public openEditor() {
-    console.log(this.selectedProject['id']);
     const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=700,height=500');
     localStorage.setItem('projectId', this.selectedProject['id']);
     localStorage.setItem('type', 'edit');
@@ -814,8 +811,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       localStorage.setItem('projectId', projectId);
 
       this.savedProjectData = currentProject;
-      console.log(this.savedProjectData);
-
       const photosLinks = this.savedProjectData['imageUrls'].map(photo =>
         environment.serverUrl + photo);
       this.logo[0] = {name: environment.serverUrl + this.savedProjectData['miniImageUrl']};
@@ -844,7 +839,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.listARModels = [];
       this.savedProjectData['arObjects'].forEach((model) => {
         const additional = model.mtlUrl.map(mtl => environment.serverUrl + mtl);
-        console.log(additional);
         this.listARModels.push({
           name: model.name,
           size: model.size,
@@ -956,7 +950,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/;
      if(new RegExp(myRe, 'gm').test(target.value)) {
        target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
-       console.log(target.value);
      }
   }
 
@@ -964,7 +957,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
       this.infoMessage = result.shareLink;
-      console.log(result);
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();

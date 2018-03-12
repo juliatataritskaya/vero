@@ -22,17 +22,11 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.checkUserRight();
     this.companyName = new Observable<string>((observer: Subscriber<string>) => {
-      setInterval(() => {observer.next(localStorage.getItem('companyName'))}, 2000);
+      setInterval(() => {observer.next(localStorage.getItem('companyName'))}, 1500);
     });
     this.userName = new Observable<string>((observer: Subscriber<string>) => {
-      setInterval(() => {observer.next(localStorage.getItem('userName'))}, 2000);
+      setInterval(() => {observer.next(localStorage.getItem('userName'))}, 1500);
     });
-    // setInterval(function() {
-    //   this.userName = localStorage.getItem('userName');
-    //   console.log(this.userName);
-    //   // this.companyName = localStorage.getItem('companyName');
-    //   // console.log(this.companyName);
-    // }, 3000);
   }
 
   checkUserRight() {

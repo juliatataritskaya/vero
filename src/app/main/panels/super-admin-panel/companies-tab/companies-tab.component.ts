@@ -41,7 +41,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       },
       phone: {
         required: 'Phone is required.',
-        pattern: 'Phone number must be in the format +0123456789'
+        pattern: 'Phone number must be in the format +0123456789 or 89021234567'
       },
       contactName: {
         required: 'Contact name is required.',
@@ -132,7 +132,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]],
       password: ['', []],
       contactName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]]
     });

@@ -59,7 +59,6 @@ export class ProjectService {
   }
 
   public addRoom (roomdata: any): Promise<any> {
-    console.log(1);
     return new Promise((resolve, reject) => {
       this.projectApi.postAddRoom(roomdata).then(result => {
         resolve(result);

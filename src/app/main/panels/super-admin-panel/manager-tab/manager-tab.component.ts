@@ -54,7 +54,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
       },
       phone: {
         required: 'Phone is required.',
-        pattern: 'Phone number must be in the format +0123456789'
+        pattern: 'Phone number must be in the format +0123456789 or 89021234567'
       }
     });
   }
@@ -208,13 +208,13 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
     this.addManagerForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]],
     });
 
     this.editManagerForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]],
       occupation: ['', []],
       facebookLink: ['', []],
       country: ['', []],

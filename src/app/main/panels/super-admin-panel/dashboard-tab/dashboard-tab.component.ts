@@ -312,7 +312,6 @@ export class DashboardTabComponent implements OnInit {
 
   public exportData(type, data) {
     if (type == 'excel') {
-      console.log(data);
       this.dashboardService.exportToExcelUsersWithProjects(1);
     }
 
@@ -366,7 +365,6 @@ export class DashboardTabComponent implements OnInit {
 
   public createDeviceDiagram() {
     $('.device').html('');
-    console.log(this.projectsWithUserData);
     this.projectsWithUserData.forEach((project) => {
       let iosPhone = 0;
       let iosTablet = 0;
@@ -439,8 +437,6 @@ export class DashboardTabComponent implements OnInit {
   goUserOverview(id, idx) {
     $('#userOverview').modal('show');
     this.usersOverviewList = this.projectsWithUserData[idx];
-    console.log(this.usersOverviewList);
-    console.log(id, idx);
   }
 
   seeHistory(id) {
@@ -457,7 +453,6 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getUserHistoryOfTimeSpent(id, fromDay, fromMonth, fromYear, toDay, toMonth, toYear)
       .then((result) => {
         this.userHistory = result.userHistory;
-        console.log(result.userHistory);
         if (this.userHistory['projects'].length != 0) {
           this.userHistory['projects'].forEach((project) => {
             project.places.forEach((place) => {
@@ -481,9 +476,7 @@ export class DashboardTabComponent implements OnInit {
     if (newUser) {
       this.projectsAll.forEach((project) => {
         project.checked = '';
-        console.log(newUser['projects']);
         newUser['projects'].forEach((projectUser) => {
-          console.log(project.id , projectUser.id);
           if (project.id == projectUser.id) {
             project.checked = 'true';
           }
@@ -505,7 +498,6 @@ export class DashboardTabComponent implements OnInit {
     });
     projectData.append('userId', this.userIdForAssignProject.toString());
     this.dashboardService.addUserToProjects(projectData).then((result) => {
-      console.log(result);
       this.infoMessage = 'Projects were changed';
       $('#infoBox').modal('show');
       this.userIdForAssignProject = null;
