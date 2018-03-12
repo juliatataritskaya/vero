@@ -298,7 +298,9 @@ export class DashboardTabComponent implements OnInit {
         setTimeout(() => { this.createAgeDiagram(); }, 2000);
       });
       $('#dashboard-donut-device').on('click', () => {
-        // this.createDeviceDiagram();
+        $('.device').html('<h2 style="">Loading...</h2>');
+        $('#deviceModal').modal('show');
+        setTimeout(() => { this.createDeviceDiagram(); }, 2000);
       });
 
     }, (error) => {
@@ -355,17 +357,49 @@ export class DashboardTabComponent implements OnInit {
           d: ageRange45_64,
           e: ageRange65
         }];
-        console.log(data);
         const ykeys = ['a', 'b', 'c', 'd', 'e'];
         const labels = ['24-', '25-34', '35-44', '45-64', '65+'];
         const barColors = ['#33414E', '#1caf9a', '#FEA223'];
         this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
       });
-    // $('#ageRangeModal').modal('show');
   }
 
   public createDeviceDiagram() {
-
+    $('.device').html('');
+    console.log(this.projectsWithUserData);
+    this.projectsWithUserData.forEach((project) => {
+      let iosPhone = 0;
+      let iosTablet = 0;
+      let androidPhone = 0;
+      let androidTablet = 0;
+      $('.device').append('<div class="col-lg-5" style="text-align: center">' + project.name + '<div  id="project' +
+        + project.id + '" style="height: 200px; width: auto"></div></div>');
+      project.users.forEach((user) => {
+        if (user.deviceType == 'IOS Phone') {
+          iosPhone = iosPhone + 1;
+        }
+        if (user.deviceType == 'IOS Tablet') {
+          iosTablet = iosTablet + 1;
+        }
+        if (user.deviceType == 'Android Phone') {
+          androidPhone = androidPhone + 1;
+        }
+        if (user.deviceType == 'Android Tablet') {
+          androidTablet = androidTablet + 1;
+        }
+      });
+      let data = [{
+        y: project.name,
+        a: iosPhone,
+        b: iosTablet,
+        c: androidPhone,
+        d: androidTablet
+      }];
+      const ykeys = ['a', 'b', 'c', 'd'];
+      const labels = ['IOS Phone', 'IOS Tablet', 'Android Phone', 'Android Tablet'];
+      const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+      this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
+    });
   }
 
   changeProjectCode(id) {
@@ -391,6 +425,8 @@ export class DashboardTabComponent implements OnInit {
     $('#infoBox').modal('hide');
     $('#userOverview').modal('hide');
     $('#projectsModal').modal('hide');
+    $('.ageRange').html('');
+    $('.device').html('');
     this.usersOverviewList = [];
     this.infoMessage = null;
     this.userIdForAssignProject = null;

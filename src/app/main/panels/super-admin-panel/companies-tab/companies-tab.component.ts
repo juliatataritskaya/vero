@@ -111,7 +111,10 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
         $('#infoBox').modal('show');
         this.getCompanySettings(() => {
           this.setCompanySettingsData();
-          console.log(result);
+          result.profile.userName ? localStorage.setItem('userName', result.profile.userName)
+            : localStorage.setItem('userName', result.profile.companyName);
+          result.profile.companyName ? localStorage.setItem('companyName', result.profile.companyName)
+            : localStorage.setItem('companyName', '');
         });
       }, (error) => {
         if (error.status === 401) {

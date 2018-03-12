@@ -5,7 +5,6 @@ import {MainComponent} from './main.component';
 import {MainRoutes} from './main.routing';
 import {SuperAdminPanelModule} from './panels/super-admin-panel/super-admin-panel.module';
 import {DataTablesModule} from 'angular-datatables';
-import {ManagerPanelComponent} from './panels/manager-panel/manager-panel.component';
 import {ManagerPanelModule} from './panels/manager-panel/manager-panel.module';
 import {SuperManagerPanelModule} from './panels/super-manager-panel/super-manager-panel.module';
 

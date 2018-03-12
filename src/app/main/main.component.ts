@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
+import {Observable} from "rxjs/Observable";
+import {Subscriber} from "rxjs/Subscriber";
 
 @Component({
   selector: 'app-main',
@@ -10,8 +12,8 @@ import {AuthService} from '../services/auth.service';
 export class MainComponent implements OnInit {
   private linkItems = [];
 
-  private userName = localStorage.getItem('userName');
-  private companyName = localStorage.getItem('companyName');
+  private userName: any = localStorage.getItem('userName');
+  private companyName: any = localStorage.getItem('companyName');
   private role = localStorage.getItem('role');
   private avatar = localStorage.getItem('avatar');
   constructor (private router: Router, private authService: AuthService) {}
@@ -19,10 +21,18 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.checkUserRight();
-    setInterval(function() {
-      this.userName = localStorage.getItem('userName');
-      this.companyName = localStorage.getItem('companyName');
-    }, 5000);
+    this.companyName = new Observable<string>((observer: Subscriber<string>) => {
+      setInterval(() => {observer.next(localStorage.getItem('companyName'))}, 2000);
+    });
+    this.userName = new Observable<string>((observer: Subscriber<string>) => {
+      setInterval(() => {observer.next(localStorage.getItem('userName'))}, 2000);
+    });
+    // setInterval(function() {
+    //   this.userName = localStorage.getItem('userName');
+    //   console.log(this.userName);
+    //   // this.companyName = localStorage.getItem('companyName');
+    //   // console.log(this.companyName);
+    // }, 3000);
   }
 
   checkUserRight() {
@@ -52,7 +62,7 @@ export class MainComponent implements OnInit {
         this.linkItems = [
           { name: 'Dashboard', routerLink: 'managerpanel/dashboard', icon: 'icon-screen3'},
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
-          { name: 'Users', routerLink: 'managerpanel/users', icon: 'icon-person'},
+          { name: 'Users', routerLink: 'managerpanel/user', icon: 'icon-person'},
           { name: 'Notifications', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
           { name: 'View in real time', routerLink: 'managerpanel/users', icon: 'icon-person'}
         ];
