@@ -514,7 +514,7 @@
           <h3>Add projects to user:</h3>
           <div *ngFor="let project of projectsAll" style="display: flex">
             <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
-            <label>{{project.name}} , {{project.description}}</label>
+            <label style="text-align: left; padding: 2px;">{{project.name}} , {{project.description}}</label>
           </div>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProjectsToUser()">OK

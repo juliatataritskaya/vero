@@ -57,7 +57,7 @@ h5{
   font-weight: 700;
 }
 
-@media (max-width: 466px) {
+@media (max-width: 480px) {
   .page-container {
     padding-top: 0;
     display: -ms-flexbox;

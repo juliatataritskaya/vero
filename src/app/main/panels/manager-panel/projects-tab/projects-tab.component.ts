@@ -523,6 +523,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
     $('#infoBox').modal('show');
+    console.log(this.savedProjectData);
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
@@ -811,27 +812,38 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       localStorage.setItem('projectId', projectId);
 
       this.savedProjectData = currentProject;
+
       const photosLinks = this.savedProjectData['imageUrls'].map(photo =>
         environment.serverUrl + photo);
       this.logo[0] = {name: environment.serverUrl + this.savedProjectData['miniImageUrl']};
       this.projectPhotos = photosLinks;
+
       this.styles = [];
       this.savedProjectData['interiorsInfo'].forEach((elem) => {
-        this.styles.push(elem.name);
+        if(elem.name != 'No select') {
+          this.styles.push(elem.name);
+        }
       });
+
       this.typesRooms = [];
       this.savedProjectData['roomsInfo'].forEach((elem) => {
-        this.typesRooms.push(elem.name);
+        if(elem.name != 'No select'){
+          this.typesRooms.push(elem.name);
+        }
       });
 
       this.plans = [];
       this.savedProjectData['plansInfo'].forEach((elem) => {
-        this.plans.push(elem.name);
+        if(elem.name != 'No select') {
+          this.plans.push(elem.name);
+        }
       });
 
       this.armodels = [];
       this.savedProjectData['arObjectsInfo'].forEach((elem) => {
-        this.armodels.push(elem.name);
+        if(elem.name != 'No select') {
+          this.armodels.push(elem.name);
+        }
       });
 
       this.listPlans = [];
@@ -947,8 +959,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   changeDescription(target) {
-    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/;
-     if(new RegExp(myRe, 'gm').test(target.value)) {
+    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/gm;
+     if(new RegExp(myRe).test(target.value)) {
+       console.log(target.value.match(myRe));
        target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
      }
   }

@@ -959,8 +959,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   changeDescription(target) {
-    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/;
-     if(new RegExp(myRe, 'gm').test(target.value)) {
+    const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/gm;
+     if(new RegExp(myRe).test(target.value)) {
+       console.log(target.value.match(myRe));
        target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
      }
   }
