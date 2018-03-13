@@ -176,6 +176,7 @@
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4"><p>Name: {{plan.planName}}</p>
                     <p>Floor number: {{plan.floorNumber}}</p>
+                    <p>Default: {{plan.default}}</p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeletePlan(plan.planId)"></i> <i
                     class="icon-pen" (click)="onEditPlan(plan.planId)"></i>
@@ -227,6 +228,7 @@
                     <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
+                    <p>Default: {{room.default}} </p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
                     class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
@@ -301,12 +303,17 @@
                        [ngModelOptions]="{standalone: true}"> Night </label>
             </div>
           </div>
+          <div class="form-group">
+            <label for="img">Default: </label>
+            <input style="vertical-align: sub;"  type="checkbox" id="defaultRoom" name="defaultRoom"
+                   [(ngModel)]="defaultRoom" [ngModelOptions]="{standalone: true}">
+          </div>
         </form>
       </div>
       <div class="mb-footer">
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-             (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">OK</a>
+             (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan, defaultRoom)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel
           </button>
         </div>
@@ -341,12 +348,18 @@
                    [(ngModel)]="floorNumber"
                    [ngModelOptions]="{standalone: true}">
           </div>
+          <div class="form-group">
+            <label for="img">Default: </label>
+            <input style="vertical-align: sub;"
+                   type="checkbox" id="defaultPlan" name="defaultPlan"
+                   [(ngModel)]="defaultPlan" [ngModelOptions]="{standalone: true}">
+          </div>
         </form>
       </div>
       <div class="mb-footer">
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-             (click)="addNewImgPlan(planName, floorNumber)">OK</a>
+             (click)="addNewImgPlan(planName, floorNumber, defaultPlan)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel
           </button>
         </div>

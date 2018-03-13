@@ -482,17 +482,15 @@ export class DashboardTabComponent implements OnInit {
   }
 
   private getBelongProject(userId) {
-    console.log(this.usersAll);
     this.userIdForAssignProject = userId;
     const newUser = this.usersAll.find((user) => {
       return user.userId == userId;
     });
     if (newUser) {
-      console.log(newUser);
       this.projectsAll.forEach((project) => {
         project.checked = '';
-        newUser['projects'].forEach((projectUser) => {
-          if (project.id == projectUser.id) {
+        newUser['projectIds'].forEach((id) => {
+          if (project.id == id) {
             project.checked = 'true';
           }
         });

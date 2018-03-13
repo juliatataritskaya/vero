@@ -35,6 +35,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   isClickOnEditProject = false;
   isClickOnEditOrDeleteLayout = false;
   isClickOnEditOrDeleteRoom = false;
+  defaultPlan = false;
+  defaultRoom = false;
   private tableWidget: any;
   gameInstance: any;
   selectedProject: object;
@@ -522,9 +524,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     localStorage.setItem('type', 'edit');
   }
 
-  public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
+  public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId, defaultRoom) {
+    console.log(defaultRoom);
     $('#infoBox').modal('show');
-    console.log(this.savedProjectData);
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
@@ -679,7 +681,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetRoomsForm() {
-    // this.infoMessage = null;
     this.image = [];
     this.nameRoom = '';
     this.interior = '';
@@ -689,7 +690,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetPlansForm() {
-    // this.infoMessage = null;
     this.planImg = [];
     this.planName = '';
     this.floorNumber = '';
@@ -805,6 +805,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   getAllNewProjectData() {
     this.getAllProjects(() => {
+      console.log(this.projects);
       this.loadProjects();
       const projectId = this.selectedProject ? this.selectedProject['id'] : this.savedProjectData['id'];
       const currentProject = this.projects.find((project) => {
@@ -971,7 +972,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
       this.infoMessage = result.shareLink;
-      this.iframeMessage = `<iframe style="width: 600px; height: 500px;" src="${result.shareLink}" allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
+      this.iframeMessage = `<iframe style="width: 600px; height: 500px;" src="${result.shareLink}" 
+allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" 
+mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
