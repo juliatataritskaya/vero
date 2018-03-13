@@ -10,6 +10,9 @@ export class RolesGuard implements CanActivate {
   constructor (private router: Router, private location: Location) {}
 
   canActivate (route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
+    console.log(1);
+    console.log(localStorage.getItem('role'), route.data.expectedRole);
+
     if (localStorage.getItem('role') != route.data.expectedRole ) {
       switch (localStorage.getItem('role')) {
         case 'SuperAdmin':

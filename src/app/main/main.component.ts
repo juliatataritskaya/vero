@@ -49,7 +49,8 @@ export class MainComponent implements OnInit {
           { name: 'Managers', routerLink: 'supermanagerpanel/manager', icon: 'fa fa-user'},
           { name: 'Projects', routerLink: 'supermanagerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'supermanagerpanel/user', icon: 'icon-person'},
-          { name: 'Notifications', routerLink: 'supermanagerpanel/notification', icon: 'icon-mail5'}
+          { name: 'Notifications', routerLink: 'supermanagerpanel/notification', icon: 'icon-mail5'},
+          { name: 'VR-tracking', routerLink: 'supermanagerpanel/vr-tracking', icon: 'icon-eye8'}
         ];
         break;
       case 'Manager':
@@ -58,7 +59,7 @@ export class MainComponent implements OnInit {
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'managerpanel/user', icon: 'icon-person'},
           { name: 'Notifications', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
-          { name: 'View in real time', routerLink: 'managerpanel/users', icon: 'icon-person'}
+          { name: 'VR-tracking', routerLink: 'managerpanel/vr-tracking', icon: 'icon-person'}
         ];
         break;
       default:

@@ -6,6 +6,7 @@ import {UsersTabRoutes} from './users-tab/users-tab.routes';
 import {DashboardTabRoutes} from './dashboard-tab/dashboard-tab.routes';
 import {RolesGuard} from '../../../shared/guards/roles.guard';
 import {NotificationTabRoutes} from './notification-tab/notification-tab.routes';
+import {MultiPlayerTabRoutes} from './multi-player-tab/multi-player-tab.routes';
 
 export const ManagerPanelRoutes: Routes = [
   {path: '', redirectTo: 'managerpanel', pathMatch: 'full'},
@@ -16,7 +17,8 @@ export const ManagerPanelRoutes: Routes = [
     ...ProjectsTabRoutes,
     ...UsersTabRoutes,
     ...DashboardTabRoutes,
-    ...NotificationTabRoutes
+    ...NotificationTabRoutes,
+    ...MultiPlayerTabRoutes
   ]
   },
 ];

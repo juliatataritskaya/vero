@@ -1,2 +1,80 @@
-<iframe src="../../../assets/js/plugins/unity/index.html" title="iframe example 1" width="100%" height="900px">
-</iframe>
+<a-scene *ngIf="ready" inspector="url: /assets/js/aframe-inspector.min.js">
+  <a-assets>
+    <img id="cubes-thumb" crossorigin="anonymous"
+         src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
+
+    <img *ngFor="let image of images" crossorigin="use-credentials" [id]="image.uid" [src]="image.src">
+  </a-assets>
+
+  <a-sky id="image-360" radius="10" position="0 1.6 0" side="back" #sky></a-sky>
+
+
+  <a-circle *ngFor="let point of points"
+            class="link"
+            radius="0.2"
+            id="{{point.id}}"
+            opacity="0.8"
+            material="shader: flat; color: #EF2D5E"
+            event-set__mouseenter="scale: 1.1 1.1 1"
+            event-set__mouseleave="scale: 1 1 1">
+    <a-circle
+      opacity="0.9"
+      position="0 0 0.001"
+      material="shader: flat; color: #F2406D"
+      radius="0.13">
+    </a-circle>
+    <a-text id="{{point.id}}-text"
+            align="center"
+            position="0 0.13 0"
+            color="#FFFFFF"
+            baseline="bottom"
+            shader="msdf"
+            font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/kanit/Kanit-Regular.json"
+            width="4"></a-text>
+  </a-circle>
+
+
+  <a-entity camera="active: true" position="0 1.6 0" look-controls>
+    <a-cursor id="cursor"
+              fuse-timeout="300"
+              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+              animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+              event-set__mouseenter="color: springgreen"
+              event-set__mouseleave="color: black"
+              raycaster="objects: .link"></a-cursor>
+  </a-entity>
+</a-scene>
+
+<div class="time-switch">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default"
+            [disabled]="!timeSwitchEnabled"
+            [class.active]="this.currentTime === 0"
+            (click)="switchTime(0, true)">Day</button>
+    <button type="button" class="btn btn-default"
+            [disabled]="!timeSwitchEnabled"
+            [class.active]="this.currentTime === 1"
+            (click)="switchTime(1, true)">Night</button>
+  </div>
+</div>
+
+<span class="menu glyphicon glyphicon-menu-hamburger" aria-hidden="true" (click)="toggleMenu()"></span>
+
+<div *ngIf="menuOpened" class="menu-background" (click)="toggleMenu();">
+  <div class="plans" (click)="$event.stopPropagation()">
+    <div class="plan" *ngFor="let plan of plans">
+      <img [src]="plan.imageUrl">
+      <div *ngFor="let dot of plan.transitionPoints">
+        <div class="dot"
+             *ngIf="dot.room"
+             [style.left]="dot.percentageH * 100 + '%'"
+             [style.top]="dot.percentageV * 100 + '%'"
+             (click)="switchRoom(plan, dot.roomId)">
+        <span>
+          {{dot.room.name}}
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

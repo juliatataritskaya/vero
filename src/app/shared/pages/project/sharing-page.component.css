@@ -1,0 +1,86 @@
+.time-switch {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  z-index: 1;
+}
+
+.menu {
+  position: absolute;
+  top: 20px;
+  right: 18px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  color: #f0f0f0;
+  z-index: 1;
+}
+
+.menu-background {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.28);
+  overflow-y: auto;
+}
+
+.plans {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding-bottom: 60px;
+}
+
+.plan {
+  min-width: 200px;
+  max-width: 800px;
+  flex-direction: column;
+  margin-top: 60px;
+  position: relative;
+}
+
+.plan > img {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 13px;
+  border: solid 5px #EF2D5E;
+  background-color: #F2406D;
+  opacity: .9;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  margin-left: -12px;
+  margin-top: -12px;
+  white-space: nowrap;
+}
+
+.dot > span {
+  color: #000000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  margin-top: -30px;
+  font-size: 18px;
+  font-weight: 500;
+  text-shadow:
+    -1px -1px 0 #FFF,
+    1px -1px 0 #FFF,
+    -1px 1px 0 #FFF,
+    1px 1px 0 #FFF;
+}
+
+.dot:hover {
+  transform: scale(1.3);
+}

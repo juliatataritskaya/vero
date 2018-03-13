@@ -40,6 +40,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   selectedProject: object;
   miniImageUrl: string;
   infoMessage: string;
+  iframeMessage: string;
   projectId: any;
 
   image: any;
@@ -970,6 +971,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
       this.infoMessage = result.shareLink;
+      this.iframeMessage = `<iframe style="width: 600px; height: 500px;" src="${result.shareLink}" allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -989,6 +991,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#copy-btn').tooltip('hide')
       .attr('data-original-title', message)
       .tooltip('show');
+  }
+
+  copyIframe() {
+    Clipboard.copy($('#iframeForSharing').val());
+    this.setTooltip('Copied');
+    this.hideTooltip();
   }
 
   hideTooltip() {
