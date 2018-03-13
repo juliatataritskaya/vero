@@ -986,12 +986,12 @@ mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></ifr
 
   copyLink() {
     Clipboard.copy($('#linkForSharing').val());
-    this.setTooltip('Copied');
-    this.hideTooltip();
+    this.setTooltip('Copied', '#copy-btn');
+    this.hideTooltip('#copy-btn');
   }
 
-  setTooltip(message) {
-    $('#copy-btn').tooltip('hide')
+  setTooltip(message, elelemnt?: string) {
+      $(elelemnt ? elelemnt : '#copy-btn')
       .attr('data-original-title', message)
       .tooltip('show');
   }
@@ -1002,9 +1002,9 @@ mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></ifr
     this.hideTooltip();
   }
 
-  hideTooltip() {
+  hideTooltip(elelemnt?: string) {
     setTimeout(function() {
-      $('#copy-button').tooltip('hide');
+      $(elelemnt ? elelemnt : '#copy-btn').tooltip('destroy');
     }, 1000);
   }
 
