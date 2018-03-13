@@ -227,6 +227,7 @@
                     <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
+                    <p>Default: {{room.default ? 'Yes' : 'No'}} </p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
                     class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
@@ -285,8 +286,8 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plans" value="{{plan.id}}">
-                {{plan.planName}}
+              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">
+                {{plan.name}}
               </option>
             </select>
           </div>
@@ -301,12 +302,17 @@
                        [ngModelOptions]="{standalone: true}"> Night </label>
             </div>
           </div>
+          <div class="form-group">
+            <label for="img">Default: </label>
+            <input style="vertical-align: sub;"  type="checkbox" id="defaultRoom" name="defaultRoom"
+                   [(ngModel)]="defaultRoom" [ngModelOptions]="{standalone: true}">
+          </div>
         </form>
       </div>
       <div class="mb-footer">
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-             (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan)">OK</a>
+             (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan, defaultRoom)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel
           </button>
         </div>
@@ -314,7 +320,6 @@
     </div>
   </div>
 </div>
-
 
 <div id="planImg" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
@@ -441,11 +446,22 @@
             <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
           </div>
           <div *ngIf="infoMessage">
-            <input id="linkForSharing" value="{{infoMessage}}" class="col-md-8">
-            <button id="copy-btn" style="margin-right: 10px" class="btn btn-default col-md-3 col-md-offset-3"
-                    (click)="copyLink()">Copy
-            </button>
-            <button class="btn btn-default col-md-3" data-dismiss="modal" (click)="closeModal()">Close</button>
+            <div class="row">
+              <input id="linkForSharing" value="{{infoMessage}}" class="col-md-8 share" title="Share link">
+              <button id="copy-btn" class="btn btn-default copy"
+                      (click)="copyLink()">Copy Link
+              </button>
+            </div>
+            <div class="row" style="margin-top: 5px; margin-bottom: 5px">
+              <input id="iframeForSharing" value="{{iframeMessage}}" class="col-md-8 share" title="Share Embed">
+              <button id="copy-iframe-btn" class="btn btn-default copy"
+                      (click)="copyIframe()">Copy Embed
+              </button>
+            </div>
+            <div style="text-align: center">
+              <button class="btn btn-default close-btn" data-dismiss="modal" (click)="closeModal()">Close</button>
+            </div>
+
           </div>
         </div>
       </div>

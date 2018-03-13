@@ -9,7 +9,7 @@ input[type="file"]{
   width: 123px;
 }
 
-input:not([type="checkbox"]), textarea{
+input:not([type="checkbox"]):not(.share), textarea{
   width: 100%;
   margin-bottom: 10px;
 }
@@ -195,4 +195,18 @@ input[type=file]{
 }
 .col-for-5{
   width: 20%;
+}
+
+.copy {
+  width: 110px;
+}
+
+.share {
+  margin-right: 6px;
+ line-height: 22px;
+}
+
+.close-btn {
+  margin-top: 10px;
+ width: 120px;
 }

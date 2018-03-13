@@ -35,7 +35,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   isClickOnEditProject = false;
   isClickOnEditOrDeleteLayout = false;
   isClickOnEditOrDeleteRoom = false;
-  defaultPlan = false;
   defaultRoom = false;
   private tableWidget: any;
   gameInstance: any;
@@ -353,7 +352,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     photosFormData.append('projectId', localStorage.getItem('projectId'));
     this.projectService.updateProjectPhotos(photosFormData).then((res) => {
       this.projectPhotosFiles = [];
-      // this.projectPhotos = [];
       this.selectedProject = [];
       this.getAllProjects(() => {
         this.loadProjects();
@@ -525,8 +523,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId, defaultRoom) {
-    console.log(defaultRoom);
     $('#infoBox').modal('show');
+    const findDefaultRoom = this.listRooms.find((room) => {
+      return room.defaultRoom;
+    });
+    console.log(findDefaultRoom);
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
@@ -538,6 +539,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'This room with the same parameters has already been added';
     } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
       this.infoMessage = 'Rooms data in invalid, please check it.';
+    } else if (findDefaultRoom) {
+      this.infoMessage = 'Default room already exists';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
@@ -559,6 +562,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         roomFormData.append('nameOfRoomId', nameRoomId);
         roomFormData.append('objectPlanId', namePlanId);
         roomFormData.append('interiorId', interiorId);
+        roomFormData.append('defaultRoom', defaultRoom);
         roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
         roomFormData.append('projectId', localStorage.getItem('projectId'));
         this.projectService.updateRoom(roomFormData).then((res) => {
@@ -593,6 +597,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           roomFormData.append('nameOfRoomId', nameRoomId);
           roomFormData.append('objectPlanId', namePlanId);
           roomFormData.append('interiorId', interiorId);
+          roomFormData.append('defaultRoom', defaultRoom);
           roomFormData.append('projectId', localStorage.getItem('projectId'));
           this.projectService.addRoom(roomFormData).then((res) => {
             this.getAllNewProjectData();
@@ -775,6 +780,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.image = environment.serverUrl + time.imageUrl;
               this.nameRoom = room.name;
               this.dayTime = time.id === 1 ? 'day' : 'night';
+              this.defaultRoom = time.default;
             }
           });
         });
@@ -882,7 +888,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
                 imgBase64: environment.serverUrl + time.imageUrl,
                 planId: plan.id,
                 roomId: room.id,
-                imageRoomId: time.imageRoomId
+                imageRoomId: time.imageRoomId,
+                defaultRoom: time.default
               });
             });
           });

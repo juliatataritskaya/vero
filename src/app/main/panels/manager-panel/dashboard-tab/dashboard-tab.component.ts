@@ -17,6 +17,7 @@ declare var Morris: any;
   styleUrls: ['./dashboard-tab.component.css']
 })
 export class DashboardTabComponent implements OnInit {
+  timer: any;
   countSuperManagers: number;
   countManagers: number;
   countCustomers: number;
@@ -46,7 +47,7 @@ export class DashboardTabComponent implements OnInit {
       this.getAllUsers();
     });
     this.getOnlineUsers();
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.getOnlineUsers();
     }, 15000);
     this.getCountCustomers();
@@ -67,6 +68,7 @@ export class DashboardTabComponent implements OnInit {
       this.countCustomers = result.count;
     }, error => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -77,6 +79,7 @@ export class DashboardTabComponent implements OnInit {
       this.countManagers = result.count;
     }, error => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -87,6 +90,7 @@ export class DashboardTabComponent implements OnInit {
       this.countSuperManagers = result.count;
     }, error => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -97,6 +101,7 @@ export class DashboardTabComponent implements OnInit {
       this.countNewUsers = result.numberOfRegisteredUsersPerMonth;
     }, error => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -107,6 +112,7 @@ export class DashboardTabComponent implements OnInit {
       this.newUsersPerDay = result.newUsersPerDay;
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -117,6 +123,7 @@ export class DashboardTabComponent implements OnInit {
       this.projectsWithUserData = result.users;
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -173,6 +180,7 @@ export class DashboardTabComponent implements OnInit {
       callback();
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -201,6 +209,7 @@ export class DashboardTabComponent implements OnInit {
       });
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -212,6 +221,7 @@ export class DashboardTabComponent implements OnInit {
       this.onlineUsersForDisplaying = this.onlineUsers;
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -247,6 +257,7 @@ export class DashboardTabComponent implements OnInit {
       this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -305,6 +316,7 @@ export class DashboardTabComponent implements OnInit {
 
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });
@@ -413,6 +425,7 @@ export class DashboardTabComponent implements OnInit {
         this.infoMessage = result.succedded ? 'The code was changed' : result.error;
       }, (error) => {
         if (error.status === 401) {
+          clearInterval(this.timer);
           this.redirectService.redirectOnLoginPage();
         }
       });
@@ -476,8 +489,8 @@ export class DashboardTabComponent implements OnInit {
     if (newUser) {
       this.projectsAll.forEach((project) => {
         project.checked = '';
-        newUser['projects'].forEach((projectUser) => {
-          if (project.id == projectUser.id) {
+        newUser['projectIds'].forEach((id) => {
+          if (project.id == id) {
             project.checked = 'true';
           }
         });
@@ -505,6 +518,7 @@ export class DashboardTabComponent implements OnInit {
       this.getAllUsers();
     }, (error) => {
       if (error.status === 401) {
+        clearInterval(this.timer);
         this.redirectService.redirectOnLoginPage();
       }
     });

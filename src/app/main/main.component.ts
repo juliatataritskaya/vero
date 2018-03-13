@@ -11,6 +11,7 @@ import {Subscriber} from "rxjs/Subscriber";
 })
 export class MainComponent implements OnInit {
   private linkItems = [];
+  private isHiddenMenu = false;
 
   private userName: any = localStorage.getItem('userName');
   private companyName: any = localStorage.getItem('companyName');
@@ -72,5 +73,16 @@ export class MainComponent implements OnInit {
   onHandleLogout() {
     this.authService.logoutUser();
       this.router.navigate(['/start-page']);
+  }
+
+  clickOnHiddenMenu() {
+    this.isHiddenMenu = !this.isHiddenMenu;
+    if (this.isHiddenMenu) {
+      $('.xn-profile').addClass('hidden');
+      $('.xn-logo').addClass('hidden');
+    } else {
+      $('.xn-profile').removeClass('hidden');
+      $('.xn-logo').removeClass('hidden');
+    }
   }
 }

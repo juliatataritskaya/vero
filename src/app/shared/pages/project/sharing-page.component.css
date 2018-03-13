@@ -84,3 +84,7 @@
 .dot:hover {
   transform: scale(1.3);
 }
+
+/deep/ .a-enter-vr-button:hover {
+  background-color: #666 !important;
+}

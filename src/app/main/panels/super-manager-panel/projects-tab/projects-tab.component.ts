@@ -35,11 +35,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   isClickOnEditProject = false;
   isClickOnEditOrDeleteLayout = false;
   isClickOnEditOrDeleteRoom = false;
+  defaultRoom = false;
   private tableWidget: any;
   gameInstance: any;
   selectedProject: object;
   miniImageUrl: string;
   infoMessage: string;
+  iframeMessage: string;
   projectId: any;
 
   image: any;
@@ -350,7 +352,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     photosFormData.append('projectId', localStorage.getItem('projectId'));
     this.projectService.updateProjectPhotos(photosFormData).then((res) => {
       this.projectPhotosFiles = [];
-      // this.projectPhotos = [];
       this.selectedProject = [];
       this.getAllProjects(() => {
         this.loadProjects();
@@ -521,8 +522,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     localStorage.setItem('type', 'edit');
   }
 
-  public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId) {
+  public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId, defaultRoom) {
     $('#infoBox').modal('show');
+    const findDefaultRoom = this.listRooms.find((room) => {
+      return room.defaultRoom;
+    });
+    console.log(findDefaultRoom);
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
@@ -534,6 +539,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'This room with the same parameters has already been added';
     } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
       this.infoMessage = 'Rooms data in invalid, please check it.';
+    } else if (findDefaultRoom) {
+      this.infoMessage = 'Default room already exists';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
@@ -555,6 +562,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         roomFormData.append('nameOfRoomId', nameRoomId);
         roomFormData.append('objectPlanId', namePlanId);
         roomFormData.append('interiorId', interiorId);
+        roomFormData.append('defaultRoom', defaultRoom);
         roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
         roomFormData.append('projectId', localStorage.getItem('projectId'));
         this.projectService.updateRoom(roomFormData).then((res) => {
@@ -589,6 +597,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           roomFormData.append('nameOfRoomId', nameRoomId);
           roomFormData.append('objectPlanId', namePlanId);
           roomFormData.append('interiorId', interiorId);
+          roomFormData.append('defaultRoom', defaultRoom);
           roomFormData.append('projectId', localStorage.getItem('projectId'));
           this.projectService.addRoom(roomFormData).then((res) => {
             this.getAllNewProjectData();
@@ -677,7 +686,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetRoomsForm() {
-    // this.infoMessage = null;
     this.image = [];
     this.nameRoom = '';
     this.interior = '';
@@ -687,7 +695,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   resetPlansForm() {
-    // this.infoMessage = null;
     this.planImg = [];
     this.planName = '';
     this.floorNumber = '';
@@ -773,6 +780,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.image = environment.serverUrl + time.imageUrl;
               this.nameRoom = room.name;
               this.dayTime = time.id === 1 ? 'day' : 'night';
+              this.defaultRoom = time.default;
             }
           });
         });
@@ -803,6 +811,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   getAllNewProjectData() {
     this.getAllProjects(() => {
+      console.log(this.projects);
       this.loadProjects();
       const projectId = this.selectedProject ? this.selectedProject['id'] : this.savedProjectData['id'];
       const currentProject = this.projects.find((project) => {
@@ -879,7 +888,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
                 imgBase64: environment.serverUrl + time.imageUrl,
                 planId: plan.id,
                 roomId: room.id,
-                imageRoomId: time.imageRoomId
+                imageRoomId: time.imageRoomId,
+                defaultRoom: time.default
               });
             });
           });
@@ -969,6 +979,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
       this.infoMessage = result.shareLink;
+      this.iframeMessage = `<iframe style="width: 600px; height: 500px;" src="${result.shareLink}" 
+allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" 
+mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
     }, (error) => {
       if (error.status === 401) {
         this.redirectService.redirectOnLoginPage();
@@ -980,19 +993,25 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   copyLink() {
     Clipboard.copy($('#linkForSharing').val());
-    this.setTooltip('Copied');
-    this.hideTooltip();
+    this.setTooltip('Copied', '#copy-btn');
+    this.hideTooltip('#copy-btn');
   }
 
-  setTooltip(message) {
-    $('#copy-btn').tooltip('hide')
+  setTooltip(message, elelemnt?: string) {
+      $(elelemnt ? elelemnt : '#copy-btn')
       .attr('data-original-title', message)
       .tooltip('show');
   }
 
-  hideTooltip() {
+  copyIframe() {
+    Clipboard.copy($('#iframeForSharing').val());
+    this.setTooltip('Copied');
+    this.hideTooltip();
+  }
+
+  hideTooltip(elelemnt?: string) {
     setTimeout(function() {
-      $('#copy-button').tooltip('hide');
+      $(elelemnt ? elelemnt : '#copy-btn').tooltip('destroy');
     }, 1000);
   }
 

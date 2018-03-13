@@ -176,7 +176,6 @@
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4"><p>Name: {{plan.planName}}</p>
                     <p>Floor number: {{plan.floorNumber}}</p>
-                    <p>Default: {{plan.default}}</p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeletePlan(plan.planId)"></i> <i
                     class="icon-pen" (click)="onEditPlan(plan.planId)"></i>
@@ -228,7 +227,7 @@
                     <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
-                    <p>Default: {{room.default}} </p>
+                    <p>Default: {{room.default ? 'Yes' : 'No'}} </p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
                     class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
@@ -322,7 +321,6 @@
   </div>
 </div>
 
-
 <div id="planImg" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
@@ -348,18 +346,12 @@
                    [(ngModel)]="floorNumber"
                    [ngModelOptions]="{standalone: true}">
           </div>
-          <div class="form-group">
-            <label for="img">Default: </label>
-            <input style="vertical-align: sub;"
-                   type="checkbox" id="defaultPlan" name="defaultPlan"
-                   [(ngModel)]="defaultPlan" [ngModelOptions]="{standalone: true}">
-          </div>
         </form>
       </div>
       <div class="mb-footer">
         <div class="pull-right">
           <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
-             (click)="addNewImgPlan(planName, floorNumber, defaultPlan)">OK</a>
+             (click)="addNewImgPlan(planName, floorNumber)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel
           </button>
         </div>
