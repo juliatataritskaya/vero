@@ -70,13 +70,9 @@ export class SharingProjectComponent implements OnInit {
     this.ready = true;
     this.ref.detectChanges();
 
-    document.getElementById('scene').addEventListener('loaded', () => {
-      if (!AFRAME.utils['device']['checkHeadsetConnected']()) {
-        const button: HTMLElement = <HTMLElement>document.getElementsByClassName('a-enter-vr-button')[0];
-        button.style.background =
-          `url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU0MC4wNzcgNTQwLjA3NyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTQwLjA3NyA1NDAuMDc3OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjI1NnB4Ij4KPGc+Cgk8Zz4KCQk8cGF0aCBkPSJNNTMxLjA3Niw3Mi4wMUg5LjAwMUM0LjAzMyw3Mi4wMSwwLDc2LjA0MiwwLDgxLjAxMXYzNzguMDU1YzAsNC45NjgsNC4wMzIsOS4wMDEsOS4wMDEsOS4wMDFoNTIyLjA3NiAgICBjNC45NjgsMCw5LjAwMS00LjAzMyw5LTkuMDAxVjgxLjAxMUM1NDAuMDc3LDc2LjA0Myw1MzYuMDQ1LDcyLjAxLDUzMS4wNzYsNzIuMDF6IE01MjIuMDc2LDQ1MC4wNjRIMTguMDAzVjkwLjAxMmg1MDQuMDczICAgIFY0NTAuMDY0eiIgZmlsbD0iI0ZGRkZGRiIvPgoJCTxwYXRoIGQ9Ik00ODYuMDcxLDQwMS4zMzFsLTM4LjYzOC0zOC42MzhsLTEyLjcyOSwxMi43MjlsMzguNjM3LDM4LjYzN2gtNTAuMjc5djE4LjAwMmg3Mi4wMWM0Ljk2OCwwLDkuMDAxLTQuMDMyLDkuMDAyLTkuMDAxICAgIHYtNzIuMDFoLTE4LjAwM0w0ODYuMDcxLDQwMS4zMzFMNDg2LjA3MSw0MDEuMzMxeiIgZmlsbD0iI0ZGRkZGRiIvPgoJCTxwYXRoIGQ9Ik01NC4wMDgsMTM4Ljc0N2wzOC42NDksMzguNjQ5bDEyLjcyOS0xMi43MjlsLTM4LjY0OS0zOC42NDloNTAuMjc5di0xOC4wMDNoLTcyLjAxYy00Ljk2OCwwLTkuMDAxLDQuMDMyLTkuMDAxLDkuMDAxICAgIHY3Mi4wMWgxOC4wMDNDNTQuMDA4LDE4OS4wMjYsNTQuMDA4LDEzOC43NDcsNTQuMDA4LDEzOC43NDd6IiBmaWxsPSIjRkZGRkZGIi8+CgkJPHBhdGggZD0iTTQzNC42OTEsMTY0LjY2OGwxMi43MjksMTIuNzI5bDM4LjY0OS0zOC42NDl2NTAuMjc4aDE4LjAwMnYtNzIuMDExYzAtNC45NjgtNC4wMzItOS4wMDEtOS4wMDEtOS4wMDFoLTcyLjAxdjE4LjAwMyAgICBoNTAuMjgyTDQzNC42OTEsMTY0LjY2OHoiIGZpbGw9IiNGRkZGRkYiLz4KCQk8cGF0aCBkPSJNMTA1LjM3NCwzNzUuNDIxbC0xMi43MjktMTIuNzI5bC0zOC42MzYsMzguNjM1VjM1MS4wNUgzNi4wMDZ2NzIuMDFjMCw0Ljk2OCw0LjAzMiw5LjAwMSw5LjAwMSw5LjAwMWg3Mi4wMWgwLjAwMSAgICB2LTE4LjAwMkg2Ni43MzZMMTA1LjM3NCwzNzUuNDIxeiIgZmlsbD0iI0ZGRkZGRiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) 50% 50%/65% 80% no-repeat rgba(0,0,0,.35)`;
-      }
-    });
+    if (!AFRAME.utils['device']['checkHeadsetConnected']()) {
+      document.getElementById('scene').setAttribute('vr-mode-ui', 'enabled: false');
+    }
 
     this.setCurrentPlan(this.plans[0]);
   }
@@ -386,7 +382,7 @@ export class SharingProjectComponent implements OnInit {
 function getDistance(point: Point3D): number {
   const dx = 0 - point.positionX;
   const dy = 0 - point.positionY;
-  const dz = 1.6 - point.positionZ;
+  const dz = 0 - point.positionZ;
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 

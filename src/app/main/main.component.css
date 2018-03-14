@@ -122,3 +122,12 @@ li.xn-logo > a:first-child {
   font-weight: 400;
   color: #999;
 }
+
+.btn-yes, .btn-yes:hover, .btn-yes:active, .btn-yes:focus{
+  background: #1caf9a;
+  border: 1px solid #1caf9a;
+}
+
+.sidebar{
+  background-color: #17171c;
+}

@@ -134,7 +134,7 @@
           </div>
         </div>
         <div class="panel-body panel-body-table">
-          <div class="table-responsive" style="height: 220px">
+          <div class="table-responsive scroll-block" style="height: 220px">
             <table class="table table-bordered table-striped" style="height: 90%">
               <thead>
               <tr>
@@ -198,7 +198,7 @@
            style="padding: 0; position: absolute; z-index: 999; width: 100%; top: 96%;">
         <div class="panel panel-default">
           <div class="panel-body panel-body-table" style="height: 230px">
-            <div class="table-responsive" style="height: 100%">
+            <div class="table-responsive scroll-block" style="height: 100%">
               <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -251,7 +251,7 @@
           </div>
         </div>
         <div class="panel-body panel-body-table" style="height: 260px">
-          <div class="table-responsive" style="height: 100%">
+          <div class="table-responsive scroll-block" style="height: 100%">
             <table class="table table-bordered table-striped">
               <thead>
               <tr>
@@ -305,7 +305,7 @@
           </div>
         </div>
         <div class="panel-body panel-body-table" style="height: 230px">
-          <div class="table-responsive" style="height: 100%">
+          <div class="table-responsive scroll-block" style="height: 100%">
             <table class="table table-bordered table-striped">
               <thead>
               <tr>
@@ -349,7 +349,7 @@
           </div>
         </div>
         <div class="panel-body panel-body-table" style="height: 230px">
-          <div class="table-responsive" style="height: 100%">
+          <div class="table-responsive scroll-block" style="height: 100%">
             <table class="table table-bordered table-striped">
               <thead>
               <tr>
@@ -416,8 +416,8 @@
                 <img src='../../../../../assets/img/xls.png' width="24"/> XLS</a></li>
             </ul>
           </div>
-          <div class="col-lg-12 col-md-12 table-responsive">
-            <table class="table table-bordered table-striped">
+          <div class="col-lg-12 col-md-12 table-responsive scroll-block" style="max-height: 350px">
+            <table class="table table-bordered table-striped" style="height: 100%">
               <thead>
               <tr>
                 <th width="14%">User name</th>
@@ -463,9 +463,8 @@
         </div>
         <div *ngIf="userHistory">
           <h2 style="text-align: center">{{userHistory.name}}</h2>
-          <div class="col-lg-12 col-md-12">
-            <div class="col-lg-6 col-lg-offset-3" *ngFor="let project of userHistory.projects"
-                 style="max-height: 500px; overflow-y: auto">
+          <div class="col-lg-12 col-md-12 scroll-block" style="max-height: 500px; overflow-y: auto">
+            <div class="col-lg-6 col-lg-offset-3" *ngFor="let project of userHistory.projects">
               <h4>{{project.name}}</h4>
               <table class="table table-bordered table-striped">
                 <thead>
@@ -477,9 +476,9 @@
                 <tbody>
                 <tr *ngFor="let place of project.places">
                   <td>{{place.name}}</td>
-                  <td>{{place.timeHours > 10 ? place.timeHours : '0' + place.timeHours}}
-                    : {{place.timeMinutes > 10 ? place.timeMinutes : '0' + place.timeMinutes}}
-                    : {{place.timeSeconds > 10 ? place.timeSeconds : '0' + place.timeSeconds}}
+                  <td>{{place.timeHours >= 10 ? place.timeHours : '0' + place.timeHours}}
+                    : {{place.timeMinutes >= 10 ? place.timeMinutes : '0' + place.timeMinutes}}
+                    : {{place.timeSeconds >= 10 ? place.timeSeconds : '0' + place.timeSeconds}}
                   </td>
                 </tr>
                 </tbody>
@@ -505,7 +504,7 @@
         <div *ngIf="!projectsAll">
           <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
         </div>
-        <div *ngIf="projectsAll">
+        <div *ngIf="projectsAll" class="scroll-block">
           <h3>Add projects to user:</h3>
           <div *ngFor="let project of projectsAll" style="display: flex">
             <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
@@ -527,7 +526,7 @@
   <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="mb-middle col-lg-12" style="">
       <div class="container">
-        <div class="ageRange col-lg-12" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        <div class="ageRange col-lg-12 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
         </div>
         <div>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
@@ -541,7 +540,7 @@
   <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="mb-middle col-lg-12" style="">
       <div class="container">
-        <div class="device col-lg-12" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        <div class="device col-lg-12 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
         </div>
         <div>
           <button style="text-align: center" class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>

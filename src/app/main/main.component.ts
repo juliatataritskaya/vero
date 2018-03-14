@@ -60,7 +60,7 @@ export class MainComponent implements OnInit {
           { name: 'Projects', routerLink: 'managerpanel/projects', icon: 'icon-home'},
           { name: 'Users', routerLink: 'managerpanel/user', icon: 'icon-person'},
           { name: 'Notifications', routerLink: 'managerpanel/notification', icon: 'icon-mail5'},
-          { name: 'VR-tracking', routerLink: 'managerpanel/vr-tracking', icon: 'icon-person'}
+          { name: 'VR-tracking', routerLink: 'managerpanel/vr-tracking', icon: 'icon-eye8'}
         ];
         break;
       default:

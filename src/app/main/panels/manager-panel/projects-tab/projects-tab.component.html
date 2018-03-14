@@ -1,4 +1,4 @@
-<div class="list-projects table-responsive">
+<div class="list-projects table-responsive scroll-block">
   <table id="projects_table" class="table table-striped  table-hover">
   </table>
 </div>
@@ -171,7 +171,7 @@
             <!--=============================-->
             <div class="tab-pane fade" id="plans-settings">
               <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#planImg">+</button>
-              <div class="rooms-container">
+              <div class="rooms-container scroll-block" style="max-height: 400px;">
                 <div *ngFor="let plan of listPlans" class="col-lg-12 room">
                   <div class="col-lg-4"><img src="{{plan.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4"><p>Name: {{plan.planName}}</p>
@@ -193,14 +193,13 @@
             <!--=============================-->
             <div class="tab-pane fade" id="ar-settings">
               <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#armodel">+</button>
-              <!--<button class="btn btn-primary" (click)="saveSettingsARmodel()">Save settings of AR models</button>-->
-              <div class="rooms-container">
+              <div class="rooms-container scroll-block" style="max-height: 400px;">
                 <div *ngFor="let model of listARModels" class="col-lg-12 room">
                   <div class="col-lg-6 col-lg-offset-2">
                     <p>Name: {{model.name}}</p>
                     <p>Object file: {{model.objectFile}}</p>
                     <p>Additional files: </p>
-                    <ul style="overflow: auto;"><li *ngFor="let link of model.materialFiles">{{link}}</li></ul>
+                    <ul class="scroll-block" style="overflow: auto;"><li *ngFor="let link of model.materialFiles">{{link}}</li></ul>
                     <p>Size: {{model.size}}</p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteARModel(model.modelId)"></i>
@@ -219,7 +218,7 @@
             <!--=============================-->
             <div class="tab-pane fade" id="rooms-settings">
               <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#roomImg">+</button>
-              <div class="rooms-container">
+              <div class="rooms-container scroll-block" style="max-height: 400px;">
                 <div *ngFor="let room of listRooms" class="col-lg-12 room">
                   <div class="col-lg-4"><img src="{{room.imgBase64}}" width="100px" height="70px" title=""></div>
                   <div class="col-lg-4">
@@ -286,7 +285,7 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">
+              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.id}}">
                 {{plan.name}}
               </option>
             </select>

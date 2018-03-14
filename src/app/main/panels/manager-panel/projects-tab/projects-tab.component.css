@@ -210,3 +210,10 @@ input[type=file]{
   margin-top: 10px;
  width: 120px;
 }
+
+.scroll-block {overflow-y: auto;}
+.scroll-block::-webkit-scrollbar-track {border-radius: 4px;}
+.scroll-block::-webkit-scrollbar {width: 6px; height: 6px;}
+.scroll-block::-webkit-scrollbar-thumb {border-radius: 4px; background: #eeeeee;}
+.scroll-block:hover::-webkit-scrollbar-thumb {background: #1caf9a;}
+

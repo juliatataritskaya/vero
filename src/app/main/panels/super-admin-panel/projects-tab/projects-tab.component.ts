@@ -38,7 +38,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   defaultRoom = false;
   private tableWidget: any;
   gameInstance: any;
-  selectedProject: object;
+  selectedProject: any;
   miniImageUrl: string;
   infoMessage: string;
   iframeMessage: string;
@@ -302,9 +302,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           localStorage.setItem('projectId', result.project['id']);
           this.addProjectPhotos(result, () => {
             this.infoMessage = 'Common settings were saved';
-            this.getAllProjects(() => {
-              this.loadProjects();
-            });
+            this.getAllNewProjectData();
           });
         }, error => {
           if (error.status === 401) {
@@ -353,9 +351,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectService.updateProjectPhotos(photosFormData).then((res) => {
       this.projectPhotosFiles = [];
       this.selectedProject = [];
-      this.getAllProjects(() => {
-        this.loadProjects();
-      });
+      this.getAllNewProjectData();
       this.infoMessage = 'Common settings were changed';
     }, error => {
       if (error.status === 401) {
@@ -527,7 +523,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const findDefaultRoom = this.listRooms.find((room) => {
       return room.defaultRoom;
     });
-    console.log(findDefaultRoom);
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
@@ -562,7 +557,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         roomFormData.append('nameOfRoomId', nameRoomId);
         roomFormData.append('objectPlanId', namePlanId);
         roomFormData.append('interiorId', interiorId);
-        roomFormData.append('defaultRoom', defaultRoom);
+        roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
         roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
         roomFormData.append('projectId', localStorage.getItem('projectId'));
         this.projectService.updateRoom(roomFormData).then((res) => {
@@ -597,7 +592,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           roomFormData.append('nameOfRoomId', nameRoomId);
           roomFormData.append('objectPlanId', namePlanId);
           roomFormData.append('interiorId', interiorId);
-          roomFormData.append('defaultRoom', defaultRoom);
+          roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
           roomFormData.append('projectId', localStorage.getItem('projectId'));
           this.projectService.addRoom(roomFormData).then((res) => {
             this.getAllNewProjectData();
@@ -620,16 +615,22 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
 
   public addNewImgPlan(namePlanId, floorNumber) {
+    const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
+      return element.id == namePlanId;
+    });
+    const foundPlanNameInListPlans = this.listPlans.find(function (element) {
+      return element.planName == foundPlanName.name;
+    });
     $('#infoBox').modal('show');
     if (!namePlanId || !this.planImg || !floorNumber) {
       this.infoMessage = 'Plans data in invalid, please check it.';
-    } else if (this.listPlans.length + 1 > this.savedProjectData['plansInfo'].length && !this.isClickOnEditOrDeleteLayout) {
-      this.infoMessage = 'You can add only ' + this.savedProjectData['plansInfo'].length + ' plans. You can change count plans in common settings!';
+    } else if (this.listPlans.length + 1 > this.savedProjectData['plansInfo'].length -1
+      && !this.isClickOnEditOrDeleteLayout) {
+      this.infoMessage = 'You can add only ' + (this.savedProjectData['plansInfo'].length - 1)
+        + ' plans. You can change count plans in common settings!';
+    } else if (foundPlanNameInListPlans) {
+      this.infoMessage = 'Plan with this name already exists!';
     } else {
-      const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
-        return element.id = namePlanId;
-      });
-
       if (this.isClickOnEditOrDeleteLayout && this.planIdForDeleteOrEdit) {
         const planFormData = new FormData();
         planFormData.append('plans', this.planImg);
@@ -811,9 +812,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   getAllNewProjectData() {
     this.getAllProjects(() => {
-      console.log(this.projects);
       this.loadProjects();
-      const projectId = this.selectedProject ? this.selectedProject['id'] : this.savedProjectData['id'];
+      let projectId;
+      if(Array.isArray(this.selectedProject)){
+        projectId = this.selectedProject.length == 0 ? this.savedProjectData['id'] : this.selectedProject['id'];
+      } else {
+        projectId = this.selectedProject ?  this.selectedProject['id'] : this.savedProjectData['id'];
+      }
       const currentProject = this.projects.find((project) => {
         return project.id == projectId;
       });
@@ -970,7 +975,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   changeDescription(target) {
     const myRe = / (?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/gm;
      if(new RegExp(myRe).test(target.value)) {
-       console.log(target.value.match(myRe));
        target.value = target.value.replace(myRe, ' [' + target.value.match(myRe)[0].trim() + '] - link name:()');
      }
   }

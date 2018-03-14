@@ -242,7 +242,7 @@ export class DashboardTabComponent implements OnInit {
 
   connect(email) {
     localStorage.setItem('userId', email);
-    this.router.navigate(['main/adminpanel/vr-tracking']);
+    this.router.navigate(['main/supermanagerpanel/vr-tracking']);
   }
 
   public getTypesOfUserDevices() {
@@ -444,7 +444,7 @@ export class DashboardTabComponent implements OnInit {
   }
 
   goToProfile(id) {
-    this.router.navigate(['main/adminpanel/user', {id: id}]);
+    this.router.navigate(['main/supermanagerpanel/user', {id: id}]);
   }
 
   goUserOverview(id, idx) {

@@ -14,9 +14,9 @@ export const ManagerPanelRoutes: Routes = [
     path: 'managerpanel', component: ManagerPanelComponent, canActivate: [AuthGuard, RolesGuard], data: {
     expectedRole: 'Manager'
   }, children: [
+    ...DashboardTabRoutes,
     ...ProjectsTabRoutes,
     ...UsersTabRoutes,
-    ...DashboardTabRoutes,
     ...NotificationTabRoutes,
     ...MultiPlayerTabRoutes
   ]
