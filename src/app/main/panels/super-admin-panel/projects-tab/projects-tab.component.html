@@ -271,13 +271,15 @@
             <label for="interior">Style: </label>
             <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
+              <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}"
+                      disabled="{{style.name == 'No select' ? 'disabled' : ''}}">{{style.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <label for="nameRoom">Name of room:</label>
             <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}">
+              <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}"
+                      disabled="{{room.name == 'No select' ? 'disabled' : ''}}">
                 {{room.name}}
               </option>
             </select>
@@ -285,7 +287,8 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.planId}}">
+              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.planId}}"
+                      disabled="{{plan.name == 'No select' ? 'disabled' : ''}}">
                 {{plan.name}}
               </option>
             </select>
@@ -310,7 +313,7 @@
       </div>
       <div class="mb-footer">
         <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan, defaultRoom)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel
           </button>
@@ -336,7 +339,8 @@
             <label for="plan">Layout name: </label>
             <select id="plan" name="planName" class="form-control" [(ngModel)]="planName"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">{{plan.name}}</option>
+              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}"
+                      disabled="{{plan.name == 'No select' ? 'disabled' : ''}}">{{plan.name}}</option>
             </select>
           </div>
           <div class="form-group">
@@ -349,7 +353,7 @@
       </div>
       <div class="mb-footer">
         <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewImgPlan(planName, floorNumber)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel
           </button>
@@ -401,13 +405,14 @@
           <div class="form-group">
             <label for="floorNumber">Size, % : </label>
             <input type="number" id="size" name="size" placeholder="Size" class="form-control"
+                   onkeydown="javascript: return event.keyCode == 69 ? false : true"
                    [(ngModel)]="arsize" [ngModelOptions]="{standalone: true}">
           </div>
         </form>
       </div>
       <div class="mb-footer">
         <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewARModel(arName, arsize)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetARModelForm()">Cancel
           </button>

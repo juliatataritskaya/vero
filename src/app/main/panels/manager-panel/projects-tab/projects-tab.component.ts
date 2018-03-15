@@ -533,11 +533,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     if (findRoom) {
       this.infoMessage = 'This room with the same parameters has already been added';
     } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
-      this.infoMessage = 'Rooms data in invalid, please check it.';
+      this.infoMessage = 'Rooms data is invalid, please check it.';
     }
     // else if (findDefaultRoom) {
     //   this.infoMessage = 'Default room already exists';
-    // } 
+    // }
     else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
@@ -627,7 +627,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     });
     $('#infoBox').modal('show');
     if (!namePlanId || !this.planImg || !floorNumber) {
-      this.infoMessage = 'Plans data in invalid, please check it.';
+      this.infoMessage = 'Plans data is invalid, please check it.';
     } else if (this.listPlans.length + 1 > this.savedProjectData['plansInfo'].length -1
       && !this.isClickOnEditOrDeleteLayout) {
       this.infoMessage = 'You can add only ' + (this.savedProjectData['plansInfo'].length - 1)
@@ -910,7 +910,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   addNewARModel(arName, arsize) {
     $('#infoBox').modal('show');
     if (!arName || !this.objectFile || !arsize || !this.materialFile) {
-      this.infoMessage = 'AR model data in invalid, please check it.';
+      this.infoMessage = 'AR model data is invalid, please check it.';
     } else if (this.listARModels.length + 1 > this.savedProjectData['arObjectsInfo'].length) {
       this.infoMessage = 'You can add only ' + this.savedProjectData['arObjectsInfo'].length +
         ' AR models. You can change count models in common settings!';

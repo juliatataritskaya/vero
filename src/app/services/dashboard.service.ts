@@ -73,7 +73,8 @@ export class DashboardService {
       backgroundColor: '#FFFFFF',
       regionsSelectable: true,
       regionStyle: {
-        initial: {fill: '#33414E'}
+        initial: {fill: '#33414E'},
+        selected: {fill: '#33414E'}
       },
       markerStyle: {
         initial: {
