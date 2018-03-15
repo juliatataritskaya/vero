@@ -60,7 +60,7 @@ li.xn-logo > a:first-child {
   color: #FFF;
   height: 50px;
   text-align: center;
-  background: #1caf9a;
+  background: #2e976b;
 }
 
 .navigation{
@@ -124,8 +124,8 @@ li.xn-logo > a:first-child {
 }
 
 .btn-yes, .btn-yes:hover, .btn-yes:active, .btn-yes:focus{
-  background: #1caf9a;
-  border: 1px solid #1caf9a;
+  background: #2e976b;
+  border: 1px solid #2e976b;
 }
 
 .sidebar{

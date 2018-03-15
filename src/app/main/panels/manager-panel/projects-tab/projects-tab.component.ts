@@ -534,9 +534,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'This room with the same parameters has already been added';
     } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
       this.infoMessage = 'Rooms data in invalid, please check it.';
-    } else if (findDefaultRoom) {
-      this.infoMessage = 'Default room already exists';
-    } else {
+    }
+    // else if (findDefaultRoom) {
+    //   this.infoMessage = 'Default room already exists';
+    // } 
+    else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
         return element.id = interiorId;
       });
@@ -568,6 +570,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           if (error.status === 401) {
             this.redirectService.redirectOnLoginPage();
           } else {
+            this.listRooms.pop();
             this.infoMessage = 'Something wrong, please try again.';
           }
         });
@@ -602,6 +605,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             if (error.status === 401) {
               this.redirectService.redirectOnLoginPage();
             } else {
+              this.listRooms.pop();
               this.infoMessage = 'Something wrong, please try again.';
             }
           });

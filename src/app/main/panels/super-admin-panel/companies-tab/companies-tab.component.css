@@ -101,3 +101,14 @@ button, button:hover, button:active, button:focus {
 .mb-content > div{
   text-align: center;
 }
+
+
+@media (max-width: 600px) {
+  .title {
+    text-align: center;
+  }
+}
+
+.control-label{
+  text-align: left;
+}

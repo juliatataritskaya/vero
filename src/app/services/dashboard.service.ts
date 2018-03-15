@@ -73,19 +73,15 @@ export class DashboardService {
       backgroundColor: '#FFFFFF',
       regionsSelectable: true,
       regionStyle: {
-        selected: {fill: '#B64645'},
         initial: {fill: '#33414E'}
       },
       markerStyle: {
         initial: {
-          fill: '#1caf9a',
-          stroke: '#1caf9a'
+          fill: '#2e976b',
+          stroke: '#2e976b'
         }
       },
       markers: markers,
-      onMarkerClick: function(e, code, z, c, t){
-        alert('click');
-      }
     });
   }
 

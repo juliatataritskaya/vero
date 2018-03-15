@@ -274,7 +274,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       if (this.isClickOnEditProject) {
         this.updateProjectInfo({
           project: {
-            id: this.selectedProject['id'],
+            id: localStorage.getItem('projectId'),
             name: projectData.name,
             description: projectData.description,
             videoUrl: projectData.videoUrl,
@@ -336,7 +336,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   private updateProjectPhotos() {
     $('#infoBox').modal('show');
     const photosFormData = new FormData();
-    this.selectedProject['imageUrls'].forEach((img) => {
+    const project = this.savedProjectData ? this.savedProjectData : this.selectedProject;
+    project['imageUrls'].forEach((img) => {
       this.projectPhotos.forEach((photo) => {
         if (photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1) {
           photosFormData.append('deletedPhotosPaths', img);
@@ -467,7 +468,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onFileChange(event, controlName) {
-    if (event.target.files[0].size > 512000 && controlName == 'roomFile') {
+    if (event.target.files[0].size > 9512000 && controlName == 'roomFile') {
       $('#infoBox').modal('show');
       this.infoMessage = 'The file size must not exceed 500Kb';
     } else {
@@ -526,15 +527,16 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const findRoomName = this.savedProjectData['roomsInfo'].find((info) => {
       return info.id == nameRoomId;
     });
-    const findRoom = this.listRooms.find((room) => {
+    let findRoom = this.listRooms.find((room) => {
       return room.interiorId == interiorId && room.dayTime.toLowerCase() == dayTime
         && room.planId == namePlanId && findRoomName.name == room.name;
     });
-    if (findRoom) {
+    findRoom = findRoom ? findRoom : [];
+    if (findRoom.length != 0 && findRoom.imageRoomId != this.roomIdForDeleteOrEdit) {
       this.infoMessage = 'This room with the same parameters has already been added';
     } else if (!nameRoomId || !interiorId || !dayTime || !namePlanId || !this.image) {
       this.infoMessage = 'Rooms data in invalid, please check it.';
-    } else if (findDefaultRoom) {
+    } else if (findDefaultRoom && defaultRoom && findDefaultRoom.imageRoomId != this.roomIdForDeleteOrEdit) {
       this.infoMessage = 'Default room already exists';
     } else {
       const foundStyleName = this.savedProjectData['interiorsInfo'].find(function (element) {
@@ -568,6 +570,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           if (error.status === 401) {
             this.redirectService.redirectOnLoginPage();
           } else {
+            this.listRooms.pop();
             this.infoMessage = 'Something wrong, please try again.';
           }
         });
@@ -602,6 +605,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             if (error.status === 401) {
               this.redirectService.redirectOnLoginPage();
             } else {
+              this.listRooms.pop();
               this.infoMessage = 'Something wrong, please try again.';
             }
           });

@@ -23,7 +23,8 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/animate.css/animate.css",
         "../node_modules/datatables.net-bs/css/dataTables.bootstrap.css",
-        "../node_modules/datatables.net-select-bs/css/select.bootstrap.css"
+        "../node_modules/datatables.net-select-bs/css/select.bootstrap.css",
+        "../node_modules/datatables.net-responsive-bs/css/responsive.bootstrap.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
@@ -32,6 +33,7 @@
         "../node_modules/datatables.net/js/jquery.dataTables.js",
         "../node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
         "../node_modules/datatables.net-select/js/dataTables.select.js",
+        "../node_modules/datatables.net-responsive/js/dataTables.responsive.js",
         "../src/assets/js/core/plugins.js",
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js",
         "../src/assets/js/plugins/jvectormap/jquery-jvectormap-europe-mill-en.js",

@@ -226,7 +226,7 @@
                     <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
-                    <p>Default: {{room.default ? 'Yes' : 'No'}} </p>
+                    <p>Default: {{room.defaultRoom ? 'Yes' : 'No'}} </p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
                     class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
@@ -285,7 +285,7 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.id}}">
+              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.planId}}">
                 {{plan.name}}
               </option>
             </select>

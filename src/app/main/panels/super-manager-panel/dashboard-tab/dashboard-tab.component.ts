@@ -253,7 +253,7 @@ export class DashboardTabComponent implements OnInit {
           dataDevices.push({label: dev.deviceType, value: dev.number});
         }
       });
-      const devicesDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
+      const devicesDiagramColors = ['#33414E', '#2e976b', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
     }, (error) => {
       if (error.status === 401) {
@@ -266,7 +266,7 @@ export class DashboardTabComponent implements OnInit {
   public getGraph(data) {
     const ykeys = ['a', 'b', 'c'];
     const labels = ['Active Users', 'New Users', 'Returned'];
-    const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+    const barColors = ['#33414E', '#2e976b', '#FEA223'];
     this.dashboardService.getGraph('dashboard-bar-user-activity', data, 'y', ykeys, labels, barColors);
   }
 
@@ -301,7 +301,7 @@ export class DashboardTabComponent implements OnInit {
         {label: '45-64', value: ageRange45_64},
         {label: '65+', value: ageRange65}
       ];
-      const ageDiagramColors = ['#33414E', '#1caf9a', '#FEA223', '#B64645'];
+      const ageDiagramColors = ['#33414E', '#2e976b', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-age', dataAge, ageDiagramColors);
       $('#dashboard-donut-age').on('click', () => {
         $('.ageRange').html('<h2 style="">Loading...</h2>');
@@ -370,7 +370,7 @@ export class DashboardTabComponent implements OnInit {
         }];
         const ykeys = ['a', 'b', 'c', 'd', 'e'];
         const labels = ['24-', '25-34', '35-44', '45-64', '65+'];
-        const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+        const barColors = ['#33414E', '#2e976b', '#FEA223'];
         this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
       });
   }
@@ -407,7 +407,7 @@ export class DashboardTabComponent implements OnInit {
       }];
       const ykeys = ['a', 'b', 'c', 'd'];
       const labels = ['IOS Phone', 'IOS Tablet', 'Android Phone', 'Android Tablet'];
-      const barColors = ['#33414E', '#1caf9a', '#FEA223'];
+      const barColors = ['#33414E', '#2e976b', '#FEA223'];
       this.dashboardService.getGraph('project' + project.id, data, 'y', ykeys, labels, barColors);
     });
   }
