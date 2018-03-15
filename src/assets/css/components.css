@@ -17822,6 +17822,7 @@ thead .htCollapseButton:after {
 .dataTable tr.child .dtr-data {
   display: table-cell;
   padding: 8px 0;
+  word-wrap: break-word;
 }
 .dataTable tr td.child {
   white-space: normal;

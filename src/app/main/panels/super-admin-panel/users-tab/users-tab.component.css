@@ -100,3 +100,13 @@ button, button:hover, button:active, button:focus {
   text-align: center;
   min-width: 36px;
 }
+
+.scroll-block {overflow-y: auto;}
+.scroll-block::-webkit-scrollbar-track {border-radius: 4px;}
+.scroll-block::-webkit-scrollbar {width: 6px; height: 6px;}
+.scroll-block::-webkit-scrollbar-thumb {border-radius: 4px; background: #eeeeee;}
+.scroll-block:hover::-webkit-scrollbar-thumb {background: #2e976b;}
+
+.panel > .row > div > h5 {
+  word-wrap: break-word;
+}

@@ -444,6 +444,7 @@ export class DashboardTabComponent implements OnInit {
   }
 
   goToProfile(id) {
+    console.log(this.listUsersForMaps, id);
     this.router.navigate(['main/adminpanel/user', {id: id}]);
   }
 

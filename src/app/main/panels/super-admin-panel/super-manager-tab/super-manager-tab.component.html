@@ -1,13 +1,15 @@
-<div class="table-responsive">
+<div class="table-responsive scroll-block">
   <table id="users_table" class="table table-striped table-hover">
   </table>
 </div>
 
-<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3">
-  <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="clickOnCreate()">Create Super Manager</button>
-  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-2 col-lg-2 col-md-2 col-sm-2" (click)="onEditSuperManager()">Edit</button>
-  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-2 col-lg-2 col-md-2 col-sm-2"
-          data-toggle="modal" data-target="#infoDeleteUser">Delete</button>
+<div class="row">
+  <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-offset-1 col-xs-11">
+    <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="clickOnCreate()">Create</button>
+    <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="onEditSuperManager()">Edit</button>
+    <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            data-toggle="modal" data-target="#infoDeleteUser">Delete</button>
+  </div>
 </div>
 
 <div *ngIf="isClickOnCreateSuperManager" class="animated fadeInLeft">
@@ -54,11 +56,14 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3
+        col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+          <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCreateSuperManager()">Save</button>
+          <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCancelAddNewSuperManager()">Cancel</button>
+        </div>
+      </div>
     </form>
-    <div class="col-lg-9 col-lg-offset-3">
-      <button class="btn btn-primary col-lg-3" (click)="onCreateSuperManager()">Save</button>
-      <button class="btn btn-primary col-lg-3" (click)="onCancelAddNewSuperManager()">Cancel</button>
-    </div>
   </div>
 </div>
 
@@ -200,9 +205,12 @@
         </div>
       </div>
     </form>
-    <div class="col-lg-9 col-lg-offset-3">
-      <button class="btn btn-primary col-lg-3" (click)="onSaveEditSuperManager()">Save</button>
-      <button class="btn btn-primary col-lg-3" (click)="onCancelEditSuperManager()">Cancel</button>
+    <div class="row">
+      <div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3
+        col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onSaveEditSuperManager()">Save</button>
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCancelEditSuperManager()">Cancel</button>
+      </div>
     </div>
   </div>
 </div>
@@ -211,7 +219,7 @@
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
-      <div class="mb-content">
+      <div class="mb-content" style="text-align: center">
         <h4>Are you sure that you want to delete this user?</h4>
         <div>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteUser()">Yes</button>
