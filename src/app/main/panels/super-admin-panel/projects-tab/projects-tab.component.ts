@@ -6,7 +6,7 @@ import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
 import {Clipboard} from 'ts-clipboard';
-
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 declare var $: any;
 
 @Component({
@@ -69,7 +69,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   arIdForDeleteOrEdit: any;
 
   constructor(private el: ElementRef, private fb: FormBuilder, private projectService: ProjectService,
-              private redirectService: RedirectService, private userService: UserService) {
+              private redirectService: RedirectService, private userService: UserService,
+              private ng2ImgToolsService: Ng2ImgToolsService) {
     super({
       name: '',
       description: '',
@@ -557,27 +558,31 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       if (this.isClickOnEditOrDeleteRoom && this.roomIdForDeleteOrEdit) {
         const dayTimeId = (dayTime === 'day') ? 1 : 2;
         const roomFormData = new FormData();
-        roomFormData.append('roomObjects', this.image);
-        roomFormData.append('dayTimeId', dayTimeId.toString());
-        roomFormData.append('nameOfRoomId', nameRoomId);
-        roomFormData.append('objectPlanId', namePlanId);
-        roomFormData.append('interiorId', interiorId);
-        roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
-        roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
-        roomFormData.append('projectId', localStorage.getItem('projectId'));
-        this.projectService.updateRoom(roomFormData).then((res) => {
-          this.getAllNewProjectData();
-          $('#roomImg').modal('hide');
-          this.infoMessage = 'Room was updated';
-          this.resetRoomsForm();
+        this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
+          roomFormData.append('roomObjects', result);
+          roomFormData.append('dayTimeId', dayTimeId.toString());
+          roomFormData.append('nameOfRoomId', nameRoomId);
+          roomFormData.append('objectPlanId', namePlanId);
+          roomFormData.append('interiorId', interiorId);
+          roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
+          roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
+          roomFormData.append('projectId', localStorage.getItem('projectId'));
+          this.projectService.updateRoom(roomFormData).then((res) => {
+            this.getAllNewProjectData();
+            $('#roomImg').modal('hide');
+            this.infoMessage = 'Room was updated';
+            this.resetRoomsForm();
+          }, error => {
+            if (error.status === 401) {
+              this.redirectService.redirectOnLoginPage();
+            } else {
+              this.infoMessage = 'Something wrong, please try again.';
+            }
+          });
+          this.roomIdForDeleteOrEdit = null;
         }, error => {
-          if (error.status === 401) {
-            this.redirectService.redirectOnLoginPage();
-          } else {
-            this.infoMessage = 'Something wrong, please try again.';
-          }
+          this.infoMessage = 'Something wrong, please try again.';
         });
-        this.roomIdForDeleteOrEdit = null;
       } else {
         if (this.image) {
           const fr = new FileReader();
@@ -593,34 +598,38 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           };
           const dayTimeId = (dayTime === 'day') ? 1 : 2;
           const roomFormData = new FormData();
-          roomFormData.append('roomObjects', this.image);
-          roomFormData.append('dayTimeId', dayTimeId.toString());
-          roomFormData.append('nameOfRoomId', nameRoomId);
-          roomFormData.append('objectPlanId', namePlanId);
-          roomFormData.append('interiorId', interiorId);
-          roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
-          roomFormData.append('projectId', localStorage.getItem('projectId'));
-          this.projectService.addRoom(roomFormData).then((res) => {
-            this.getAllNewProjectData();
-            $('#roomImg').modal('hide');
-            this.infoMessage = 'Room was added';
-            this.resetRoomsForm();
+          this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
+            roomFormData.append('roomObjects', result);
+            roomFormData.append('dayTimeId', dayTimeId.toString());
+            roomFormData.append('nameOfRoomId', nameRoomId);
+            roomFormData.append('objectPlanId', namePlanId);
+            roomFormData.append('interiorId', interiorId);
+            roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
+            roomFormData.append('projectId', localStorage.getItem('projectId'));
+            this.projectService.addRoom(roomFormData).then((res) => {
+              this.getAllNewProjectData();
+              $('#roomImg').modal('hide');
+              this.infoMessage = 'Room was added';
+              this.resetRoomsForm();
+            }, error => {
+              if (error.status === 401) {
+                this.redirectService.redirectOnLoginPage();
+              } else {
+                this.listRooms.pop();
+                this.infoMessage = 'Something wrong, please try again.';
+              }
+            });
+            fr.readAsDataURL(this.image);
           }, error => {
-            if (error.status === 401) {
-              this.redirectService.redirectOnLoginPage();
-            } else {
-              this.listRooms.pop();
-              this.infoMessage = 'Something wrong, please try again.';
-            }
+            this.infoMessage = 'Something wrong, please try again.';
           });
-          fr.readAsDataURL(this.image);
+
         } else {
           this.infoMessage = 'Image is mandatory!';
         }
       }
     }
   }
-
 
   public addNewImgPlan(namePlanId, floorNumber) {
     const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
