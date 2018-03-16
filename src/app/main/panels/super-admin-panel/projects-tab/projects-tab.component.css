@@ -203,7 +203,7 @@ input[type=file]{
 
 .share {
   margin-right: 6px;
- line-height: 22px;
+  line-height: 22px;
 }
 
 .close-btn {
@@ -234,4 +234,24 @@ input[type=file]{
 .btn-primary.disabled {
   background: #313641;
   border-color: #2c313b;
+}
+
+@media (max-width: 630px) {
+  .mb-container .mb-middle{
+    width: 90% !important;
+    left: 5% !important;
+  }
+
+  .mb-container{
+    top: 10% !important;
+  }
+
+  .share{
+    width: 100%;
+    margin-bottom: 3px;
+  }
+}
+
+.mb-footer{
+  text-align: center;
 }

@@ -191,7 +191,8 @@ export class DashboardTabComponent implements OnInit {
       this.listUsersForMaps = [];
       this.usersAll = result['userList'];
       this.usersAll.forEach((user) => {
-        if (user.country == 'Netherlands' || user.country == 'Germany') {
+        console.log(user);
+        if ((user.country == 'Netherlands' || user.country == 'Germany') && user.role == 'Customer' ) {
           user.projectIds.forEach((id) => {
             const foundProject = this.projectsAll.find((project) => {
               return project.id == id;
@@ -341,7 +342,7 @@ export class DashboardTabComponent implements OnInit {
         let ageRange35_44 = 0;
         let ageRange45_64 = 0;
         let ageRange65 = 0;
-        $('.ageRange').append('<div class="col-lg-5" style="text-align: center">' + project.name + '<div  id="project' +
+        $('.ageRange').append('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align: center">' + project.name + '<div  id="project' +
           + project.id + '" style="height: 200px; width: auto"></div></div>');
         project.users.forEach((user) => {
           if (user.ageRange == '24-') {
@@ -382,7 +383,7 @@ export class DashboardTabComponent implements OnInit {
       let iosTablet = 0;
       let androidPhone = 0;
       let androidTablet = 0;
-      $('.device').append('<div class="col-lg-5" style="text-align: center">' + project.name + '<div  id="project' +
+      $('.device').append('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align: center">' + project.name + '<div  id="project' +
         + project.id + '" style="height: 200px; width: auto"></div></div>');
       project.users.forEach((user) => {
         if (user.deviceType == 'IOS Phone') {
@@ -444,7 +445,7 @@ export class DashboardTabComponent implements OnInit {
   }
 
   goToProfile(id) {
-    console.log(this.listUsersForMaps, id);
+    $('.modal').modal('hide');
     this.router.navigate(['main/adminpanel/user', {id: id}]);
   }
 

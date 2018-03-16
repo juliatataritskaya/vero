@@ -65,7 +65,7 @@
   background: -o-linear-gradient(top, #2e976b 0%, #fe970a 100%);
   background: -ms-linear-gradient(top, #2e976b 0%, #fe970a 100%);
   background: linear-gradient(to bottom, #2e976b 0%, #fe970a 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=##2e976b, endColorstr=#fe970a, GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2e976b, endColorstr=#fe970a, GradientType=0);
 }
 .widget.widget-danger {
   background: #E04B4A;
@@ -414,7 +414,7 @@
   padding-top: 5px;
 }
 
-#codeProject li > div:last-child{
+#codeProject li:not(:last-child) > div:last-child{
   padding-bottom: 5px;
   border-bottom: 1px solid #E9E9E9;
 }

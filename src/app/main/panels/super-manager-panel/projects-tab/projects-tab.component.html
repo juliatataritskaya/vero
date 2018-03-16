@@ -1,21 +1,18 @@
-<div class="list-projects table-responsive scroll-block">
-  <table id="projects_table" class="table table-striped  table-hover">
-  </table>
+<div>
+  <div class="list-projects table-responsive scroll-block">
+    <table id="projects_table" class="table table-striped  table-hover">
+    </table>
+  </div>
 </div>
 
-<div class="action-buttons-group">
-  <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" (click)="isClickOnCreateProject = true" (click)="selectedProject = null"
-            (click)="onClearForm()">Create new project
-    </button>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" *ngIf="selectedProject" (click)="onEditProject()">Edit project</button>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6">
-    <button type="submit" class="btn btn-block" *ngIf="selectedProject" data-toggle="modal"
-            data-target="#infoDeleteBox">Delete project
-    </button>
+
+<div class="row">
+  <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-offset-1 col-xs-11">
+    <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            (click)="isClickOnCreateProject = true" (click)="selectedProject = null"(click)="onClearForm()">Create</button>
+    <button *ngIf="selectedProject" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="onEditProject()">Edit</button>
+    <button *ngIf="selectedProject" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            data-toggle="modal" data-target="#infoDeleteBox">Delete</button>
   </div>
 </div>
 
@@ -153,10 +150,10 @@
                   </div>
                   <div class="col-lg-12 wrapper-form-buttons">
                     <div class="form-buttons">
-                      <button class="btn col-lg-2 col-md-2"
+                      <button class="btn col-lg-2 col-md-2 col-sm-6 col-xs-6"
                               (click)="onSaveHandler($event)">Save
                       </button>
-                      <button class="btn col-lg-2 col-md-2" (click)="onClearForm()">Clear form</button>
+                      <button class="btn col-lg-2 col-md-2 col-sm-6 col-xs-6" (click)="onClearForm()">Clear form</button>
                     </div>
                   </div>
                 </form>
@@ -226,7 +223,7 @@
                     <p>Style: {{room.interior}} </p>
                     <p>Day time: {{room.dayTime}} </p>
                     <p>Layout: {{room.planName}} </p>
-                    <p>Default: {{room.default ? 'Yes' : 'No'}} </p>
+                    <p>Default: {{room.defaultRoom ? 'Yes' : 'No'}} </p>
                   </div>
                   <div class="col-lg-4"><i class="icon-close2" (click)="showMessageDeleteRoom(room.imageRoomId)"></i> <i
                     class="icon-pen" (click)="onEditRoom(room.imageRoomId)"></i>
@@ -257,7 +254,7 @@
 
 <div id="roomImg" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2"  style="max-height: 100%; overflow-y: auto">
     <div class="mb-middle">
       <div class="mb-content">
         <form enctype="multipart/form-data">
@@ -271,13 +268,15 @@
             <label for="interior">Style: </label>
             <select id="interior" name="interior" class="form-control" [(ngModel)]="interior"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}">{{style.name}}</option>
+              <option *ngFor="let style of savedProjectData.interiorsInfo" value="{{style.id}}"
+                      disabled="{{style.name == 'No select' ? 'disabled' : ''}}">{{style.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <label for="nameRoom">Name of room:</label>
             <select id="nameRoom" class="form-control" [(ngModel)]="nameRoom" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}">
+              <option *ngFor="let room of savedProjectData.roomsInfo" value="{{room.id}}"
+                      disabled="{{room.name == 'No select' ? 'disabled' : ''}}">
                 {{room.name}}
               </option>
             </select>
@@ -285,7 +284,8 @@
           <div class="form-group">
             <label for="namePlan">Layout: </label>
             <select id="namePlan" class="form-control" [(ngModel)]="namePlan" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.id}}">
+              <option *ngFor="let plan of savedProjectData.plansExistsInfo" value="{{plan.planId}}"
+                      disabled="{{plan.name == 'No select' ? 'disabled' : ''}}">
                 {{plan.name}}
               </option>
             </select>
@@ -310,7 +310,7 @@
       </div>
       <div class="mb-footer">
         <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewImgRoom(nameRoom, interior, dayTime, namePlan, defaultRoom)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetRoomsForm()">Cancel
           </button>
@@ -320,7 +320,7 @@
   </div>
 </div>
 
-<div id="planImg" class="modal message-box animated fade" role="dialog">
+<div id="planImg" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
@@ -336,7 +336,8 @@
             <label for="plan">Layout name: </label>
             <select id="plan" name="planName" class="form-control" [(ngModel)]="planName"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}">{{plan.name}}</option>
+              <option *ngFor="let plan of savedProjectData.plansInfo" value="{{plan.id}}"
+                      disabled="{{plan.name == 'No select' ? 'disabled' : ''}}">{{plan.name}}</option>
             </select>
           </div>
           <div class="form-group">
@@ -349,7 +350,7 @@
       </div>
       <div class="mb-footer">
         <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewImgPlan(planName, floorNumber)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetPlansForm()">Cancel
           </button>
@@ -359,7 +360,7 @@
   </div>
 </div>
 
-<div id="armodel" class="modal message-box animated fade" role="dialog">
+<div id="armodel" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
@@ -401,13 +402,14 @@
           <div class="form-group">
             <label for="floorNumber">Size, % : </label>
             <input type="number" id="size" name="size" placeholder="Size" class="form-control"
+                   onkeydown="javascript: return event.keyCode == 69 ? false : true"
                    [(ngModel)]="arsize" [ngModelOptions]="{standalone: true}">
           </div>
         </form>
       </div>
       <div class="mb-footer">
-        <div class="pull-right">
-          <a class="btn btn-primary btn-lg btn-logout" data-dismiss="modal"
+        <div>
+          <a class="btn btn-primary btn-lg btn-logout"
              (click)="addNewARModel(arName, arsize)">OK</a>
           <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="resetARModelForm()">Cancel
           </button>
@@ -438,29 +440,28 @@
 <div id="projectSharingModal" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-    <div class="mb-middle col-lg-12">
+    <div class="col-lg-12">
       <div class="mb-content col-lg-12">
         <div class="mb-content">
           <div *ngIf="!infoMessage" style="text-align: center">
             <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
           </div>
-          <div *ngIf="infoMessage">
-            <div class="row">
-              <input id="linkForSharing" value="{{infoMessage}}" class="col-md-8 share" title="Share link">
+          <div *ngIf="infoMessage" style="text-align: center;">
+            <div>
+              <input id="linkForSharing" value="{{infoMessage}}" class="share" title="Share link">
               <button id="copy-btn" class="btn btn-default copy"
                       (click)="copyLink()">Copy Link
               </button>
             </div>
-            <div class="row" style="margin-top: 5px; margin-bottom: 5px">
-              <input id="iframeForSharing" value="{{iframeMessage}}" class="col-md-8 share" title="Share Embed">
+            <div style="margin-top: 5px; margin-bottom: 5px">
+              <input id="iframeForSharing" value="{{iframeMessage}}" class="share" title="Share Embed">
               <button id="copy-iframe-btn" class="btn btn-default copy"
                       (click)="copyIframe()">Copy Embed
               </button>
             </div>
             <div style="text-align: center">
-              <button class="btn btn-default close-btn" data-dismiss="modal" (click)="closeModal()">Close</button>
+              <button class="btn btn-default" data-dismiss="modal" (click)="closeModal()">Close</button>
             </div>
-
           </div>
         </div>
       </div>
@@ -468,30 +469,7 @@
   </div>
 </div>
 
-  <div id="usersModal" class="modal message-box animated fade" role="dialog">
-    <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
-      <div class="mb-middle col-lg-12">
-        <div class="mb-content col-lg-12">
-          <div *ngIf="!users">
-            <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
-          </div>
-          <div *ngIf="users">
-            <h3>Add users to project:</h3>
-            <div *ngFor="let user of users" style="display: flex">
-              <input type="checkbox" value="{{user.userId}}" class="users" checked="{{user.checked}}">
-              <label>{{user.name}} , {{user.email}}</label>
-            </div>
-            <div>
-              <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addUsersToProject()">OK
-              </button>
-              <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
@@ -555,3 +533,30 @@
       </div>
     </div>
   </div>
+
+<div id="usersModal" class="modal message-box animated fade scroll-block" role="dialog" style="max-height: 60%; overflow-y: auto">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+    <div class="col-lg-12">
+      <div class="mb-content col-lg-12" style="text-align: center">
+        <div *ngIf="!users">
+          <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
+        </div>
+        <div *ngIf="users">
+          <h3>Add users to project:</h3>
+          <div>
+            <div *ngFor="let user of users" style="display: flex">
+              <input type="checkbox" value="{{user.userId}}" class="users" checked="{{user.checked}}">
+              <label>{{user.name}} , {{user.email}}</label>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addUsersToProject()">OK
+            </button>
+            <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

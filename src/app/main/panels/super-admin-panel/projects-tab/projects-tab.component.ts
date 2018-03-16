@@ -708,6 +708,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   resetRoomsForm() {
     this.image = [];
     this.nameRoom = '';
+    this.defaultRoom = false;
     this.interior = '';
     this.namePlan = '';
     this.dayTime = 'day';

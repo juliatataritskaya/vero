@@ -203,7 +203,7 @@ input[type=file]{
 
 .share {
   margin-right: 6px;
- line-height: 22px;
+  line-height: 22px;
 }
 
 .close-btn {
@@ -217,3 +217,41 @@ input[type=file]{
 .scroll-block::-webkit-scrollbar-thumb {border-radius: 4px; background: #eeeeee;}
 .scroll-block:hover::-webkit-scrollbar-thumb {background: #2e976b;}
 
+.btn-primary {
+  background-color: #1b1e24;
+  border-color: #1b1e24;
+  margin: 5px;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background-color: #101215;
+  border-color: #101215;
+}
+.btn-primary[disabled],
+.btn-primary.disabled {
+  background: #313641;
+  border-color: #2c313b;
+}
+
+@media (max-width: 630px) {
+  .mb-container .mb-middle{
+    width: 90% !important;
+    left: 5% !important;
+  }
+
+  .mb-container{
+    top: 10% !important;
+  }
+
+  .share{
+    width: 100%;
+    margin-bottom: 3px;
+  }
+}
+
+.mb-footer{
+  text-align: center;
+}

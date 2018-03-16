@@ -1,17 +1,15 @@
-<div class="table-responsive">
+<div class="table-responsive scroll-block">
   <table id="users_table" class="table table-striped  table-hover">
   </table>
 </div>
 
-<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3">
-  <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="clickOnCreate()">Create new user
-  </button>
-  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="onEditUser()">
-    Edit
-  </button>
-  <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3"
-          data-toggle="modal" data-target="#infoDeleteUser">Delete
-  </button>
+<div class="row">
+  <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-offset-1 col-xs-11">
+    <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="clickOnCreate()">Create</button>
+    <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="onEditUser()">Edit</button>
+    <button *ngIf="selectedRow" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            data-toggle="modal" data-target="#infoDeleteUser">Delete</button>
+  </div>
 </div>
 
 <div *ngIf="isClickOnCreateUser" class="animated fadeInLeft">
@@ -78,9 +76,12 @@
         </div>
       </div>
     </form>
-    <div class="col-lg-9 col-lg-offset-3">
-      <button class="btn btn-primary col-lg-3" (click)="onCreateUser()">Save</button>
-      <button class="btn btn-primary col-lg-3" (click)="onCancelAddNewUser()">Cancel</button>
+    <div class="row">
+      <div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3
+        col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCreateUser()">Save</button>
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCancelAddNewUser()">Cancel</button>
+      </div>
     </div>
   </div>
 </div>
@@ -249,9 +250,12 @@
         </div>
       </div>
     </form>
-    <div class="col-lg-9 col-lg-offset-3">
-      <button class="btn btn-primary col-lg-3" (click)="onSaveEditUser()">Save</button>
-      <button class="btn btn-primary col-lg-3" (click)="onCancelEditUser()">Cancel</button>
+    <div class="row">
+      <div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3
+        col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onSaveEditUser()">Save</button>
+        <button class="btn btn-primary col-lg-3 col-md-3 col-sm-5 col-xs-5" (click)="onCancelEditUser()">Cancel</button>
+      </div>
     </div>
   </div>
 </div>
@@ -259,49 +263,48 @@
 <div *ngIf="isSelectedRow" class="animated fadeInLeft">
   <div style="padding: 10px" class="panel col-lg-10 col-lg-offset-1">
     <div class="row">
-      <div class="col-lg-4"><h5><b>Name: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.name ? selectedRow.name : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Name: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>
+        {{selectedRow.name ? selectedRow.name : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Email: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.email ? selectedRow.email : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Email: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>
+        {{selectedRow.email ? selectedRow.email : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Country: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.country ? selectedRow.country : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Country: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>
+        {{selectedRow.country ? selectedRow.country : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>City: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.city ? selectedRow.city : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>City: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.city ? selectedRow.city : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Address: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.address ? selectedRow.address : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Address: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.address ? selectedRow.address : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Phone: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.phone ? selectedRow.phone : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Phone: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.phone ? selectedRow.phone : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Occupation: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.ocupation ? selectedRow.ocupation : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Occupation: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.ocupation ? selectedRow.ocupation : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Company name: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.companyName ? selectedRow.companyName : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Company name: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.companyName ? selectedRow.companyName : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>Facebook link: </b></h5></div>
-      <div class="col-lg-7">{{selectedRow.facebookLink ? selectedRow.facebookLink : 'NA'}}</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>Facebook link: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><h5>{{selectedRow.facebookLink ? selectedRow.facebookLink : 'NA'}}</h5></div>
     </div>
     <div class="row">
-      <div class="col-lg-4"><h5><b>List of projects: </b></h5></div>
-      <div class="col-lg-7">
-        <span *ngIf="listProjectsForAdd.length == 0">NA</span>
-        <!--<button style="margin-left: 0" class="btn btn-primary" data-toggle="modal" data-target="#addProject">Add or-->
-          <!--remove project-->
-        <!--</button>-->
-        <!--<span class="help-block">Add projects to user</span>-->
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><h5><b>List of projects: </b></h5></div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <span *ngIf="listProjectsForAdd.length == 0"><h5>NA</h5></span>
         <div *ngIf="listProjectsForAdd && listProjectsForAdd.length != 0">
           <h4>List of projects: </h4>
           <ul>
@@ -319,7 +322,7 @@
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center">
           <h4>Are you sure that you want to delete this user?</h4>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteUser()">Yes</button>
@@ -330,15 +333,17 @@
     </div>
   </div>
 
-  <div id="addProject" class="modal message-box animated fade" role="dialog">
+  <div id="addProject" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center">
           <h3>Add projects to user:</h3>
-          <div *ngFor="let project of listOfProjects" style="display: flex">
-            <input type="checkbox" value="{{project.id}}" class="projects" checked="{{project.checked}}">
-            <label>{{project.name}}</label>
+          <div class="scroll-block" style="max-height: 150px; text-align: left;">
+            <div *ngFor="let project of listOfProjects" style="display: flex">
+              <input type="checkbox" value="{{project.id}}" class="projects" checked="{{project.checked}}">
+              <label>{{project.name}}</label>
+            </div>
           </div>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProject()">OK</button>

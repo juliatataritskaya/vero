@@ -7,22 +7,22 @@
         <div class="owl-carousel">
           <div>
             <div class="widget-title">Total Super Manager</div>
-            <div class="widget-subtitle">On your site</div>
+            <div class="widget-subtitle">On the site</div>
             <div class="widget-int">{{countSuperManagers}}</div>
           </div>
           <div>
             <div class="widget-title">Total Manager</div>
-            <div class="widget-subtitle">On your site</div>
+            <div class="widget-subtitle">On the site</div>
             <div class="widget-int">{{countManagers}}</div>
           </div>
           <div>
             <div class="widget-title">Total Users</div>
-            <div class="widget-subtitle">On your site</div>
+            <div class="widget-subtitle">On the site</div>
             <div class="widget-int">{{countCustomers}}</div>
           </div>
           <div>
             <div class="widget-title">New Users</div>
-            <div class="widget-subtitle">On your site per last month</div>
+            <div class="widget-subtitle">On the site per last month</div>
             <div class="widget-int">{{countNewUsers}}</div>
           </div>
         </div>
@@ -49,7 +49,7 @@
         <div class="item-row">
           <div class="inner">
             <div class="col-lg-4 col-md-4 col-sm-4 item" style="text-align: center">
-              <p>Create project</p>
+              <p>New project</p>
               <a [routerLink]="['../projects']" class="btn btn-success">Create <i class="fa fa-arrow-right"></i></a>
             </div>
 
@@ -58,14 +58,13 @@
               <button class="btn btn-success" data-toggle="collapse" data-target="#codeProject">
                 <i class="fa fa-bars"></i>Choice project
               </button>
-
-              <ul id="codeProject" class="panel-collapse dropdown-menu collapse" style="right: 0; left: 0; position: absolute;
-        top: 85px;">
+              <ul id="codeProject" class="panel-collapse dropdown-menu collapse scroll-block" style="right: 0; left: 0;
+        top: 85px; max-height: 180px !important; overflow-y: auto;">
                 <li *ngFor="let project of projectsAll" style="text-align: center">
                   <div class="col-md-12">{{project.name}}</div>
-                  <div class="col-md-12" >
+                  <div class="col-md-12">
                     <input id="code{{project.id}}" style="width: 85px"
-                                               value="{{project.projectCode}}">
+                           value="{{project.projectCode}}">
                     <button style="height: 26px; background-color: black; border: black; color: white;"
                             (click)="changeProjectCode(project.id)">Change
                     </button>
@@ -143,21 +142,21 @@
             <table class="table table-bordered table-striped" style="height: 90%">
               <thead>
               <tr>
-                <th width="15%">Project view</th>
-                <th width="25%">Project name</th>
-                <th width="30%">Users overview</th>
-                <th width="30%">Editor</th>
+                <th style="width: 15%">Project view</th>
+                <th style="width: 25%">Project name</th>
+                <th style="width: 30%">Users overview</th>
+                <th style="width: 30%">Editor</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let project of projectsWithUserData; let i = index">
-                <td width="15%"><img src="{{url}}{{project.miniImageUrl}}" style="width: 90%; height: auto"></td>
-                <td width="25%"><strong>{{project.name}}</strong></td>
-                <td width="30%" style="text-align: center">
-                  <button class="btn btn-primary" (click)="goUserOverview(project.id, i)">View</button>
+                <td style="padding: 5px; width: 15%"><img src="{{url}}{{project.miniImageUrl}}" style="width: 90%; height: auto"></td>
+                <td style="padding: 5px; width: 25%"><strong>{{project.name}}</strong></td>
+                <td style="text-align: center; width: 30%">
+                  <button class="btn btn-primary" style="margin: 0" (click)="goUserOverview(project.id, i)">View</button>
                 </td>
-                <td width="30%" style="text-align: center">
-                  <button class="btn btn-primary" (click)="goToEditor(project.id)">Go</button>
+                <td style="text-align: center; width: 30%">
+                  <button class="btn btn-primary" style="margin: 0" (click)="goToEditor(project.id)">Go</button>
                 </td>
               </tr>
               </tbody>
@@ -191,59 +190,10 @@
               <div id="dashboard-map-de" class="col-lg-12" style="width: 100%; height: 200px"></div>
             </div>
           </div>
-          <div class="col-lg-12"><i data-toggle="collapse" data-target="#mapUsers"
-                                    class="icon-arrow-down12 pull-right" style="font-size: 20px"></i></div>
-
-
+          <div class="col-lg-12"><i data-toggle="modal" data-target="#mapUsers"
+                                    class="icon-file-eye pull-right" style="font-size: 20px"></i></div>
         </div>
       </div>
-
-
-      <div id="mapUsers" class="panel-collapse collapse col-lg-12"
-           style="padding: 0; position: absolute; z-index: 999; width: 100%; top: 96%;">
-        <div class="panel panel-default">
-          <div class="panel-body panel-body-table" style="height: 230px">
-            <div class="table-responsive scroll-block" style="height: 100%">
-              <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th width="15%">Country</th>
-                  <th width="15%">City</th>
-                  <th width="30%">User</th>
-                  <th width="30%">List of projects</th>
-                  <th width="10%">Choose projects</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let user of listUsersForMaps">
-                  <td>{{user.country}}</td>
-                  <td>{{user.city}}</td>
-                  <td><strong style="cursor: pointer" (click)="goToProfile(user.id)">{{user.name}}</strong>
-                  </td>
-                  <td>
-                    <ul style="padding-left: 12px;">
-                      <li *ngFor="let project of user.projects">{{project.name}}</li>
-                    </ul>
-                  </td>
-                  <td>
-                    <button class="btn btn-primary" (click)="assignNewProject(user.userId)">+</button>
-                  </td>
-                </tr>
-                <tr *ngIf="listUsersForMaps.length == 0">
-                  <td colspan="5" style="text-align: center;">
-                    Users weren't found
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-
-
-          </div>
-
-        </div>
-      </div>
-
       <!-- END SALES BLOCK -->
     </div>
 
@@ -383,7 +333,7 @@
 </div>
 
 
-<div id="infoBox" class="modal message-box animated fade" role="dialog">
+<div id="infoBox" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
@@ -402,7 +352,7 @@
 
 <div id="userOverview" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2" style="max-height: 60%; overflow-y: auto">
     <div class="">
       <div class="mb-content">
         <div *ngIf="!usersOverviewList">
@@ -422,7 +372,7 @@
             </ul>
           </div>
           <div class="col-lg-12 col-md-12 table-responsive scroll-block" style="max-height: 350px">
-            <table class="table table-bordered table-striped" style="height: 100%">
+            <table class="table table-bordered table-striped" style="height: 100%; width: 100%">
               <thead>
               <tr>
                 <th width="14%">User name</th>
@@ -436,13 +386,13 @@
               </thead>
               <tbody>
               <tr *ngFor="let user of usersOverviewList.users">
-                <td>{{user.name}}</td>
-                <td>{{user.mail}}</td>
-                <td>{{user.phone}}</td>
-                <td>{{user.ageRange ? user.ageRange : 'NA'}}</td>
-                <td>{{user.device ? user.device : 'NA' }}</td>
-                <td>{{user.facebookLink ? user.facebookLink : 'NA' }}</td>
-                <td>{{user.facebookLikes ? user.facebookLikes : 'NA'}}</td>
+                <td><p style="word-wrap: break-word;">{{user.name}}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.mail}}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.phone}}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.ageRange ? user.ageRange : 'NA'}}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.device ? user.device : 'NA' }}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.facebookLink ? user.facebookLink : 'NA' }}</p></td>
+                <td><p style="word-wrap: break-word;">{{user.facebookLikes ? user.facebookLikes : 'NA'}}</p></td>
               </tr>
               <tr *ngIf="!usersOverviewList.users">
                 <td colspan="7" style="text-align: center;">Users weren't found</td>
@@ -460,7 +410,7 @@
 
 <div id="userHistory" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2 scroll-block" style="max-height: 60%; overflow-y: auto">
     <div class="">
       <div class="mb-content">
         <div *ngIf="!userHistory">
@@ -468,10 +418,10 @@
         </div>
         <div *ngIf="userHistory">
           <h2 style="text-align: center">{{userHistory.name}}</h2>
-          <div class="col-lg-12 col-md-12 scroll-block"  style="max-height: 500px; overflow-y: auto">
+          <div class="col-lg-12 col-md-12 scroll-block" style="max-height: 400px; overflow-y: auto; padding-right: 0; padding-left: 0">
             <div class="col-lg-6 col-lg-offset-3" *ngFor="let project of userHistory.projects">
               <h4>{{project.name}}</h4>
-              <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped" style="font-size: 12px;">
                 <thead>
                 <tr>
                   <th width="50%" style="text-align: center">Place</th>
@@ -500,20 +450,98 @@
   </div>
 </div>
 
+<div id="ageRangeModal" class="modal message-box animated fade">
+  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="max-height: 80%; overflow-y: auto">
+    <div class="col-lg-12" style="text-align: center">
+      <div class="container">
+        <div class="ageRange col-lg-10 col-lg-offset-1 col-md-8 col-md-offset-2 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="deviceModal" class="modal message-box animated fade">
+  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="max-height: 80%; overflow-y: auto">
+    <div class="col-lg-12" style="text-align: center">
+      <div class="container">
+        <div class="device col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <button style="text-align: center" class="btn btn-default btn-lg btn-logout" data-dismiss="modal"
+                  (click)="closeModal()">Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="mapUsers" class="modal message-box animated fade" role="dialog">
+  <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2 scroll-block" style="max-height: 60%; overflow-y: auto">
+    <div class="col-lg-12">
+      <div class="mb-content col-lg-12">
+        <div class="table-responsive scroll-block" style="height: 100%">
+          <h1>Users info</h1>
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th width="15%">Country</th>
+              <th width="15%">City</th>
+              <th width="30%">User</th>
+              <th width="30%">List of projects</th>
+              <th width="10%">Choose projects</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of listUsersForMaps">
+              <td>{{user.country}}</td>
+              <td>{{user.city}}</td>
+              <td><strong style="cursor: pointer" (click)="goToProfile(user.userId)">{{user.name}}</strong>
+              </td>
+              <td>
+                <ul style="padding-left: 12px;">
+                  <li *ngFor="let project of user.projects">{{project.name}}</li>
+                </ul>
+              </td>
+              <td>
+                <button class="btn btn-primary" (click)="assignNewProject(user.userId)">+</button>
+              </td>
+            </tr>
+            <tr *ngIf="listUsersForMaps.length == 0">
+              <td colspan="5" style="text-align: center;">
+                Users weren't found
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal">OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="projectsModal" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2 scroll-block" style="max-height: 60%; overflow-y: auto">
     <div class="mb-middle col-lg-12">
       <div class="mb-content col-lg-12">
         <div *ngIf="!projectsAll">
           <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
         </div>
-        <div *ngIf="projectsAll" class="scroll-block">
+        <div *ngIf="projectsAll">
           <h3>Add projects to user:</h3>
-          <div *ngFor="let project of projectsAll" style="display: flex">
-            <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
-            <label style="text-align: left; padding: 2px;">{{project.name}} , {{project.description}}</label>
+          <div style="max-height: 300px" class="scroll-block">
+            <div *ngFor="let project of projectsAll" style="display: flex">
+              <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
+              <label style="text-align: left; padding: 2px;">{{project.name}} , {{project.description}}</label>
+            </div>
           </div>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProjectsToUser()">OK
@@ -521,34 +549,6 @@
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="ageRangeModal" class="modal message-box animated fade">
-  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="mb-middle col-lg-12" style="">
-      <div class="container">
-        <div class="ageRange col-lg-12 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
-        </div>
-        <div>
-          <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
-        </div>
-      </div>
-      </div>
-  </div>
-</div>
-
-<div id="deviceModal" class="modal message-box animated fade">
-  <div class="mb-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="mb-middle col-lg-12" style="">
-      <div class="container">
-        <div class="device col-lg-12 scroll-block" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
-        </div>
-        <div>
-          <button style="text-align: center" class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel</button>
         </div>
       </div>
     </div>
