@@ -14,10 +14,6 @@ export class MultiPlayerTabComponent implements OnInit {
   }
 
   public openMP() {
-    // const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=600,height=400');
     localStorage.setItem('type', 'mp');
   }
-
-
-
 }

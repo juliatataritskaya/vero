@@ -11,7 +11,8 @@ const routes: Routes = [
   ...StartPageRoutes,
   ...AuthRoutes,
   ...MainRoutes,
-  ...SharingProjectRoutes
+  ...SharingProjectRoutes,
+  {path: '**', redirectTo: 'error-page', pathMatch: 'full'},
 ];
 
 @NgModule({

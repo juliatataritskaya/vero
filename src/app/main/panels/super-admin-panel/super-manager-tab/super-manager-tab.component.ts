@@ -68,12 +68,12 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
       this.listOfSuperManagers = result['userList'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }  else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -133,11 +133,12 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
           this.loadSuperManagers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
     }
   }
@@ -167,11 +168,12 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
         this.loadSuperManagers();
       });
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -250,11 +252,12 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
           this.loadSuperManagers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
     }
   }

@@ -72,12 +72,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
       this.listOfManagers = result['userList'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }  else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -85,12 +80,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
     this.projectService.getAllProjects().then((result) => {
       this.listOfProjects = result.projectList;
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }  else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -153,11 +143,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
           this.loadManagers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.onErrorHandle(error);
       });
     }
   }
@@ -196,11 +182,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
         this.loadManagers();
       });
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -287,11 +269,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
           this.loadManagers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.onErrorHandle(error);
       });
     }
   }
@@ -310,6 +288,15 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   closeModal() {
     $('#infoBox').modal('hide');
     this.infoMessage = null;
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 
 }

@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
+import {RedirectService} from "../../services/redirect.service";
 
 declare var $: any;
 
@@ -14,7 +15,8 @@ declare var $: any;
 export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
   loginForm: FormGroup;
 
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
+               private redirectService: RedirectService) {
     super({
       email: '',
       password: '',
@@ -51,7 +53,7 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     this.authService.loginUser(loginData).then(() => {
       this.router.navigate(['/main']);
     }, error => {
-      alert(error.error.error);
+      this.redirectService.checkRedirect(error.status, (message) => {});
     });
   }
 

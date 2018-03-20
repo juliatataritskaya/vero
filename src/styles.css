@@ -2,7 +2,7 @@ html, body{
   margin: 0;
   height: 100%;
   font-family: 'Open Sans', sans-serif;
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 
 .form-control{
@@ -21,7 +21,6 @@ html, body{
   50% { color: rgb(255, 255, 255); }
   100% { color: rgba(34, 34, 34, 0); }
 }
-
 
 /* OWL Slider */
 .owl-carousel .owl-wrapper:after {

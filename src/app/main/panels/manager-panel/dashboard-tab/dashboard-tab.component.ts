@@ -67,10 +67,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getCountCustomers().then(result => {
       this.countCustomers = result.count;
     }, error => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -78,10 +75,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getCountManagers().then(result => {
       this.countManagers = result.count;
     }, error => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -89,10 +83,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getCountSuperManagers().then(result => {
       this.countSuperManagers = result.count;
     }, error => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -100,10 +91,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getNewUsersPerMonth().then(result => {
       this.countNewUsers = result.numberOfRegisteredUsersPerMonth;
     }, error => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -111,10 +99,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getListNewUsersIn24().then((result) => {
       this.newUsersPerDay = result.newUsersPerDay;
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -122,10 +107,7 @@ export class DashboardTabComponent implements OnInit {
     this.dashboardService.getProjectAndUsersInfo().then((result) => {
       this.projectsWithUserData = result.users;
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -179,10 +161,7 @@ export class DashboardTabComponent implements OnInit {
       this.projectsAll = result['projectList'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -191,7 +170,6 @@ export class DashboardTabComponent implements OnInit {
       this.listUsersForMaps = [];
       this.usersAll = result['userList'];
       this.usersAll.forEach((user) => {
-        console.log(user);
         if ((user.country == 'Netherlands' || user.country == 'Germany') && user.role == 'Customer' ) {
           user.projectIds.forEach((id) => {
             const foundProject = this.projectsAll.find((project) => {
@@ -209,10 +187,7 @@ export class DashboardTabComponent implements OnInit {
         }
       });
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -221,10 +196,7 @@ export class DashboardTabComponent implements OnInit {
       this.onlineUsers = result['onlineUsers'];
       this.onlineUsersForDisplaying = this.onlineUsers;
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -257,10 +229,7 @@ export class DashboardTabComponent implements OnInit {
       const devicesDiagramColors = ['#33414E', '#2e976b', '#FEA223', '#B64645'];
       this.dashboardService.createDiagram('dashboard-donut-device', dataDevices, devicesDiagramColors);
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -316,10 +285,7 @@ export class DashboardTabComponent implements OnInit {
       });
 
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -425,10 +391,7 @@ export class DashboardTabComponent implements OnInit {
       this.dashboardService.changeProjectCode(projectData).then((result) => {
         this.infoMessage = result.succedded ? 'The code was changed' : result.error;
       }, (error) => {
-        if (error.status === 401) {
-          clearInterval(this.timer);
-          this.redirectService.redirectOnLoginPage();
-        }
+        this.onErrorHandle(error);
       });
     }
   }
@@ -519,9 +482,16 @@ export class DashboardTabComponent implements OnInit {
       this.getListNewUsersIn24();
       this.getAllUsers();
     }, (error) => {
-      if (error.status === 401) {
-        clearInterval(this.timer);
-        this.redirectService.redirectOnLoginPage();
+      this.onErrorHandle(error);
+    });
+  }
+
+  onErrorHandle(error) {
+    error.status === 401 || error.status === 500 ? clearInterval(this.timer) : () => {};
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
       }
     });
   }

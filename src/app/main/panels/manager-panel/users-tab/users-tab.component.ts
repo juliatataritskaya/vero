@@ -61,21 +61,22 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   }
 
   ngOnInit () {
-    this.getAllProjects();
-    this.createUserForm();
-    this.getAllUsers(() => {
-      this.loadUsers();
-      this.route.params.subscribe(params => {
-        if( params['id'] ){
-          const user = this.listOfUsers.find((user) => {
-            return user.userId == Number(params['id']);
-          });
-          if(user){
-            this.getBelongProject();
-            this.selectedRow = user;
-            this.isSelectedRow = true;
+    this.getAllProjects(() => {
+      this.createUserForm();
+      this.getAllUsers(() => {
+        this.loadUsers();
+        this.route.params.subscribe(params => {
+          if( params['id'] ){
+            const user = this.listOfUsers.find((user) => {
+              return user.userId == Number(params['id']);
+            });
+            if(user){
+              this.selectedRow = user;
+              this.getBelongProject();
+              this.isSelectedRow = true;
+            }
           }
-        }
+        });
       });
     });
   }
@@ -85,25 +86,26 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       this.listOfUsers = result['userList'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }  else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
-  public getAllProjects() {
+  public getAllProjects(callback) {
     this.projectService.getAllProjects().then((result) => {
       this.listOfProjects = result.projectList;
+      callback();
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      }  else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -172,11 +174,12 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
           this.loadUsers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
     }
   }
@@ -222,11 +225,12 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
         this.loadUsers();
       });
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -320,11 +324,12 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
           this.loadUsers();
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
     }
   }

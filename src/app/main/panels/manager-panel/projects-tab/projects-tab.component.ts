@@ -126,11 +126,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       });
       callback();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -139,11 +140,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.users = users['userList'];
       callback();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -241,11 +243,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         this.loadProjects();
       });
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -305,12 +308,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             this.infoMessage = 'Common settings were saved';
             this.getAllNewProjectData();
           });
+          this.isClickOnEditProject = true;
         }, error => {
-          if (error.status === 401) {
-            this.redirectService.redirectOnLoginPage();
-          } else {
-            this.infoMessage = 'Something wrong, please try again.';
-          }
+          this.redirectService.checkRedirect(error.status, (message) => {
+            if (message) {
+              this.infoMessage = 'Something wrong, please try again.';
+              $('#infoBox').modal('show');
+            }
+          });
         });
       }
     }
@@ -324,13 +329,15 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     });
     photosFormData.append('projectId', result.project.id);
     this.projectService.addProjectPhotos(photosFormData).then((res) => {
+      this.projectPhotosFiles = [];
       callback();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -356,11 +363,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.getAllNewProjectData();
       this.infoMessage = 'Common settings were changed';
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -369,11 +377,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectService.updateProjectInfo(projectInfo).then((res) => {
       this.updateProjectPhotos();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -471,10 +480,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onFileChange(event, controlName) {
-    // if (event.target.files[0].size > 9512000 && controlName == 'roomFile') {
-    //   $('#infoBox').modal('show');
-    //   this.infoMessage = 'The file size must not exceed 500Kb';
-    // } else {
       switch (controlName) {
         case 'logo':
           this.logo[0] = event.target.files[0];
@@ -502,7 +507,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         default:
           break;
       }
-    // }
     event.target.value = [];
   }
 
@@ -573,11 +577,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             this.infoMessage = 'Room was updated';
             this.resetRoomsForm();
           }, error => {
-            if (error.status === 401) {
-              this.redirectService.redirectOnLoginPage();
-            } else {
-              this.infoMessage = 'Something wrong, please try again.';
-            }
+            this.redirectService.checkRedirect(error.status, (message) => {
+              if (message) {
+                this.infoMessage = 'Something wrong, please try again.';
+                $('#infoBox').modal('show');
+              }
+            });
           });
           this.roomIdForDeleteOrEdit = null;
         }, error => {
@@ -612,12 +617,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.infoMessage = 'Room was added';
               this.resetRoomsForm();
             }, error => {
-              if (error.status === 401) {
-                this.redirectService.redirectOnLoginPage();
-              } else {
-                this.listRooms.pop();
-                this.infoMessage = 'Something wrong, please try again.';
-              }
+              this.redirectService.checkRedirect(error.status, (message) => {
+                if (message) {
+                  this.infoMessage = 'Something wrong, please try again.';
+                  $('#infoBox').modal('show');
+                }
+              });
             });
             fr.readAsDataURL(this.image);
           }, error => {
@@ -661,11 +666,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           $('#planImg').modal('hide');
           this.infoMessage = 'Layout was updated';
         }, error => {
-          if (error.status === 401) {
-            this.redirectService.redirectOnLoginPage();
-          } else {
-            this.infoMessage = 'Something wrong, please try again.';
-          }
+          this.redirectService.checkRedirect(error.status, (message) => {
+            if (message) {
+              this.infoMessage = 'Something wrong, please try again.';
+              $('#infoBox').modal('show');
+            }
+          });
         });
         this.planIdForDeleteOrEdit = null;
         this.isClickOnEditOrDeleteLayout = false;
@@ -690,11 +696,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             $('#planImg').modal('hide');
             this.infoMessage = 'Layout was added';
           }, error => {
-            if (error.status === 401) {
-              this.redirectService.redirectOnLoginPage();
-            } else {
-              this.infoMessage = 'Something wrong, please try again.';
-            }
+            this.redirectService.checkRedirect(error.status, (message) => {
+              if (message) {
+                this.infoMessage = 'Something wrong, please try again.';
+                $('#infoBox').modal('show');
+              }
+            });
           });
           fr.readAsDataURL(this.planImg);
         } else {
@@ -741,11 +748,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         this.loadProjects();
       });
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 
@@ -765,11 +773,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectService.deletePlan(this.planIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'Plan was deleted';
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
     this.planIdForDeleteOrEdit = null;
     this.getAllNewProjectData();
@@ -778,15 +787,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   onEditPlan(id) {
     this.isClickOnEditOrDeleteLayout = true;
     this.savedProjectData = this.savedProjectData ? this.savedProjectData : this.selectedProject;
-    console.log(this.savedProjectData['plansInfo']);
     const plan = this.savedProjectData['plans'].find((pl) => {
       return id == pl.id;
     });
-    console.log(plan, this.savedProjectData['plansInfo']);
     const planInfoId = this.savedProjectData['plansInfo'].find((planInfo) => {
       return planInfo.name == plan.planName;
     });
-    console.log(planInfoId);
     this.planIdForDeleteOrEdit = plan.id;
     this.floorNumber = plan.floorNumber;
     this.planImg = environment.serverUrl + plan.imageUrl;
@@ -831,11 +837,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'Room was deleted';
       this.getAllNewProjectData();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
     this.roomIdForDeleteOrEdit = null;
   }
@@ -966,11 +973,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         $('#armodel').modal('hide');
         this.infoMessage = 'AR was added';
       }, error => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
       this.resetARModelForm();
     }
@@ -987,11 +995,12 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'AR model was deleted';
       this.getAllNewProjectData();
     }, error => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
     this.arIdForDeleteOrEdit = null;
     this.getAllNewProjectData();
@@ -1014,15 +1023,17 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#projectSharingModal').modal('show');
     this.projectService.getShareProject(id).then((result) => {
       this.infoMessage = result.shareLink;
-      this.iframeMessage = `<iframe style="width: 600px; height: 500px;" src="${result.shareLink}" 
+      this.iframeMessage = `<iframe style="width: 600px; height: 500px;"allowvr="yes" scrolling="no" 
+allow="gyroscope; accelerometer; xr" src="${result.shareLink}" 
 allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" 
 mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-      }
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
+          this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
+        }
+      });
     });
   }
 

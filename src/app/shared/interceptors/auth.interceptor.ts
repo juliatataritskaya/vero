@@ -9,10 +9,11 @@ import {AuthService} from '../../services/auth.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/do';
+import {RedirectService} from '../../services/redirect.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor () {
+  constructor (private redirectService: RedirectService) {
   }
 
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -33,6 +34,9 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         })
         .catch(response => {
+          if(response.status == 0){
+            this.redirectService.checkRedirect(response.status, () => { });
+          }
           return Observable.throw(response);
         });
     } else {

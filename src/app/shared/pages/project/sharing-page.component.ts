@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
+import {RedirectService} from "../../../services/redirect.service";
 
 // TODO: Display current location name
 // TODO: Add plan change panel
@@ -30,7 +31,8 @@ export class SharingProjectComponent implements OnInit {
 
   timeSwitchEnabled = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private ref: ChangeDetectorRef) {
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private ref: ChangeDetectorRef,
+              private redirectService: RedirectService) {
     this.ref.detach();
     this.aframeInit();
   }
@@ -60,9 +62,7 @@ export class SharingProjectComponent implements OnInit {
         this.onReady();
       })
       .catch((error) => {
-        console.error(error);
-        alert('Project not found');
-        this.router.navigate(['/']);
+        this.redirectService.checkRedirect(error.status, () => {});
       });
   }
 

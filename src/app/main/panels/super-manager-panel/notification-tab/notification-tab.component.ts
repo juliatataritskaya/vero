@@ -20,6 +20,7 @@ export class NotificationTabComponent implements OnInit {
   title: string;
   message: string;
   infoMessage: string;
+  isSelectAll = false;
 
   constructor (private router: Router, private fb: FormBuilder, private el: ElementRef, private userService: UserService,
                private notificationService: NotificationService, private redirectService: RedirectService) {
@@ -36,13 +37,12 @@ export class NotificationTabComponent implements OnInit {
       this.listOfUsers = result['userList'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if (message) {
           this.infoMessage = 'Something wrong, please try again.';
+          $('#infoBox').modal('show');
         }
-      }
+      });
     });
 
   }
@@ -55,9 +55,6 @@ export class NotificationTabComponent implements OnInit {
       data: this.listOfUsers,
       responsive: true,
       lengthMenu: [5, 10, 15],
-      select: {
-        style: 'multi'
-      },
       paging: true,
       columns: [
         {
@@ -79,34 +76,24 @@ export class NotificationTabComponent implements OnInit {
     };
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
-    this.tableWidget.on('select', (e, dt, type, indexes) => {
-      this.selectedRowsId = this.tableWidget.rows('.selected')[0];
-      if (indexes.length <= 1) {
-        $('#check' + this.listOfUsers[indexes].userId).attr('checked', 'checked');
-      }
-    });
-    this.tableWidget.on('deselect', (e, dt, type, indexes) => {
-      this.selectedRowsId = this.tableWidget.rows('.selected')[0];
-      if (indexes.length <= 1) {
-        $('#check' + this.listOfUsers[indexes].userId).removeAttr('checked');
-      }
-    });
   }
 
   onSend() {
     $('#infoBox').modal('show');
-    if (this.selectedRowsId.length == 0) {
-      this.infoMessage = 'Select at least one user to sending messages';
+    if (this.selectedRowsId.length == 0 && !this.isSelectAll) {
+      this.infoMessage = 'Select at least one user to send messages';
     } else if (!this.title || !this.message) {
       this.infoMessage = 'Title and text message are mandatory fields!';
     } else {
       const notificationData = new FormData();
-      if (this.selectedRowsId.length > 0 && this.selectedRowsId.length !== this.listOfUsers.length) {
+      if (this.selectedRowsId.length !== this.listOfUsers.length) {
         this.selectedRowsId.forEach((idx) => {
-          notificationData.append('emails', this.listOfUsers[idx].email);
+          let foundObj = this.listOfUsers.find((user) => {
+            return user.userId.toString() == idx;
+          });
+          notificationData.append('emails', foundObj.email);
         });
       }
-
       notificationData.append('title', this.title);
       notificationData.append('message', this.message);
 
@@ -114,11 +101,12 @@ export class NotificationTabComponent implements OnInit {
         this.infoMessage = this.selectedRowsId.length > 1 ? 'Messages were sent' : 'Message was sent';
         this.resetForm();
       }, error => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-        }
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if (message) {
+            this.infoMessage = 'Something wrong, please try again.';
+            $('#infoBox').modal('show');
+          }
+        });
       });
     }
   }
@@ -129,21 +117,34 @@ export class NotificationTabComponent implements OnInit {
     this.message = '';
   }
 
-  onSelectAll() {
-    this.tableWidget.rows().select();
-    $('input').attr('checked', 'checked');
-    this.selectedRowsId = this.tableWidget.rows('.selected')[0];
-  }
+  // onSelectNone(){
+  //   console.log($('input'))
+  //   $('input').each((i, el) => {
+  //     console.log($(el));
+  //     $(el).attr('checked', false);
+  //   });
+  // }
 
-  onSelectNone() {
-    this.tableWidget.rows().deselect();
+  onSelect() {
     this.selectedRowsId = [];
-    $('input').removeAttr('checked');
+    this.isSelectAll = false;
+    $('input:checked').each((i, elem) => {
+      this.selectedRowsId.push($(elem).attr('id').substring(5));
+    });
   }
 
   closeModal() {
     $('#infoBox').modal('hide');
     this.infoMessage = null;
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 
 }

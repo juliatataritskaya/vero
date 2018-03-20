@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
+import {RedirectService} from "../../services/redirect.service";
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,7 +13,8 @@ import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.c
 export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements OnInit {
   forgotPasswordForm: FormGroup;
 
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
+               private redirectService: RedirectService) {
     super({
       email: ''
     }, {
@@ -44,7 +46,7 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
       alert('Message was sent to the email');
       this.router.navigate(['/auth/login']);
     }, error => {
-      alert(error.error.error);
+      this.redirectService.checkRedirect(error.status, (message) => {});
     });
   }
 

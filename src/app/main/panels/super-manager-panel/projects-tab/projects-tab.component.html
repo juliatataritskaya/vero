@@ -320,9 +320,9 @@
   </div>
 </div>
 
-<div id="planImg" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
+<div id="planImg" class="modal message-box animated fade" role="dialog" style="height: 100%">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2" style="max-height: 60%; overflow-y: auto">
     <div class="mb-middle">
       <div class="mb-content">
         <form enctype="multipart/form-data">
@@ -360,9 +360,9 @@
   </div>
 </div>
 
-<div id="armodel" class="modal message-box animated fade" role="dialog" style="max-height: 80%; overflow-y: auto">
+<div id="armodel" class="modal message-box animated fade" role="dialog" style="height: 100%">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
-  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
+  col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2" style="max-height: 60%; overflow-y: auto">
     <div class="mb-middle">
       <div class="mb-content">
         <form enctype="multipart/form-data">
@@ -475,7 +475,7 @@
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center;">
           <h4>Are you sure that you want to delete the project?</h4>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteProject()">Yes
@@ -491,7 +491,7 @@
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center;">
           <h4>Are you sure that you want to delete the layout?</h4>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeletePlan()">Yes</button>
@@ -506,7 +506,7 @@
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center;">
           <h4>Are you sure that you want to delete the room?</h4>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteRoom()">Yes</button>
@@ -522,7 +522,7 @@
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
-        <div class="mb-content">
+        <div class="mb-content" style="text-align: center;">
           <h4>Are you sure that you want to delete the AR model?</h4>
           <div>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="onDeleteArModel()">Yes
@@ -534,7 +534,7 @@
     </div>
   </div>
 
-<div id="usersModal" class="modal message-box animated fade scroll-block" role="dialog" style="max-height: 60%; overflow-y: auto">
+<div id="usersModal" class="modal message-box animated fade scroll-block" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="col-lg-12">
@@ -544,7 +544,7 @@
         </div>
         <div *ngIf="users">
           <h3>Add users to project:</h3>
-          <div>
+          <div class="scroll-block" style="max-height: 250px; overflow-y: auto">
             <div *ngFor="let user of users" style="display: flex">
               <input type="checkbox" value="{{user.userId}}" class="users" checked="{{user.checked}}">
               <label>{{user.name}} , {{user.email}}</label>

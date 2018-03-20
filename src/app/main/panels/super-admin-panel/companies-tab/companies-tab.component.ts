@@ -68,12 +68,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       this.currentCompanySettings = result['profile'];
       callback();
     }, (error) => {
-      if (error.status === 401) {
-        this.redirectService.redirectOnLoginPage();
-      } else {
-        this.infoMessage = 'Something wrong, please try again.';
-        $('#infoBox').modal('show');
-      }
+      this.onErrorHandle(error);
     });
   }
 
@@ -117,12 +112,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
             : localStorage.setItem('companyName', '');
         });
       }, (error) => {
-        if (error.status === 401) {
-          this.redirectService.redirectOnLoginPage();
-        } else {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
+        this.onErrorHandle(error);
       });
     }
   }
@@ -155,5 +145,14 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
   closeModal() {
     $('#infoBox').modal('hide');
     this.infoMessage = null;
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 }

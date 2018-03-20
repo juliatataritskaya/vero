@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
 import {validateConfirmPassword} from '../../shared/validators/confirm-password.validator';
+import {RedirectService} from "../../services/redirect.service";
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +16,7 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
   token: string;
 
   constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
-               private route: ActivatedRoute) {
+               private route: ActivatedRoute, private redirectService: RedirectService) {
     super({
       password: '',
       confirmPassword: ''
@@ -62,6 +63,8 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
       if ('No token or password was sent.' == error.error.error) {
         alert(error.error.error);
         return;
+      } else {
+        this.redirectService.checkRedirect(error.status, (message) => {});
       }
       alert('Something wrong, please try again.');
     });
