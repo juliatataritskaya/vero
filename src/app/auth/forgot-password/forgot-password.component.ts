@@ -46,7 +46,11 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
       alert('Message was sent to the email');
       this.router.navigate(['/auth/login']);
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {});
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if(message){
+          alert(error.error.error);
+        }
+      });
     });
   }
 

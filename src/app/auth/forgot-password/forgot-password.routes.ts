@@ -4,5 +4,5 @@ import {UnauthorizedGuard} from '../../shared/guards/unauthorized.guard';
 
 export const ForgotPasswordRoutes: Route[] = [
   {path: '', redirectTo: 'forgot-password', pathMatch: 'full'},
-  {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [UnauthorizedGuard]}
+  {path: 'forgot-password', component: ForgotPasswordComponent}
 ];

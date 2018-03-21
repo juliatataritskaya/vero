@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-offset-1 col-xs-11">
     <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
-            (click)="isClickOnCreateProject = true" (click)="selectedProject = null"(click)="onClearForm()">Create</button>
+            (click)="clickOnCreate()">Create</button>
     <button *ngIf="selectedProject" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3" (click)="onEditProject()">Edit</button>
     <button *ngIf="selectedProject" type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
             data-toggle="modal" data-target="#infoDeleteBox">Delete</button>

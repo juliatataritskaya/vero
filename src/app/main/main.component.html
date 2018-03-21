@@ -48,8 +48,9 @@
       <div class="navbar navbar-inverse">
         <div class="navbar-header">
 
-          <ul class="nav navbar-nav visible-xs-block">
+          <ul class="nav navbar-nav visible-xs-block" style="margin: 0; width: 100%; padding-top: 5px; background: #080a0e;">
             <li><a class="sidebar-mobile-main-toggle" ><i class="icon-paragraph-justify3"></i></a></li>
+            <li class="pull-right"><a id="message-box2"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
           </ul>
         </div>
 
@@ -57,23 +58,26 @@
           <ul class="nav navbar-nav">
             <li><a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="clickOnHiddenMenu()" ><i class="icon-paragraph-justify3"></i></a></li>
           </ul>
-
-
-          <ul class="nav navbar-nav navbar-right icons-list">
-            <li class="dropdown dropdown-user">
-              <a class="dropdown-toggle" data-toggle="dropdown">
-                <span>{{userName || (userName | async) ? (userName | async) : (companyName | async)}}</span>
-                <i class="caret"></i>
-              </a>
-
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a><i class="icon-user-plus"></i> My profile</a></li>
-                <li class="divider"></li>
-                <li><a><i class="icon-cog5"></i> Account settings</a></li>
-                <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
-              </ul>
-            </li>
+          <ul class="nav navbar-nav pull-right">
+            <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
           </ul>
+
+
+          <!--<ul class="nav navbar-nav navbar-right icons-list">-->
+            <!--<li class="dropdown dropdown-user">-->
+              <!--<a class="dropdown-toggle" data-toggle="dropdown">-->
+                <!--<span>{{userName || (userName | async) ? (userName | async) : (companyName | async)}}</span>-->
+                <!--<i class="caret"></i>-->
+              <!--</a>-->
+
+              <!--<ul class="dropdown-menu dropdown-menu-right">-->
+                <!--<li><a><i class="icon-user-plus"></i> My profile</a></li>-->
+                <!--<li class="divider"></li>-->
+                <!--<li><a><i class="icon-cog5"></i> Account settings</a></li>-->
+                <!---->
+              <!--</ul>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
       </div>
 

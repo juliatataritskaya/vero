@@ -468,3 +468,15 @@
 .scroll-block::-webkit-scrollbar {width: 6px; height: 6px;}
 .scroll-block::-webkit-scrollbar-thumb {border-radius: 4px; background: #eeeeee;}
 .scroll-block:hover::-webkit-scrollbar-thumb {background: #2e976b;}
+
+@media (max-width: 790px) {
+  #mapUsers table{
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  table{
+    font-size: 9px;
+  }
+}

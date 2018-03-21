@@ -39,8 +39,11 @@
   min-width: 200px;
   max-width: 800px;
   flex-direction: column;
-  margin-top: 60px;
   position: relative;
+}
+
+.plan:first-child{
+  margin-top: 60px;
 }
 
 .plan > img {

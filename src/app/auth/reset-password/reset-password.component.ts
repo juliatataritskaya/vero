@@ -54,17 +54,21 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
       return;
     }
     const passwordData = new FormData();
-    passwordData.set('token', this.token);
-    passwordData.set('password', this.forgotPasswordForm.get('password').value);
+    passwordData.append('token', this.token);
+    passwordData.append('password', this.forgotPasswordForm.get('password').value);
     this.authService.submitResetPassword(passwordData).then(() => {
       alert('Password was changed');
       this.router.navigate(['/auth/login']);
     }, error => {
-      if ('No token or password was sent.' == error.error.error) {
+      if ('No token or password was sent.' === error.error.error) {
         alert(error.error.error);
         return;
       } else {
-        this.redirectService.checkRedirect(error.status, (message) => {});
+        this.redirectService.checkRedirect(error.status, (message) => {
+          if(message){
+            alert(error.error.error);
+          }
+        });
       }
       alert('Something wrong, please try again.');
     });

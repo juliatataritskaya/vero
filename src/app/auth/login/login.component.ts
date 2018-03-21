@@ -53,7 +53,11 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     this.authService.loginUser(loginData).then(() => {
       this.router.navigate(['/main']);
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {});
+      this.redirectService.checkRedirect(error.status, (message) => {
+        if(message){
+          alert(error.error.error);
+        }
+      });
     });
   }
 

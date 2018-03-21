@@ -264,8 +264,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const projectData = this.projectForm.value;
     if (!this.projectForm.value['name'] || !this.projectForm.value['description']
       || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
-      || !this.projectForm.value['armodels'] || !this.projectForm.value['typesRooms']
-      || !this.projectForm.value['styles'] || !this.projectForm.value['plansName']) {
+      || this.projectForm.value['armodels'].length === 0 || this.projectForm.value['typesRooms'].length === 0
+      || this.projectForm.value['styles'].length === 0  || this.projectForm.value['plansName'].length === 0) {
       this.infoMessage = 'Project data is invalid, please check it.';
     } else if (this.styles.length > 3) {
       this.infoMessage = 'Max count interior styles are 3';
@@ -461,6 +461,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.styles = [];
   }
 
+  clickOnCreate(){
+    this.isClickOnCreateProject = true;
+    this.isClickOnEditProject = false;
+    this.selectedProject = null;
+    this.onClearForm();
+  }
+
   private createProjectForm(): void {
     this.projectForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -511,13 +518,23 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public deleteProjectPhoto(event) {
+    let find = false;
+    this.projectPhotosFiles.forEach((elem, i) => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        if(fr.result == event.target.src && !find) {
+          this.projectPhotosFiles.splice(i, 1);
+          find = true;
+        }
+      };
+      fr.readAsDataURL(elem);
+    });
     this.projectPhotos.splice(this.projectPhotos.indexOf(event.target.src), 1);
-    this.projectPhotosFiles.slice(this.projectPhotos.indexOf(event.target.src), 1);
   }
 
   public deleteMapsPhoto(event) {
     this.mapsPhotos.splice(this.mapsPhotos.indexOf(event.target.src), 1);
-    this.projectMapsFiles.slice(this.projectMapsFiles.indexOf(event.target.src), 1);
+    this.projectMapsFiles.splice(this.projectMapsFiles.indexOf(event.target.src), 1);
   }
 
   public openEditor() {
@@ -527,6 +544,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId, defaultRoom) {
+    this.infoMessage = '';
     this.image = this.image ? this.image : [];
     $('#infoBox').modal('show');
     const findDefaultRoom = this.listRooms.find((room) => {
@@ -562,7 +580,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       if (this.isClickOnEditOrDeleteRoom && this.roomIdForDeleteOrEdit) {
         const dayTimeId = (dayTime === 'day') ? 1 : 2;
         const roomFormData = new FormData();
-        this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
+        const appendForm = (result) => {
           roomFormData.append('roomObjects', result);
           roomFormData.append('dayTimeId', dayTimeId.toString());
           roomFormData.append('nameOfRoomId', nameRoomId);
@@ -585,9 +603,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             });
           });
           this.roomIdForDeleteOrEdit = null;
+        };
+        typeof this.image !== 'string' ?
+        this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
+          appendForm(result);
         }, error => {
           this.infoMessage = 'Something wrong, please try again.';
-        });
+        }) : appendForm(this.image);
       } else {
         if (this.image) {
           const fr = new FileReader();

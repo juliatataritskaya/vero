@@ -7,7 +7,7 @@ import {ResetPasswordRoutes} from './reset-password/reset-password.routes';
 
 export const AuthRoutes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
-  {path: 'auth', component: AuthComponent, canActivate: [UnauthorizedGuard], children: [
+  {path: 'auth', component: AuthComponent, children: [
     ...LoginRoutes,
     ...ForgotPasswordRoutes,
     ...ResetPasswordRoutes
