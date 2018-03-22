@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
 import {validateConfirmPassword} from '../../shared/validators/confirm-password.validator';
-import {RedirectService} from "../../services/redirect.service";
+import {RedirectService} from '../../services/redirect.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,8 +15,8 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
   forgotPasswordForm: FormGroup;
   token: string;
 
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
-               private route: ActivatedRoute, private redirectService: RedirectService) {
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
+              private route: ActivatedRoute, private redirectService: RedirectService) {
     super({
       password: '',
       confirmPassword: ''
@@ -32,7 +32,7 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     });
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.onCheckExpTime();
     this.createNewPasswordForm();
   }
@@ -48,9 +48,9 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     });
   }
 
-  public onSendHandler (): void {
+  public onSendHandler(): void {
     if (!this.forgotPasswordForm.valid) {
-     alert('Password is invalid, please check it.');
+      alert('Password is invalid, please check it.');
       return;
     }
     const passwordData = new FormData();
@@ -65,7 +65,7 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
         return;
       } else {
         this.redirectService.checkRedirect(error.status, (message) => {
-          if(message){
+          if (message) {
             alert(error.error.error);
           }
         });
@@ -78,9 +78,9 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     this.router.navigate(['/auth/login']);
   }
 
-  private createNewPasswordForm (): void {
+  private createNewPasswordForm(): void {
     this.forgotPasswordForm = this.fb.group({
-      password: [ '', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', [Validators.required]]
     }, {validator: validateConfirmPassword});
 

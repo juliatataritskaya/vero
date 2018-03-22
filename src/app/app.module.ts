@@ -1,6 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { Ng2ImgToolsModule } from 'ng2-img-tools';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {Ng2ImgToolsModule} from 'ng2-img-tools';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app.routing.module';
 import {StartPageModule} from './start-page/start-page.module';

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { NotificationApiService } from './api/notification.api.service';
 
 @Injectable()

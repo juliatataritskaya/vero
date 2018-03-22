@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {StartPageRoutes} from './start-page/start-page.routing';
 import {AuthRoutes} from './auth/auth.routing';
 import {MainRoutes} from './main/main.routing';

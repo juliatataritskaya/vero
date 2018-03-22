@@ -3,7 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
-import {RedirectService} from "../../services/redirect.service";
+import {RedirectService} from '../../services/redirect.service';
 
 declare var $: any;
 
@@ -15,8 +15,8 @@ declare var $: any;
 export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
   loginForm: FormGroup;
 
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
-               private redirectService: RedirectService) {
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
+              private redirectService: RedirectService) {
     super({
       email: '',
       password: '',
@@ -33,7 +33,7 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     });
   }
 
-  ngOnInit () {
+  ngOnInit() {
     $('.modal').modal('hide');
     this.createLoginForm();
   }
@@ -47,21 +47,21 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     const loginData = new FormData();
     for (const key in formObject) {
       if (formObject.hasOwnProperty(key)) {
-       loginData.append(key, formObject[key]);
-     }
+        loginData.append(key, formObject[key]);
+      }
     }
     this.authService.loginUser(loginData).then(() => {
       this.router.navigate(['/main']);
     }, error => {
       this.redirectService.checkRedirect(error.status, (message) => {
-        if(message){
+        if (message) {
           alert(error.error.error);
         }
       });
     });
   }
 
-  private createLoginForm (): void {
+  private createLoginForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(5), Validators.email]],
       password: ['', [Validators.required, Validators.minLength(1)]],

@@ -28,7 +28,15 @@ export class NotificationTabComponent implements OnInit {
 
   ngOnInit () {
     this.getAllUsers(() => {
-      this.loadUsers();
+      this.loadUsers(() => {
+        this.tableWidget.on('click', 'input[type="checkbox"]', (event) => {
+          if(event.target.checked){
+            this.selectedRowsId.push(event.target.id.substring(5));
+          } else {
+            this.selectedRowsId.splice(this.selectedRowsId.indexOf(event.target.id.substring(5)), 1);
+          }
+        });
+      });
     });
   }
 
@@ -37,17 +45,11 @@ export class NotificationTabComponent implements OnInit {
       this.listOfUsers = result['userList'];
       callback();
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
-
   }
 
-  public loadUsers(): void {
+  public loadUsers(callback): void {
     if (this.tableWidget) {
       this.tableWidget.destroy();
     }
@@ -76,16 +78,7 @@ export class NotificationTabComponent implements OnInit {
     };
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
-
-    this.tableWidget.on('click', 'input[type="checkbox"]', (event) => {
-      if(event.target.checked){
-        this.selectedRowsId.push(event.target.id.substring(5));
-      } else {
-        this.selectedRowsId.splice(this.selectedRowsId.indexes(event.target.id.substring(5)), 1);
-      }
-      // console.log(event.target.checked);
-      // console.log(event.target.id);
-    });
+    callback();
   }
 
   onSend() {
@@ -109,14 +102,11 @@ export class NotificationTabComponent implements OnInit {
 
       this.notificationService.postNotification(notificationData).then(() => {
         this.infoMessage = this.selectedRowsId.length > 1 ? 'Messages were sent' : 'Message was sent';
+        this.selectedRowsId = [];
         this.resetForm();
+        this.loadUsers(() => {});
       }, error => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
     }
   }
@@ -125,22 +115,13 @@ export class NotificationTabComponent implements OnInit {
     $('#messageForNotification').modal('hide');
     this.title = '';
     this.message = '';
+    this.isSelectAll = false;
   }
 
-  // onSelectNone(){
-  //   console.log($('input'))
-  //   $('input').each((i, el) => {
-  //     console.log($(el));
-  //     $(el).attr('checked', false);
-  //   });
-  // }
-
-  onSelect() {
+  onSelectNone(){
     this.selectedRowsId = [];
-    this.isSelectAll = false;
-    $('input:checked').each((i, elem) => {
-      this.selectedRowsId.push($(elem).attr('id').substring(5));
-    });
+    this.resetForm();
+    this.loadUsers(() => {});
   }
 
   closeModal() {

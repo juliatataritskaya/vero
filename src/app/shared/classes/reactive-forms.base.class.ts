@@ -1,5 +1,4 @@
 import {FormGroup} from '@angular/forms';
-// import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 
 export abstract class ReactiveFormsBaseClass {
   constructor(protected formErrors: any, protected validationMessages: any) {}
@@ -23,12 +22,6 @@ export abstract class ReactiveFormsBaseClass {
   }
 
   protected showError (message: string): void {
-    // const snackBarRef = this.snackBar.open(`${message}`, 'Close', {
-    //   duration: 3000
-    // } as MatSnackBarConfig);
-    // snackBarRef.onAction().subscribe(() => {
-    //   snackBarRef.dismiss();
-    // });
     alert(message);
   }
 }

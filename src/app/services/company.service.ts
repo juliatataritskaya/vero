@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
 import {CompanyApiService} from './api/company.api.service';
 
 @Injectable()

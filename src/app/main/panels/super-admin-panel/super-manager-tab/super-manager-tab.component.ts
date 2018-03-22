@@ -68,12 +68,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
       this.listOfSuperManagers = result['userList'];
       callback();
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -133,12 +128,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
           this.loadSuperManagers();
         });
       }, (error) => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
     }
   }
@@ -168,12 +158,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
         this.loadSuperManagers();
       });
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -252,12 +237,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
           this.loadSuperManagers();
         });
       }, (error) => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
     }
   }
@@ -265,6 +245,15 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   closeModal() {
     $('#infoBox').modal('hide');
     this.infoMessage = null;
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 
 }

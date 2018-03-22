@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-// declare var $: any;
-
 @Component({
   selector: 'app-error-page',
   templateUrl: './error-page.component.html',
@@ -13,9 +11,10 @@ export class ErrorPageComponent implements OnInit {
   errorMessage: string;
   errorCode: any;
 
-  constructor (private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+  }
 
-  ngOnInit () {
+  ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.params = params.code;
     });
@@ -23,7 +22,7 @@ export class ErrorPageComponent implements OnInit {
   }
 
   onLoadPage() {
-    if(!this.params) {
+    if (!this.params) {
       this.errorMessage = 'Page not found';
       this.errorCode = 404;
     } else if (this.params === '404') {

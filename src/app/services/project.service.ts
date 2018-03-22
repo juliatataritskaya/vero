@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ProjectApiService} from './api/project.api.service';
-import {IProject} from '../shared/models/project.model';
 
 @Injectable()
 export class ProjectService {

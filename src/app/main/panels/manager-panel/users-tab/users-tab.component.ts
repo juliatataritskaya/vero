@@ -86,12 +86,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       this.listOfUsers = result['userList'];
       callback();
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -100,12 +95,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       this.listOfProjects = result.projectList;
       callback();
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -174,12 +164,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
           this.loadUsers();
         });
       }, (error) => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
     }
   }
@@ -225,12 +210,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
         this.loadUsers();
       });
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -324,12 +304,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
           this.loadUsers();
         });
       }, (error) => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
     }
   }
@@ -348,5 +323,14 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   closeModal() {
     $('#infoBox').modal('hide');
     this.infoMessage = null;
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 }

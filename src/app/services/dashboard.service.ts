@@ -11,7 +11,6 @@ export class DashboardService {
   }
 
   public getTime() {
-
     this.tp_clock();
     this.tp_date();
   }

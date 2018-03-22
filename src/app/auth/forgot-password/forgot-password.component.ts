@@ -13,8 +13,8 @@ import {RedirectService} from "../../services/redirect.service";
 export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements OnInit {
   forgotPasswordForm: FormGroup;
 
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder,
-               private redirectService: RedirectService) {
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
+              private redirectService: RedirectService) {
     super({
       email: ''
     }, {
@@ -26,7 +26,7 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
     });
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.createForgotPasswordForm();
   }
 
@@ -40,21 +40,21 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
     for (const key in formObject) {
       if (formObject.hasOwnProperty(key)) {
         forgotPasswordData.append(key, formObject[key]);
-     }
+      }
     }
     this.authService.resetPassword(forgotPasswordData).then(() => {
       alert('Message was sent to the email');
       this.router.navigate(['/auth/login']);
     }, error => {
       this.redirectService.checkRedirect(error.status, (message) => {
-        if(message){
+        if (message) {
           alert(error.error.error);
         }
       });
     });
   }
 
-  private createForgotPasswordForm (): void {
+  private createForgotPasswordForm(): void {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(5), Validators.email]]
     });

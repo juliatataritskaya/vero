@@ -1,13 +1,7 @@
 function UnityProgress(gameInstance, progress) {
   if (!gameInstance.Module)
     return;
-
-  //if (!gameInstance.logo) {
-  //  gameInstance.logo = document.createElement("div");
-  //  gameInstance.logo.className = "logo " + gameInstance.Module.splashScreenStyle;
-  //  gameInstance.container.appendChild(gameInstance.logo);
-  //}
-  if (!gameInstance.progress) {    
+  if (!gameInstance.progress) {
     gameInstance.progress = document.createElement("div");
     gameInstance.progress.className = "progress " + gameInstance.Module.splashScreenStyle;
     gameInstance.progress.empty = document.createElement("div");
@@ -21,5 +15,5 @@ function UnityProgress(gameInstance, progress) {
   gameInstance.progress.full.style.width = (100 * progress) + "%";
   gameInstance.progress.empty.style.width = (100 * (1 - progress)) + "%";
   if (progress == 1)
-    gameInstance.logo.style.display = gameInstance.progress.style.display = "none";
+    gameInstance.progress.style.display = "none";
 }

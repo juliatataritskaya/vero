@@ -126,12 +126,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       });
       callback();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -140,12 +135,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.users = users['userList'];
       callback();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -243,12 +233,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         this.loadProjects();
       });
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -310,12 +295,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           });
           this.isClickOnEditProject = true;
         }, error => {
-          this.redirectService.checkRedirect(error.status, (message) => {
-            if (message) {
-              this.infoMessage = 'Something wrong, please try again.';
-              $('#infoBox').modal('show');
-            }
-          });
+          this.onErrorHandle(error);
         });
       }
     }
@@ -332,12 +312,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.projectPhotosFiles = [];
       callback();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -363,12 +338,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.getAllNewProjectData();
       this.infoMessage = 'Common settings were changed';
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -377,12 +347,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectService.updateProjectInfo(projectInfo).then((res) => {
       this.updateProjectPhotos();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -615,12 +580,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             this.infoMessage = 'Room was updated';
             this.resetRoomsForm();
           }, error => {
-            this.redirectService.checkRedirect(error.status, (message) => {
-              if (message) {
-                this.infoMessage = 'Something wrong, please try again.';
-                $('#infoBox').modal('show');
-              }
-            });
+            this.onErrorHandle(error);
           });
           this.roomIdForDeleteOrEdit = null;
         };
@@ -659,12 +619,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               this.infoMessage = 'Room was added';
               this.resetRoomsForm();
             }, error => {
-              this.redirectService.checkRedirect(error.status, (message) => {
-                if (message) {
-                  this.infoMessage = 'Something wrong, please try again.';
-                  $('#infoBox').modal('show');
-                }
-              });
+              this.onErrorHandle(error);
             });
             fr.readAsDataURL(this.image);
           }, error => {
@@ -709,12 +664,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             $('#planImg').modal('hide');
             this.infoMessage = 'Layout was updated';
           }, error => {
-            this.redirectService.checkRedirect(error.status, (message) => {
-              if (message) {
-                this.infoMessage = 'Something wrong, please try again.';
-                $('#infoBox').modal('show');
-              }
-            });
+            this.onErrorHandle(error);
           });
         };
         typeof this.planImg !== 'string' ?
@@ -747,12 +697,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               $('#planImg').modal('hide');
               this.infoMessage = 'Layout was added';
             }, error => {
-              this.redirectService.checkRedirect(error.status, (message) => {
-                if (message) {
-                  this.infoMessage = 'Something wrong, please try again.';
-                  $('#infoBox').modal('show');
-                }
-              });
+              this.onErrorHandle(error);
             });
             fr.readAsDataURL(result);
           });
@@ -800,12 +745,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         this.loadProjects();
       });
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -825,12 +765,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectService.deletePlan(this.planIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'Plan was deleted';
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
     this.planIdForDeleteOrEdit = null;
     this.getAllNewProjectData();
@@ -889,12 +824,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'Room was deleted';
       this.getAllNewProjectData();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
     this.roomIdForDeleteOrEdit = null;
   }
@@ -1025,12 +955,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         $('#armodel').modal('hide');
         this.infoMessage = 'AR was added';
       }, error => {
-        this.redirectService.checkRedirect(error.status, (message) => {
-          if (message) {
-            this.infoMessage = 'Something wrong, please try again.';
-            $('#infoBox').modal('show');
-          }
-        });
+        this.onErrorHandle(error);
       });
       this.resetARModelForm();
     }
@@ -1047,12 +972,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'AR model was deleted';
       this.getAllNewProjectData();
     }, error => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
     this.arIdForDeleteOrEdit = null;
     this.getAllNewProjectData();
@@ -1080,12 +1000,7 @@ allow="gyroscope; accelerometer; xr" src="${result.shareLink}"
 allowfullscreen allowfullscreen="true" webkitallowfullscreen="true" 
 mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>`;
     }, (error) => {
-      this.redirectService.checkRedirect(error.status, (message) => {
-        if (message) {
-          this.infoMessage = 'Something wrong, please try again.';
-          $('#infoBox').modal('show');
-        }
-      });
+      this.onErrorHandle(error);
     });
   }
 
@@ -1111,6 +1026,15 @@ mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></ifr
     setTimeout(function() {
       $(elelemnt ? elelemnt : '#copy-btn').tooltip('destroy');
     }, 1000);
+  }
+
+  onErrorHandle(error) {
+    this.redirectService.checkRedirect(error.status, (message) => {
+      if (message) {
+        this.infoMessage = 'Something wrong, please try again.';
+        $('#infoBox').modal('show');
+      }
+    });
   }
 
 }

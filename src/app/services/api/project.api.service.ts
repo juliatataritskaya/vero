@@ -2,8 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {BaseHttpService} from './base.http.service';
-import {IResultInfo} from '../../shared/models/success-response.model';
-import {IProject} from '../../shared/models/project.model';
 
 @Injectable()
 export class ProjectApiService extends BaseHttpService {

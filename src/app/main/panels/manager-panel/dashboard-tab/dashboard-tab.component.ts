@@ -215,7 +215,7 @@ export class DashboardTabComponent implements OnInit {
 
   connect(email) {
     localStorage.setItem('userId', email);
-    this.router.navigate(['main/adminpanel/vr-tracking']);
+    this.router.navigate(['main/managerpanel/vr-tracking']);
   }
 
   public getTypesOfUserDevices() {
@@ -409,7 +409,7 @@ export class DashboardTabComponent implements OnInit {
 
   goToProfile(id) {
     $('.modal').modal('hide');
-    this.router.navigate(['main/adminpanel/user', {id: id}]);
+    this.router.navigate(['main/managerpanel/user', {id: id}]);
   }
 
   goUserOverview(id, idx) {

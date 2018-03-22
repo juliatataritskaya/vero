@@ -1,18 +1,7 @@
-
-<!-- /main navbar -->
-
-
-<!-- Page container -->
 <div class="page-container">
-
-  <!-- Page content -->
   <div class="page-content">
-
-    <!-- Main sidebar -->
     <div class="sidebar sidebar-main">
       <div class="sidebar-content">
-
-        <!-- Main navigation -->
         <div class="sidebar-category sidebar-category-visible">
           <div class="category-content no-padding">
             <ul class="navigation navigation-main navigation-accordion">
@@ -36,24 +25,17 @@
             </ul>
           </div>
         </div>
-        <!-- /main navigation -->
-
       </div>
     </div>
-    <!-- /main sidebar -->
 
-
-    <!-- Main content -->
     <div class="content-wrapper">
       <div class="navbar navbar-inverse">
         <div class="navbar-header">
-
           <ul class="nav navbar-nav visible-xs-block" style="margin: 0; width: 100%; padding-top: 5px; background: #080a0e;">
             <li><a class="sidebar-mobile-main-toggle" ><i class="icon-paragraph-justify3"></i></a></li>
             <li class="pull-right"><a id="message-box2"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
           </ul>
         </div>
-
         <div class="navbar-collapse collapse" id="navbar-mobile">
           <ul class="nav navbar-nav">
             <li><a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="clickOnHiddenMenu()" ><i class="icon-paragraph-justify3"></i></a></li>
@@ -61,59 +43,19 @@
           <ul class="nav navbar-nav pull-right">
             <li><a id="message-box"  data-toggle="modal" data-target="#messageBoxModal"><i class="icon-switch2"></i> Logout</a></li>
           </ul>
-
-
-          <!--<ul class="nav navbar-nav navbar-right icons-list">-->
-            <!--<li class="dropdown dropdown-user">-->
-              <!--<a class="dropdown-toggle" data-toggle="dropdown">-->
-                <!--<span>{{userName || (userName | async) ? (userName | async) : (companyName | async)}}</span>-->
-                <!--<i class="caret"></i>-->
-              <!--</a>-->
-
-              <!--<ul class="dropdown-menu dropdown-menu-right">-->
-                <!--<li><a><i class="icon-user-plus"></i> My profile</a></li>-->
-                <!--<li class="divider"></li>-->
-                <!--<li><a><i class="icon-cog5"></i> Account settings</a></li>-->
-                <!---->
-              <!--</ul>-->
-            <!--</li>-->
-          <!--</ul>-->
         </div>
       </div>
-
-      <!--&lt;!&ndash; Page header &ndash;&gt;-->
-      <!--<div>-->
-        <!--<ul class="breadcrumb">-->
-          <!--<li><a href=""><i class="fa fa-arrow-left"></i> Start page</a></li>-->
-        <!--</ul>-->
-      <!--</div>-->
-      <!--&lt;!&ndash; /page header &ndash;&gt;-->
-
-
-      <!-- Content area -->
       <div class="content">
-
-        <!-- Dashboard content -->
         <div class="row">
           <div class="col-lg-12" style="padding-top: 15px">
                <router-outlet></router-outlet>
           </div>
         </div>
-        <!-- /dashboard-tab content -->
-
       </div>
-      <!-- /content area -->
-
     </div>
-    <!-- /main content -->
-
   </div>
-  <!-- /page content -->
-
 </div>
-<!-- /page container -->
 
-<!-- MESSAGE BOX-->
 <div id="messageBoxModal" class="modal message-box animated fadeIn" role="dialog" style="padding-right: 0px !important;">
   <div class="mb-container">
     <div class="mb-middle">

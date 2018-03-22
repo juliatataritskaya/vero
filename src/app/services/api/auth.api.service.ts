@@ -1,8 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {ILoginData, ILoginSuccessResponse, IEmail} from '../../shared/models/auth.model';
-import {INewUser, IUser} from '../../shared/models/user.model';
+import {ILoginSuccessResponse} from '../../shared/models/auth.model';
 import {BaseHttpService} from './base.http.service';
 
 @Injectable()
