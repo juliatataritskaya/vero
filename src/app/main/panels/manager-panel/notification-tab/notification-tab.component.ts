@@ -76,6 +76,16 @@ export class NotificationTabComponent implements OnInit {
     };
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
+
+    this.tableWidget.on('click', 'input[type="checkbox"]', (event) => {
+      if(event.target.checked){
+        this.selectedRowsId.push(event.target.id.substring(5));
+      } else {
+        this.selectedRowsId.splice(this.selectedRowsId.indexes(event.target.id.substring(5)), 1);
+      }
+      // console.log(event.target.checked);
+      // console.log(event.target.id);
+    });
   }
 
   onSend() {

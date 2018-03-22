@@ -1,0 +1,15 @@
+{
+"companyName": "VironIT",
+"productName": "VERO App",
+"dataUrl": "2018_mar_22.data.unityweb",
+"asmCodeUrl": "2018_mar_22.asm.code.unityweb",
+"asmMemoryUrl": "2018_mar_22.asm.memory.unityweb",
+"asmFrameworkUrl": "2018_mar_22.asm.framework.unityweb",
+"TOTAL_MEMORY": 2130706432,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"backgroundUrl": "2018_mar_22.jpg",
+"splashScreenStyle": "Light",
+"backgroundColor": "#FFFFFF",
+"cacheControl": {"dataUrl": "must-revalidate"}
+}

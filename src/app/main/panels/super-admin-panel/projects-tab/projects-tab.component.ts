@@ -415,12 +415,19 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       const filesArr = Array.prototype.slice.call(files);
       if (FileReader && files && files.length) {
         filesArr.forEach((i) => {
-          const fr = new FileReader();
-          this.projectPhotosFiles.push(i);
-          fr.onload = () => {
-            this.projectPhotos.push(fr.result);
-          };
-          fr.readAsDataURL(i);
+          this.ng2ImgToolsService.resize([i], 4000, 2000).subscribe(result => {
+            if (result) {
+              const fr = new FileReader();
+              this.projectPhotosFiles.push(result);
+              fr.onload = () => {
+                this.projectPhotos.push(fr.result);
+              };
+              fr.readAsDataURL(result);
+            }
+          }, error => {
+            $('#infoBox').modal('show');
+            this.infoMessage = 'Something wrong, please try again.';
+          });
         });
       }
     }
@@ -490,6 +497,19 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       switch (controlName) {
         case 'logo':
           this.logo[0] = event.target.files[0];
+          this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
+            this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
+            if (result) {
+              const fr = new FileReader();
+              fr.onload = () => {
+                this.miniImageUrl = fr.result;
+              };
+              fr.readAsDataURL(result);
+            }
+          }, error => {
+            $('#infoBox').modal('show');
+            this.infoMessage = 'Something wrong, please try again.';
+          });
           this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
           if (this.logo[0]) {
             const fr = new FileReader();
@@ -676,25 +696,33 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'Plan with this name already exists!';
     } else {
       if (this.isClickOnEditOrDeleteLayout && this.planIdForDeleteOrEdit) {
-        const planFormData = new FormData();
-        planFormData.append('plans', this.planImg);
-        planFormData.append('planId', this.planIdForDeleteOrEdit);
-        planFormData.append('planInfoId', namePlanId);
-        planFormData.append('floorNumber', floorNumber);
-        planFormData.append('projectId', localStorage.getItem('projectId'));
-        this.projectService.updateProjectPlan(planFormData).then((res) => {
-          this.resetPlansForm();
-          this.getAllNewProjectData();
-          $('#planImg').modal('hide');
-          this.infoMessage = 'Layout was updated';
-        }, error => {
-          this.redirectService.checkRedirect(error.status, (message) => {
-            if (message) {
-              this.infoMessage = 'Something wrong, please try again.';
-              $('#infoBox').modal('show');
-            }
+        const appendForm = (result) => {
+          const planFormData = new FormData();
+          planFormData.append('plans', result);
+          planFormData.append('planId', this.planIdForDeleteOrEdit);
+          planFormData.append('planInfoId', namePlanId);
+          planFormData.append('floorNumber', floorNumber);
+          planFormData.append('projectId', localStorage.getItem('projectId'));
+          this.projectService.updateProjectPlan(planFormData).then((res) => {
+            this.resetPlansForm();
+            this.getAllNewProjectData();
+            $('#planImg').modal('hide');
+            this.infoMessage = 'Layout was updated';
+          }, error => {
+            this.redirectService.checkRedirect(error.status, (message) => {
+              if (message) {
+                this.infoMessage = 'Something wrong, please try again.';
+                $('#infoBox').modal('show');
+              }
+            });
           });
-        });
+        };
+        typeof this.planImg !== 'string' ?
+          this.ng2ImgToolsService.resize([this.planImg], 4000, 2000).subscribe(result => {
+            appendForm(result);
+          }, error => {
+            this.infoMessage = 'Something wrong, please try again.';
+          }) : appendForm(this.image);
         this.planIdForDeleteOrEdit = null;
         this.isClickOnEditOrDeleteLayout = false;
       } else {
@@ -709,23 +737,25 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             });
           };
           const planFormData = new FormData();
-          planFormData.append('plans', this.planImg);
-          planFormData.append('planInfoId', namePlanId);
-          planFormData.append('floorNumber', floorNumber);
-          planFormData.append('projectId', localStorage.getItem('projectId'));
-          this.projectService.addProjectPlan(planFormData).then((res) => {
-            this.getAllNewProjectData();
-            $('#planImg').modal('hide');
-            this.infoMessage = 'Layout was added';
-          }, error => {
-            this.redirectService.checkRedirect(error.status, (message) => {
-              if (message) {
-                this.infoMessage = 'Something wrong, please try again.';
-                $('#infoBox').modal('show');
-              }
+          this.ng2ImgToolsService.resize([this.planImg], 4000, 2000).subscribe(result => {
+            planFormData.append('plans', result);
+            planFormData.append('planInfoId', namePlanId);
+            planFormData.append('floorNumber', floorNumber);
+            planFormData.append('projectId', localStorage.getItem('projectId'));
+            this.projectService.addProjectPlan(planFormData).then((res) => {
+              this.getAllNewProjectData();
+              $('#planImg').modal('hide');
+              this.infoMessage = 'Layout was added';
+            }, error => {
+              this.redirectService.checkRedirect(error.status, (message) => {
+                if (message) {
+                  this.infoMessage = 'Something wrong, please try again.';
+                  $('#infoBox').modal('show');
+                }
+              });
             });
+            fr.readAsDataURL(result);
           });
-          fr.readAsDataURL(this.planImg);
         } else {
           this.infoMessage = 'Image is mandatory!';
         }
