@@ -164,13 +164,13 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
 
   private createUserForm(): void {
     this.addSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Zа-яА-Я ]*')]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(('^[+]\\d+$|^\\d+$'))]],
     });
 
     this.editSuperManagerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*')]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-Zа-яА-Я ]*')]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(('^[+]\\d+$|^\\d+$'))]],
       occupation: ['', []],
@@ -250,7 +250,8 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   onErrorHandle(error) {
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
-        this.infoMessage = 'Something wrong, please try again.';
+        this.infoMessage = (error.error.error == 'User with this email already registered in the system.')
+          ? error.error.error : message;
         $('#infoBox').modal('show');
       }
     });

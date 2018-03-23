@@ -216,19 +216,27 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addUsersToProject() {
+    $('#infoBox').modal('show');
     let listUsersIds = [];
+    let cancelIds = [];
     $('.users').each((index, elem) => {
       if ($(elem).prop('checked')) {
         listUsersIds.push(this.users[index].userId);
+      } else {
+        cancelIds.push(this.users[index].userId);
       }
     });
     const projectData = new FormData();
     listUsersIds.forEach((id) => {
       projectData.append('userIds', id.toString());
     });
+    cancelIds.forEach((id) => {
+      projectData.append('userUncheckedIds', id.toString());
+    });
     projectData.append('projectId', this.projectId.toString());
     this.userService.addUsersToProject(projectData).then(result => {
       this.projectId = null;
+      this.infoMessage = 'Users were updated';
       this.getAllProjects(() => {
         this.loadProjects();
       });
