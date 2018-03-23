@@ -478,4 +478,27 @@
   table{
     font-size: 9px;
   }
+
+  .projectsModal{
+    padding: 3px;
+  }
+
+  .textProjectsModal{
+    font-size: 12px;
+  }
+
+  #projectsModal > div > div > div{
+    padding: 0 0 5% 0;
+  }
+}
+
+.projectsModal > h3 {
+  text-align: center;
+}
+
+@media (min-width: 790px) {
+  #projectsModal > div > div > div{
+    padding-right: 10%;
+    padding-left: 10%;
+  }
 }

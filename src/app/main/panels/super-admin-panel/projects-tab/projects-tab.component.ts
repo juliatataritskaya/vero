@@ -6,7 +6,8 @@ import {RedirectService} from '../../../../services/redirect.service';
 import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
 import {Clipboard} from 'ts-clipboard';
-import { Ng2ImgToolsService } from 'ng2-img-tools';
+import {Ng2ImgToolsService} from 'ng2-img-tools';
+
 declare var $: any;
 
 @Component({
@@ -408,23 +409,18 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public onUpdateMapFiles(result) {
-    if (this.mapsPhotos.length + result.target.files.length > 15) {
-      $('#infoBox').modal('show');
-      this.infoMessage = 'Max length is 15 photos';
-    } else {
-      const tgt = result.target || window.event.srcElement,
-        files = tgt.files;
-      const filesArr = Array.prototype.slice.call(files);
-      if (FileReader && files && files.length) {
-        filesArr.forEach((i) => {
-          const fr = new FileReader();
-          this.projectMapsFiles.push(i);
-          fr.onload = () => {
-            this.mapsPhotos.push(fr.result);
-          };
-          fr.readAsDataURL(i);
-        });
-      }
+    const tgt = result.target || window.event.srcElement,
+      files = tgt.files;
+    const filesArr = Array.prototype.slice.call(files);
+    if (FileReader && files && files.length) {
+      filesArr.forEach((i) => {
+        const fr = new FileReader();
+        this.projectMapsFiles.push(i);
+        fr.onload = () => {
+          this.mapsPhotos.push(fr.result);
+        };
+        fr.readAsDataURL(i);
+      });
     }
     result.target.value = [];
   }
@@ -441,7 +437,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.styles = [];
   }
 
-  clickOnCreate(){
+  clickOnCreate() {
     this.isClickOnCreateProject = true;
     this.isClickOnEditProject = false;
     this.selectedProject = null;
@@ -531,7 +527,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public openEditor() {
-    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '', 'width=700,height=500');
+    const newWin = window.open('../../../../../assets/js/plugins/unity/index.html', '',
+      "width="+screen.availWidth+",height="+screen.availHeight);
     localStorage.setItem('projectId', this.selectedProject['id']);
     localStorage.setItem('type', 'edit');
   }

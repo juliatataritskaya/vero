@@ -512,20 +512,20 @@
 <div id="projectsModal" class="modal message-box animated fade" role="dialog">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2 scroll-block" style="max-height: 60%; overflow-y: auto">
-    <div class="mb-middle col-lg-12">
-      <div class="mb-content col-lg-12">
+    <div class="col-lg-12">
+      <div class="col-lg-12">
         <div *ngIf="!projectsAll">
           <img src="../../../../../assets/img/loading.gif" width="150" height="150"/>
         </div>
-        <div *ngIf="projectsAll">
+        <div *ngIf="projectsAll" class="projectsModal">
           <h3>Add projects to user:</h3>
           <div style="max-height: 300px" class="scroll-block">
-            <div *ngFor="let project of projectsAll" style="display: flex">
+            <div *ngFor="let project of projectsAll" style="display: flex" class="textProjectsModal">
               <input type="checkbox" value="{{project.id}}" class="assignProjects" checked="{{project.checked}}">
               <label style="text-align: left; padding: 2px;">{{project.name}} , {{project.description}}</label>
             </div>
           </div>
-          <div>
+          <div style="text-align: center; padding-top: 10px">
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="addProjectsToUser()">OK
             </button>
             <button class="btn btn-default btn-lg btn-logout" data-dismiss="modal" (click)="closeModal()">Cancel

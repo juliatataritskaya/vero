@@ -442,8 +442,13 @@ export class DashboardTabComponent implements OnInit {
   }
 
   assignNewProject(userId) {
-    this.getBelongProject(userId);
-    $('#projectsModal').modal('show');
+    this.getAllProjects(() => {
+      this.getAllUsers();
+      this.getBelongProject(userId);
+      $('#projectsModal').modal('show');
+    });
+    // this.getBelongProject(userId);
+    // $('#projectsModal').modal('show');
   }
 
   private getBelongProject(userId) {
