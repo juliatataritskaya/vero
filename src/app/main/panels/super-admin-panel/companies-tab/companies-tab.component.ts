@@ -102,7 +102,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
         companyData.profile['password'] = this.securityForm.value['password'];
       }
       this.companyService.updateCompanySettings(companyData).then((result) => {
-        this.infoMessage = 'Company settings was saved';
+        this.infoMessage = 'Company settings were saved';
         $('#infoBox').modal('show');
         this.getCompanySettings(() => {
           this.setCompanySettingsData();
