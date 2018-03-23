@@ -391,7 +391,7 @@
           </div>
           <div class="form-group">
             <label for="img">Maps : </label>
-            <input type="file" multiple title="" accept="image/png"
+            <input type="file" multiple title="" accept="image/png,image/tga,image/jpg,image/jpeg"
                    (change)="onUpdateMapFiles($event)"/>
             <p *ngIf="mapsPhotos">{{mapsPhotos.length}} files</p>
           </div>
@@ -400,8 +400,8 @@
                  (click)="deleteMapsPhoto($event)" title="Click if you want delete it">
           </div>
           <div class="form-group">
-            <label for="floorNumber">Size, % : </label>
-            <input type="number" id="size" name="size" placeholder="Size" class="form-control"
+            <label for="floorNumber">Scale: </label>
+            <input type="number" id="size" name="size" placeholder="Size" class="form-control" min="0"
                    onkeydown="javascript: return event.keyCode == 69 ? false : true"
                    [(ngModel)]="arsize" [ngModelOptions]="{standalone: true}">
           </div>
