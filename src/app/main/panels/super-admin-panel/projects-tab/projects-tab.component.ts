@@ -1034,6 +1034,7 @@ mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></ifr
   }
 
   onErrorHandle(error) {
+    $('.modal').modal('hide');
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
         this.infoMessage = 'Something wrong, please try again.';

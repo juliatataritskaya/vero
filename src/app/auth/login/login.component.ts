@@ -5,8 +5,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
 import {RedirectService} from '../../services/redirect.service';
 
-declare var $: any;
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,7 +32,6 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
   }
 
   ngOnInit() {
-    $('.modal').modal('hide');
     this.createLoginForm();
   }
 

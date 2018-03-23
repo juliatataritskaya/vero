@@ -291,6 +291,7 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   }
 
   onErrorHandle(error) {
+    $('.modal').modal('hide');
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
         this.infoMessage = (error.error.error == 'User with this email already registered in the system.')
