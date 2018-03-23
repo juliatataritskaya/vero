@@ -502,3 +502,7 @@
     padding-left: 10%;
   }
 }
+
+a, a:active, a:focus{
+  color: #37474F;
+}

@@ -391,8 +391,7 @@
           </div>
           <div class="form-group">
             <label for="img">Maps : </label>
-            <input type="file" multiple title="" accept="image/png,image/tga,image/jpg,image/jpeg"
-                   (change)="onUpdateMapFiles($event)"/>
+            <input type="file" multiple title="" (change)="onUpdateMapFiles($event)"/>
             <p *ngIf="mapsPhotos">{{mapsPhotos.length}} files</p>
           </div>
           <div class="photo-container" *ngIf="mapsPhotos.length != 0">
