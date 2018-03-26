@@ -148,7 +148,6 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
   }
 
   onErrorHandle(error) {
-    $('.modal').modal('hide');
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
         this.infoMessage = 'Something wrong, please try again.';

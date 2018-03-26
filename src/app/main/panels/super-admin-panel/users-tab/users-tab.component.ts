@@ -5,7 +5,6 @@ import {UserService} from '../../../../services/user.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
 import {ProjectService} from '../../../../services/project.service';
-import {environment} from '../../../../../environments/environment';
 
 declare var $: any;
 
@@ -326,7 +325,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   }
 
   onErrorHandle(error) {
-    $('.modal').modal('hide');
+    // $('.modal').modal('hide');
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
         this.infoMessage = (error.error.error == 'User with this email already registered in the system.')

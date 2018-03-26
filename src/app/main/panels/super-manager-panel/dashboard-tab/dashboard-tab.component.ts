@@ -490,7 +490,6 @@ export class DashboardTabComponent implements OnInit {
   }
 
   onErrorHandle(error) {
-    $('.modal').modal('hide');
     error.status === 401 || error.status === 500 ? clearInterval(this.timer) : () => {};
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
