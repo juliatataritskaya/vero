@@ -110,7 +110,7 @@ export class MainComponent implements OnInit {
     });
     $(window).on('resize', function() {
       setTimeout(function() {
-        if($(window).width() <= 768) {
+        if($(window).width() <= 60) {
           $('body').addClass('sidebar-xs-indicator');
           $('.sidebar-opposite').insertBefore('.content-wrapper');
           $('.sidebar-detached').insertBefore('.content-wrapper');

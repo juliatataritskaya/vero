@@ -16884,6 +16884,9 @@ thead .htCollapseButton:after {
   position: relative;
   clear: both;
 }
+.dataTables_wrapper > .row:first-child{
+  text-align: center;
+}
 .dataTables_wrapper:after {
   visibility: hidden;
   display: block;
@@ -16966,6 +16969,9 @@ thead .htCollapseButton:after {
   background-color: #fff;
   border: 1px solid #ddd;
   outline: 0;
+}
+.dataTables_length > label > select {
+  height: 36px;
 }
 .length-left .dataTables_length {
   float: left;
