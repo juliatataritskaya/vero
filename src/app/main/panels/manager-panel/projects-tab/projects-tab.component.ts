@@ -738,6 +738,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.materialFile = [];
     this.arName = '';
     this.arsize = null;
+    this.mapsPhotos = [];
   }
 
   onDeleteProject() {
