@@ -343,8 +343,9 @@
           <div class="form-group">
             <label for="floorNumber">Floor number : </label>
             <input type="number" id="floorNumber" name="floorNumber" placeholder="Floor number" class="form-control"
-                   [(ngModel)]="floorNumber"
-                   [ngModelOptions]="{standalone: true}">
+                   onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 190
+                    || event.keyCode == 194 || event.keyCode == 110? false : true"
+                   [(ngModel)]="floorNumber" [ngModelOptions]="{standalone: true}">
           </div>
         </form>
       </div>

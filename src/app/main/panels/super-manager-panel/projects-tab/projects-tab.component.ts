@@ -257,9 +257,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
     const projectData = this.projectForm.value;
     if (!this.projectForm.value['name'] || !this.projectForm.value['description']
-      || !this.projectForm.value['logo'] || !this.projectForm.value['videoUrl']
-      || this.projectForm.value['armodels'].length === 0 || this.projectForm.value['typesRooms'].length === 0
-      || this.projectForm.value['styles'].length === 0  || this.projectForm.value['plansName'].length === 0) {
+      || !this.projectForm.value['logo'] || this.projectForm.value['armodels'].length === 0 ||
+      this.projectForm.value['typesRooms'].length === 0 || this.projectForm.value['styles'].length === 0  ||
+      this.projectForm.value['plansName'].length === 0) {
       this.infoMessage = 'Project data is invalid, please check it.';
     } else if (this.styles.length > 3) {
       this.infoMessage = 'Max count interior styles are 3';
@@ -441,6 +441,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.isClickOnCreateProject = true;
     this.isClickOnEditProject = false;
     this.selectedProject = null;
+    this.savedProjectData = {};
+    this.listPlans = [];
+    this.listARModels = [];
+    this.listRooms = [];
+    this.resetRoomsForm();
+    this.resetPlansForm();
+    this.resetARModelForm();
     this.onClearForm();
   }
 
