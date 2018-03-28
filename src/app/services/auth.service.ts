@@ -47,7 +47,7 @@ export class AuthService {
     });
   }
 
-  public checkoutResetPassword(token: any): Promise<string> {
+  public checkoutResetPassword(token: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authApi.postCheckoutResetPassword(token).then(result => {
         resolve(result);

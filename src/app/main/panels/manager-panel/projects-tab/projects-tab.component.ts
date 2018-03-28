@@ -185,6 +185,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     this.projectsTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.projectsTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
+      this.isClickOnEditProject = false;
+      this.isClickOnCreateProject = false;
       this.selectedProject = this.projects[indexes[0]];
       this.shipmentSelected.emit(this.projects[indexes[0]]);
     });

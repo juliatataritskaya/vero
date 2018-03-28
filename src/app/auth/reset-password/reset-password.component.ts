@@ -42,6 +42,10 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     const tokenData = new FormData();
     tokenData.append('token', this.token);
     this.authService.checkoutResetPassword(tokenData).then((res) => {
+      if (res.message === 'This token isn\'t valid') {
+        alert('This token isn\'t valid');
+        this.router.navigate(['/auth/login']);
+      }
     }, error => {
       alert('Something wrong, please try again.');
       this.router.navigate(['/auth/login']);

@@ -107,6 +107,8 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
+      this.isClickOnCreateManager = false;
+      this.isClickOnEditManager = false;
       this.selectedRow = this.listOfManagers[indexes[0]];
     });
     this.tableWidget.on('deselect', (e, dt, type, indexes) => {

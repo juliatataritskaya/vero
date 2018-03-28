@@ -95,6 +95,8 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
     this.usersTable = $(this.el.nativeElement.querySelector('table'));
     this.tableWidget = this.usersTable.DataTable(tableOptions);
     this.tableWidget.on('select', (e, dt, type, indexes) => {
+      this.isClickOnCreateSuperManager = false;
+      this.isClickOnEditSuperManager = false;
       this.selectedRow = this.listOfSuperManagers[indexes[0]];
     });
     this.tableWidget.on('deselect', (e, dt, type, indexes) => {
