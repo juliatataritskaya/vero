@@ -320,7 +320,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
         if (result) {
           new ImageCompressor(result, {
-            quality: .8,
+            quality: .85,
             success(res) {
               const fr = new FileReader();
               fr.onload = () => {
@@ -426,7 +426,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               let arr = this.projectPhotosFiles;
               let arrPh = this.projectPhotos;
               new ImageCompressor(result, {
-                quality: .8,
+                quality: .85,
                 success(res) {
                   arr.push(res);
                   const fr = new FileReader();
@@ -624,7 +624,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         typeof this.image !== 'string' ?
         this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
           new ImageCompressor(result, {
-            quality: .8,
+            quality: .85,
             success(res) {
               appendForm(res);
             },
@@ -652,7 +652,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           const roomFormData = new FormData();
           this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
             new ImageCompressor(result, {
-              quality: .8,
+              quality: .85,
               success(res) {
                 appendSaveForm(res);
               },
