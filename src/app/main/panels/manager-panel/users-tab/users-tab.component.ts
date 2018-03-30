@@ -5,7 +5,6 @@ import {UserService} from '../../../../services/user.service';
 import {RedirectService} from '../../../../services/redirect.service';
 import {ReactiveFormsBaseClass} from '../../../../shared/classes/reactive-forms.base.class';
 import {ProjectService} from '../../../../services/project.service';
-import {environment} from '../../../../../environments/environment';
 
 declare var $: any;
 
@@ -205,7 +204,10 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
     $('#infoBox').modal('show');
     this.userService.deleteUser(this.selectedRow['userId']).then((result) => {
       this.infoMessage = 'User was deleted';
+      this.selectedRow = null;
       this.isSelectedRow = false;
+      this.isClickOnCreateUser = false;
+      this.isClickOnEditUser = false;
       this.getAllUsers(() => {
         this.loadUsers();
       });
@@ -300,6 +302,9 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
       this.userService.updateUser(userData).then((result) => {
         this.infoMessage = 'User was updated';
         this.cleanEditUserForm();
+        this.selectedRow = null;
+        this.isClickOnCreateUser = false;
+        this.isClickOnEditUser = false;
         this.getAllUsers(() => {
           this.loadUsers();
         });
@@ -328,7 +333,8 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   onErrorHandle(error) {
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
-        this.infoMessage = (error.error.error == 'User with this email already registered in the system.')
+        this.infoMessage = (error.error.error == 'User with this email already registered in the system.'
+          || error.error.error == 'Invalid email format.')
           ? error.error.error : message;
         $('#infoBox').modal('show');
       }

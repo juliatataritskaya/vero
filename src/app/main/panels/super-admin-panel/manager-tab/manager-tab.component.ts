@@ -180,6 +180,9 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
     $('#infoBox').modal('show');
     this.userService.deleteUser(this.selectedRow['userId']).then((result) => {
       this.infoMessage = 'Manager was deleted';
+      this.selectedRow = null;
+      this.isClickOnEditManager = false;
+      this.isClickOnCreateManager = false;
       this.getAllManagers(() => {
         this.loadManagers();
       });
@@ -266,6 +269,9 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
       $('#infoBox').modal('show');
       this.userService.updateUser(userData).then((result) => {
         this.infoMessage = 'Manager was updated';
+        this.selectedRow = null;
+        this.isClickOnEditManager = false;
+        this.isClickOnCreateManager = false;
         this.cleanEditManagerForm();
         this.getAllManagers(() => {
           this.loadManagers();
@@ -295,7 +301,8 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
   onErrorHandle(error) {
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
-        this.infoMessage = (error.error.error == 'User with this email already registered in the system.')
+        this.infoMessage = (error.error.error == 'User with this email already registered in the system.'
+          || error.error.error == 'Invalid email format.')
           ? error.error.error : message;
         $('#infoBox').modal('show');
       }

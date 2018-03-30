@@ -257,58 +257,85 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodels: this.armodels
     });
 
-    const projectData = this.projectForm.value;
-    if (!this.projectForm.value['name'] || !this.projectForm.value['description']
-      || !this.projectForm.value['logo'] || this.projectForm.value['armodels'].length === 0 ||
-      this.projectForm.value['typesRooms'].length === 0 || this.projectForm.value['styles'].length === 0  ||
-      this.projectForm.value['plansName'].length === 0) {
-      this.infoMessage = 'Project data is invalid, please check it.';
-    } else if (this.styles.length > 3) {
-      this.infoMessage = 'Max count interior styles are 3';
-    } else {
-      projectData.miniImageUrl = this.miniImageUrl || this.projectForm.value['logo'];
-      projectData.plansName = this.plans;
-      projectData.armodels = this.armodels;
-      projectData.projectPhotos = this.projectPhotos;
-
-      if (this.isClickOnEditProject) {
-        this.updateProjectInfo({
-          project: {
-            id: localStorage.getItem('projectId'),
-            name: projectData.name,
-            description: projectData.description,
-            videoUrl: projectData.videoUrl,
-            miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles,
-            roomsInfo: this.typesRooms,
-            plansInfo: this.plans,
-            arObjectsInfo: this.armodels
-          }, error: null
-        });
+    this.resizeLogo(() => {
+      console.log(2);
+      const projectData = this.projectForm.value;
+      if (!this.projectForm.value['name'] || !this.projectForm.value['description']
+        || !this.projectForm.value['logo'] || this.projectForm.value['armodels'].length === 0 ||
+        this.projectForm.value['typesRooms'].length === 0 || this.projectForm.value['styles'].length === 0  ||
+        this.projectForm.value['plansName'].length === 0) {
+        this.infoMessage = 'Project data is invalid, please check it.';
+      } else if (this.styles.length > 3) {
+        this.infoMessage = 'Max count interior styles are 3';
       } else {
-        this.projectService.addProjectInfo({
-          project: {
-            name: projectData.name,
-            description: projectData.description,
-            videoUrl: projectData.videoUrl,
-            miniImageUrl: projectData.miniImageUrl,
-            interiorsInfo: this.styles,
-            roomsInfo: this.typesRooms,
-            plansInfo: this.plans,
-            arObjectsInfo: this.armodels
-          }, error: null
-        }).then((result) => {
-          this.savedProjectData = result.project;
-          localStorage.setItem('projectId', result.project['id']);
-          this.addProjectPhotos(result, () => {
-            this.infoMessage = 'Common settings were saved';
-            this.getAllNewProjectData();
+        console.log(this.miniImageUrl);
+        projectData.miniImageUrl = this.miniImageUrl || this.projectForm.value['logo'];
+        projectData.plansName = this.plans;
+        projectData.armodels = this.armodels;
+        projectData.projectPhotos = this.projectPhotos;
+
+        if (this.isClickOnEditProject) {
+          this.updateProjectInfo({
+            project: {
+              id: localStorage.getItem('projectId'),
+              name: projectData.name,
+              description: projectData.description,
+              videoUrl: projectData.videoUrl,
+              miniImageUrl: projectData.miniImageUrl,
+              interiorsInfo: this.styles,
+              roomsInfo: this.typesRooms,
+              plansInfo: this.plans,
+              arObjectsInfo: this.armodels
+            }, error: null
           });
-          this.isClickOnEditProject = true;
-        }, error => {
-          this.onErrorHandle(error);
-        });
+        } else {
+          this.projectService.addProjectInfo({
+            project: {
+              name: projectData.name,
+              description: projectData.description,
+              videoUrl: projectData.videoUrl,
+              miniImageUrl: projectData.miniImageUrl,
+              interiorsInfo: this.styles,
+              roomsInfo: this.typesRooms,
+              plansInfo: this.plans,
+              arObjectsInfo: this.armodels
+            }, error: null
+          }).then((result) => {
+            this.savedProjectData = result.project;
+            localStorage.setItem('projectId', result.project['id']);
+            this.addProjectPhotos(result, () => {
+              this.infoMessage = 'Common settings were saved';
+              this.getAllNewProjectData();
+            });
+            this.isClickOnEditProject = true;
+          }, error => {
+            this.onErrorHandle(error);
+          });
+        }
       }
+    });
+  }
+
+  private resizeLogo(callback) {
+    if (this.logo[0].name.indexOf('http') == -1) {
+      this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
+        // this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
+        console.log(result);
+        if (result) {
+          console.log(1);
+          const fr = new FileReader();
+          fr.onload = () => {
+            this.miniImageUrl = fr.result;
+            callback();
+          };
+          fr.readAsDataURL(result);
+        }
+      }, error => {
+        this.infoMessage = 'Something wrong, please try again.';
+      });
+    } else {
+      this.miniImageUrl = this.logo[0].name;
+      callback();
     }
   }
 
@@ -475,27 +502,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       switch (controlName) {
         case 'logo':
           this.logo[0] = event.target.files[0];
-          this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
-            this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
-            if (result) {
-              const fr = new FileReader();
-              fr.onload = () => {
-                this.miniImageUrl = fr.result;
-              };
-              fr.readAsDataURL(result);
-            }
-          }, error => {
-            $('#infoBox').modal('show');
-            this.infoMessage = 'Something wrong, please try again.';
-          });
           this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
-          if (this.logo[0]) {
-            const fr = new FileReader();
-            fr.onload = () => {
-              this.miniImageUrl = fr.result;
-            };
-            fr.readAsDataURL(this.logo[0]);
-          }
+
           break;
         case 'objectFile':
           this.objectFile = event.target.files[0];

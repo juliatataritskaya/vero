@@ -157,6 +157,7 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
     this.userService.deleteUser(this.selectedRow['userId']).then((result) => {
       this.infoMessage = 'Super Manager was deleted';
       this.getAllSuperManagers(() => {
+        this.selectedRow = null;
         this.loadSuperManagers();
       });
     }, (error) => {
@@ -235,6 +236,9 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
       this.userService.updateUser(userData).then((result) => {
         this.infoMessage = 'Super Manager was updated';
         this.cleanEditSuperManagerForm();
+        this.selectedRow = null;
+        this.isClickOnEditSuperManager = false;
+        this.isClickOnCreateSuperManager = false;
         this.getAllSuperManagers(() => {
           this.loadSuperManagers();
         });
@@ -252,7 +256,8 @@ export class SuperManagerTabComponent extends ReactiveFormsBaseClass implements 
   onErrorHandle(error) {
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
-        this.infoMessage = (error.error.error == 'User with this email already registered in the system.')
+        this.infoMessage = (error.error.error == 'User with this email already registered in the system.'
+          || error.error.error == 'Invalid email format.')
           ? error.error.error : message;
         $('#infoBox').modal('show');
       }
