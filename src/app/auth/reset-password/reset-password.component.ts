@@ -6,6 +6,8 @@ import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.c
 import {validateConfirmPassword} from '../../shared/validators/confirm-password.validator';
 import {RedirectService} from '../../services/redirect.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -14,6 +16,7 @@ import {RedirectService} from '../../services/redirect.service';
 export class ResetPasswordComponent extends ReactiveFormsBaseClass implements OnInit {
   forgotPasswordForm: FormGroup;
   token: string;
+  infoMessage: string;
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
               private route: ActivatedRoute, private redirectService: RedirectService) {
@@ -43,38 +46,40 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     tokenData.append('token', this.token);
     this.authService.checkoutResetPassword(tokenData).then((res) => {
       if (res.message === 'This token isn\'t valid') {
-        alert('This token isn\'t valid');
-        this.router.navigate(['/auth/login']);
+        this.infoMessage = 'This token isn\'t valid';
+        $('#infoBoxWithRedirect').modal('show');
+        // this.router.navigate(['/auth/login']);
       }
     }, error => {
-      alert('Something wrong, please try again.');
-      this.router.navigate(['/auth/login']);
+      $('#infoBoxWithRedirect').modal('show');
+      this.infoMessage = 'Something wrong, please try again.';
+      // this.router.navigate(['/auth/login']);
     });
   }
 
   public onSendHandler(): void {
+    $('#infoBox').modal('show');
     if (!this.forgotPasswordForm.valid) {
-      alert('Password is invalid, please check it.');
+      this.infoMessage = 'Password is invalid, please check it.';
       return;
     }
     const passwordData = new FormData();
     passwordData.append('token', this.token);
     passwordData.append('password', this.forgotPasswordForm.get('password').value);
     this.authService.submitResetPassword(passwordData).then(() => {
-      alert('Password was changed');
-      this.router.navigate(['/auth/login']);
+      this.infoMessage = 'Password was changed';
     }, error => {
       if ('No token or password was sent.' === error.error.error) {
-        alert(error.error.error);
+        this.infoMessage = error.error.error;
         return;
       } else {
         this.redirectService.checkRedirect(error.status, (message) => {
           if (message) {
-            alert(error.error.error);
+            this.infoMessage = error.error.error;
           }
         });
       }
-      alert('Something wrong, please try again.');
+      this.infoMessage = 'Something wrong, please try again.';
     });
   }
 
@@ -91,5 +96,16 @@ export class ResetPasswordComponent extends ReactiveFormsBaseClass implements On
     this.forgotPasswordForm.valueChanges.subscribe(data => this.onValueChanged(this.forgotPasswordForm, data));
 
     this.onValueChanged(this.forgotPasswordForm);
+  }
+
+  closeModal() {
+    $('#infoBox').modal('hide');
+    this.infoMessage = null;
+  }
+
+  closeModalRedirect() {
+    $('#infoBoxWithRedirect').modal('hide');
+    this.infoMessage = null;
+    this.router.navigate(['/auth/login']);
   }
 }

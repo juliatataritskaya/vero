@@ -5,6 +5,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
 import {RedirectService} from '../../services/redirect.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,6 +14,7 @@ import {RedirectService} from '../../services/redirect.service';
 })
 export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
   loginForm: FormGroup;
+  infoMessage: string;
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
               private redirectService: RedirectService) {
@@ -37,7 +40,8 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
 
   public onLoginHandler(): void {
     if (!this.loginForm.valid) {
-      this.showError('Login data is invalid, please check it.');
+      this.infoMessage = 'Login data is invalid, please check it.';
+      $('#infoBox').modal('show');
       return;
     }
     const formObject = this.loginForm.value;
@@ -52,7 +56,8 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     }, error => {
       this.redirectService.checkRedirect(error.status, (message) => {
         if (message) {
-          alert(error.error.error);
+          this.infoMessage = error.error.error;
+          $('#infoBox').modal('show');
         }
       });
     });
@@ -67,5 +72,10 @@ export class LoginComponent extends ReactiveFormsBaseClass implements OnInit {
     this.loginForm.valueChanges.subscribe(data => this.onValueChanged(this.loginForm, data));
 
     this.onValueChanged(this.loginForm);
+  }
+
+  closeModal() {
+    $('#infoBox').modal('hide');
+    this.infoMessage = null;
   }
 }

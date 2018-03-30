@@ -3,7 +3,9 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReactiveFormsBaseClass} from '../../shared/classes/reactive-forms.base.class';
-import {RedirectService} from "../../services/redirect.service";
+import {RedirectService} from '../../services/redirect.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,6 +14,7 @@ import {RedirectService} from "../../services/redirect.service";
 })
 export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements OnInit {
   forgotPasswordForm: FormGroup;
+  infoMessage: string;
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder,
               private redirectService: RedirectService) {
@@ -31,8 +34,9 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
   }
 
   public onForgotPasswordHandler(): void {
+    $('#infoBox').modal('show');
     if (!this.forgotPasswordForm.valid) {
-      this.showError('Email is invalid, please check it.');
+      this.infoMessage = 'Email is invalid, please check it.';
       return;
     }
     const formObject = this.forgotPasswordForm.value;
@@ -43,12 +47,11 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
       }
     }
     this.authService.resetPassword(forgotPasswordData).then(() => {
-      alert('Message was sent to the email');
-      this.router.navigate(['/auth/login']);
+      this.infoMessage = 'Message was sent to the email';
     }, error => {
       this.redirectService.checkRedirect(error.status, (message) => {
         if (message) {
-          alert(error.error.error);
+          this.infoMessage = error.error.error;
         }
       });
     });
@@ -62,5 +65,10 @@ export class ForgotPasswordComponent extends ReactiveFormsBaseClass implements O
     this.forgotPasswordForm.valueChanges.subscribe(data => this.onValueChanged(this.forgotPasswordForm, data));
 
     this.onValueChanged(this.forgotPasswordForm);
+  }
+
+  closeModal() {
+    $('#infoBox').modal('hide');
+    this.infoMessage = null;
   }
 }

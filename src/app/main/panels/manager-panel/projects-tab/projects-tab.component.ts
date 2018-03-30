@@ -257,18 +257,16 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       armodels: this.armodels
     });
 
-    this.resizeLogo(() => {
-      console.log(2);
-      const projectData = this.projectForm.value;
-      if (!this.projectForm.value['name'] || !this.projectForm.value['description']
-        || !this.projectForm.value['logo'] || this.projectForm.value['armodels'].length === 0 ||
-        this.projectForm.value['typesRooms'].length === 0 || this.projectForm.value['styles'].length === 0  ||
-        this.projectForm.value['plansName'].length === 0) {
-        this.infoMessage = 'Project data is invalid, please check it.';
-      } else if (this.styles.length > 3) {
-        this.infoMessage = 'Max count interior styles are 3';
-      } else {
-        console.log(this.miniImageUrl);
+    const projectData = this.projectForm.value;
+    if (!this.projectForm.value['name'] || !this.projectForm.value['description']
+      || !this.projectForm.value['logo'] || this.projectForm.value['armodels'].length === 0 ||
+      this.projectForm.value['typesRooms'].length === 0 || this.projectForm.value['styles'].length === 0  ||
+      this.projectForm.value['plansName'].length === 0) {
+      this.infoMessage = 'Project data is invalid, please check it.';
+    } else if (this.styles.length > 3) {
+      this.infoMessage = 'Max count interior styles are 3';
+    } else {
+      this.resizeLogo(() => {
         projectData.miniImageUrl = this.miniImageUrl || this.projectForm.value['logo'];
         projectData.plansName = this.plans;
         projectData.armodels = this.armodels;
@@ -312,17 +310,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             this.onErrorHandle(error);
           });
         }
-      }
-    });
+      });
+    }
   }
 
   private resizeLogo(callback) {
     if (this.logo[0].name.indexOf('http') == -1) {
       this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
-        // this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
-        console.log(result);
         if (result) {
-          console.log(1);
           const fr = new FileReader();
           fr.onload = () => {
             this.miniImageUrl = fr.result;
