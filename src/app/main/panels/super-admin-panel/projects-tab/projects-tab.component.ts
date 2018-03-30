@@ -7,6 +7,7 @@ import {environment} from '../../../../../environments/environment';
 import {UserService} from '../../../../services/user.service';
 import {Clipboard} from 'ts-clipboard';
 import {Ng2ImgToolsService} from 'ng2-img-tools';
+import ImageCompressor from 'image-compressor.js';
 
 declare var $: any;
 
@@ -266,8 +267,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     } else if (this.styles.length > 3) {
       this.infoMessage = 'Max count interior styles are 3';
     } else {
-      this.resizeLogo(() => {
-        projectData.miniImageUrl = this.miniImageUrl || this.projectForm.value['logo'];
+      this.resizeLogo((img) => {
+        projectData.miniImageUrl = img;
         projectData.plansName = this.plans;
         projectData.armodels = this.armodels;
         projectData.projectPhotos = this.projectPhotos;
@@ -318,19 +319,26 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     if (this.logo[0].name.indexOf('http') == -1) {
       this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
         if (result) {
-          const fr = new FileReader();
-          fr.onload = () => {
-            this.miniImageUrl = fr.result;
-            callback();
-          };
-          fr.readAsDataURL(result);
+          new ImageCompressor(result, {
+            quality: .8,
+            success(res) {
+              const fr = new FileReader();
+              fr.onload = () => {
+                callback(fr.result);
+              };
+              fr.readAsDataURL(res);
+            },
+            error(e) {
+              console.log(e.message);
+            },
+          });
         }
       }, error => {
         this.infoMessage = 'Something wrong, please try again.';
       });
     } else {
       this.miniImageUrl = this.logo[0].name;
-      callback();
+      callback(this.miniImageUrl);
     }
   }
 
@@ -415,12 +423,24 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         filesArr.forEach((i) => {
           this.ng2ImgToolsService.resize([i], 4000, 2000).subscribe(result => {
             if (result) {
-              const fr = new FileReader();
-              this.projectPhotosFiles.push(result);
-              fr.onload = () => {
-                this.projectPhotos.push(fr.result);
-              };
-              fr.readAsDataURL(result);
+              let arr = this.projectPhotosFiles;
+              let arrPh = this.projectPhotos;
+              new ImageCompressor(result, {
+                quality: .8,
+                success(res) {
+                  arr.push(res);
+                  const fr = new FileReader();
+                  fr.onload = () => {
+                    arrPh.push(fr.result);
+                  };
+                  fr.readAsDataURL(res);
+                },
+                error(e) {
+                  console.log(e.message);
+                },
+              });
+              this.projectPhotosFiles = arr;
+              this.projectPhotos = arrPh;
             }
           }, error => {
             $('#infoBox').modal('show');
@@ -603,7 +623,15 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         };
         typeof this.image !== 'string' ?
         this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
-          appendForm(result);
+          new ImageCompressor(result, {
+            quality: .8,
+            success(res) {
+              appendForm(res);
+            },
+            error(e) {
+              this.infoMessage = 'Something wrong, please try again.';
+            },
+          });
         }, error => {
           this.infoMessage = 'Something wrong, please try again.';
         }) : appendForm(this.image);
@@ -623,22 +651,34 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           const dayTimeId = (dayTime === 'day') ? 1 : 2;
           const roomFormData = new FormData();
           this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
-            roomFormData.append('roomObjects', result);
-            roomFormData.append('dayTimeId', dayTimeId.toString());
-            roomFormData.append('nameOfRoomId', nameRoomId);
-            roomFormData.append('objectPlanId', namePlanId);
-            roomFormData.append('interiorId', interiorId);
-            roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
-            roomFormData.append('projectId', localStorage.getItem('projectId'));
-            this.projectService.addRoom(roomFormData).then((res) => {
-              this.getAllNewProjectData();
-              $('#roomImg').modal('hide');
-              this.infoMessage = 'Room was added';
-              this.resetRoomsForm();
-            }, error => {
-              this.onErrorHandle(error);
+            new ImageCompressor(result, {
+              quality: .8,
+              success(res) {
+                appendSaveForm(res);
+              },
+              error(e) {
+                this.infoMessage = 'Something wrong, please try again.';
+              },
             });
-            fr.readAsDataURL(this.image);
+
+            const appendSaveForm = (imgResult) => {
+              roomFormData.append('roomObjects', imgResult);
+              roomFormData.append('dayTimeId', dayTimeId.toString());
+              roomFormData.append('nameOfRoomId', nameRoomId);
+              roomFormData.append('objectPlanId', namePlanId);
+              roomFormData.append('interiorId', interiorId);
+              roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
+              roomFormData.append('projectId', localStorage.getItem('projectId'));
+              this.projectService.addRoom(roomFormData).then((res) => {
+                this.getAllNewProjectData();
+                $('#roomImg').modal('hide');
+                this.infoMessage = 'Room was added';
+                this.resetRoomsForm();
+              }, error => {
+                this.onErrorHandle(error);
+              });
+              fr.readAsDataURL(this.image);
+            };
           }, error => {
             this.infoMessage = 'Something wrong, please try again.';
           });
