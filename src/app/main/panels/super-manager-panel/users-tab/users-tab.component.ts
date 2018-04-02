@@ -252,6 +252,7 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   }
 
   public cleanEditUserForm() {
+    this.getAllProjects(() => {});
     this.editUserForm.reset();
     this.project = '';
     this.ageRange = '';
@@ -263,11 +264,13 @@ export class UsersTabComponent extends ReactiveFormsBaseClass implements OnInit 
   }
 
   public onCancelAddNewUser() {
+    this.getAllProjects(() => {});
     this.isClickOnCreateUser = false;
     this.cleanAddUserForm();
   }
 
   public onCancelEditUser() {
+    this.getAllProjects(() => {});
     this.isClickOnEditUser = false;
     this.cleanEditUserForm();
     this.listProjectsForAdd = null;

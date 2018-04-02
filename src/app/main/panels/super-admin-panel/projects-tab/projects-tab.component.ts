@@ -566,9 +566,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
   }
 
   public addNewImgRoom(nameRoomId, interiorId, dayTime, namePlanId, defaultRoom) {
+    $('#infoBox').modal('show');
     this.infoMessage = '';
     this.image = this.image ? this.image : [];
-    $('#infoBox').modal('show');
     const findDefaultRoom = this.listRooms.find((room) => {
       return room.defaultRoom;
     });
@@ -594,11 +594,9 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       const foundRoomName = this.savedProjectData['roomsInfo'].find(function (element) {
         return element.id = nameRoomId;
       });
-
       const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
         return element.id = namePlanId;
       });
-
       if (this.isClickOnEditOrDeleteRoom && this.roomIdForDeleteOrEdit) {
         const dayTimeId = (dayTime === 'day') ? 1 : 2;
         const roomFormData = new FormData();
@@ -612,10 +610,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
           roomFormData.append('imageRoomId', this.roomIdForDeleteOrEdit);
           roomFormData.append('projectId', localStorage.getItem('projectId'));
           this.projectService.updateRoom(roomFormData).then((res) => {
+            this.resetRoomsForm();
             this.getAllNewProjectData();
             $('#roomImg').modal('hide');
             this.infoMessage = 'Room was updated';
-            this.resetRoomsForm();
           }, error => {
             this.onErrorHandle(error);
           });
@@ -637,17 +635,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         }) : appendForm(this.image);
       } else {
         if (this.image) {
-          const fr = new FileReader();
-          fr.onload = () => {
-            this.listRooms.push({
-              name: foundRoomName.name,
-              interior: foundStyleName.name,
-              dayTime: dayTime,
-              image: this.image,
-              imgBase64: fr.result,
-              planName: foundPlanName.name
-            });
-          };
           const dayTimeId = (dayTime === 'day') ? 1 : 2;
           const roomFormData = new FormData();
           this.ng2ImgToolsService.resize([this.image], 4000, 2000).subscribe(result => {
@@ -660,7 +647,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
                 this.infoMessage = 'Something wrong, please try again.';
               },
             });
-
             const appendSaveForm = (imgResult) => {
               roomFormData.append('roomObjects', imgResult);
               roomFormData.append('dayTimeId', dayTimeId.toString());
@@ -670,14 +656,13 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
               roomFormData.append('defaultRoom', defaultRoom ? 'true' : 'false');
               roomFormData.append('projectId', localStorage.getItem('projectId'));
               this.projectService.addRoom(roomFormData).then((res) => {
+                this.resetRoomsForm();
                 this.getAllNewProjectData();
                 $('#roomImg').modal('hide');
                 this.infoMessage = 'Room was added';
-                this.resetRoomsForm();
               }, error => {
                 this.onErrorHandle(error);
               });
-              fr.readAsDataURL(this.image);
             };
           }, error => {
             this.infoMessage = 'Something wrong, please try again.';
@@ -694,9 +679,10 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     const foundPlanName = this.savedProjectData['plansInfo'].find(function (element) {
       return element.id == namePlanId;
     });
-    const foundPlanNameInListPlans = this.listPlans.find(function (element) {
+    let foundPlanNameInListPlans = this.listPlans.find(function (element) {
       return element.planName == foundPlanName.name;
     });
+    foundPlanNameInListPlans = foundPlanNameInListPlans ? foundPlanNameInListPlans : [];
     $('#infoBox').modal('show');
     if (!namePlanId || !this.planImg || !floorNumber) {
       this.infoMessage = 'Plans data is invalid, please check it.';
@@ -704,7 +690,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       && !this.isClickOnEditOrDeleteLayout) {
       this.infoMessage = 'You can add only ' + (this.savedProjectData['plansInfo'].length - 1)
         + ' plans. You can change count plans in common settings!';
-    } else if (foundPlanNameInListPlans) {
+    } else if (foundPlanNameInListPlans &&  foundPlanNameInListPlans.planId != this.planIdForDeleteOrEdit) {
       this.infoMessage = 'Plan with this name already exists!';
     } else {
       if (this.isClickOnEditOrDeleteLayout && this.planIdForDeleteOrEdit) {

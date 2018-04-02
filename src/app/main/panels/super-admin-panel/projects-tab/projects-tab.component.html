@@ -372,7 +372,8 @@
             <label for="armodelName">AR modal name: </label>
             <select id="armodelName" name="planName" class="form-control" [(ngModel)]="arName"
                     [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let arinfo of savedProjectData.arObjectsInfo" value="{{arinfo.id}}">{{arinfo.name}}
+              <option *ngFor="let arinfo of savedProjectData.arObjectsInfo" value="{{arinfo.id}}"
+                      disabled="{{arinfo.name == 'No select' ? 'disabled' : ''}}">{{arinfo.name}}
               </option>
             </select>
           </div>
@@ -402,7 +403,7 @@
           <div class="form-group">
             <label for="floorNumber">Scale: </label>
             <input type="number" id="size" name="size" placeholder="Size" class="form-control" min="0"
-                   onkeydown="javascript: return event.keyCode == 69 ? false : true"
+                   onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                    [(ngModel)]="arsize" [ngModelOptions]="{standalone: true}">
           </div>
         </form>
@@ -420,7 +421,7 @@
 </div>
 
 
-<div id="infoBox" class="modal message-box animated fade" role="dialog">
+<div id="infoBox" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">
@@ -437,7 +438,7 @@
   </div>
 </div>
 
-<div id="projectSharingModal" class="modal message-box animated fade" role="dialog">
+<div id="projectSharingModal" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="col-lg-12">
@@ -471,7 +472,7 @@
 
 
 
-  <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog">
+  <div id="infoDeleteBox" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
@@ -487,7 +488,7 @@
     </div>
   </div>
 
-  <div id="infoDeletePlan" class="modal message-box animated fade" role="dialog">
+  <div id="infoDeletePlan" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
@@ -502,7 +503,7 @@
     </div>
   </div>
 
-  <div id="infoDeleteRoom" class="modal message-box animated fade" role="dialog">
+  <div id="infoDeleteRoom" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
@@ -518,7 +519,7 @@
   </div>
 
 
-  <div id="infoDeleteArmodel" class="modal message-box animated fade" role="dialog">
+  <div id="infoDeleteArmodel" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
       <div class="mb-middle">
@@ -534,7 +535,7 @@
     </div>
   </div>
 
-<div id="usersModal" class="modal message-box animated fade scroll-block" role="dialog">
+<div id="usersModal" class="modal message-box animated fade scroll-block" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="mb-container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="col-lg-12">

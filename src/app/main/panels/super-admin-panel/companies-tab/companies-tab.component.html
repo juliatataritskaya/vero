@@ -11,7 +11,7 @@
         <div class="col-md-6 col-xs-12">
           <div class="input-group">
             <span class="input-group-addon"><i class="icon-pencil"></i></span>
-            <input type="text" class="form-control" formControlName="name" title="" required>
+            <input type="text" class="form-control" formControlName="name" title="" required pattern>
           </div>
           <span class="help-block">Change company name</span>
           <div class="alert alert-danger" *ngIf="!companySettingsForm.get('name').valid
@@ -105,7 +105,7 @@
   </div>
 </div>
 
-<div id="infoBox" class="modal message-box animated fade" role="dialog">
+<div id="infoBox" class="modal message-box animated fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="mb-container col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3
   col-sm-8 col-sm-offset-2  col-xs-8 col-xs-offset-2">
     <div class="mb-middle">

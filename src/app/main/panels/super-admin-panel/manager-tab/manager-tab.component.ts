@@ -219,24 +219,26 @@ export class ManagerTabComponent extends ReactiveFormsBaseClass implements OnIni
 
   public cleanAddManagerForm() {
     this.addManagerForm.reset();
-    this.listProjectsForAdd = null;
-    this.listProjectsIdsForAdd = null;
+    this.listProjectsForAdd = [];
+    this.listProjectsIdsForAdd = [];
   }
 
   public cleanEditManagerForm() {
     this.editManagerForm.reset();
     this.project = '';
     this.ageRange = '';
-    this.listProjectsForAdd = null;
-    this.listProjectsIdsForAdd = null;
+    this.listProjectsForAdd = [];
+    this.listProjectsIdsForAdd = [];
   }
 
   public onCancelAddNewManager() {
+    this.getAllProjects();
     this.isClickOnCreateManager = false;
     this.cleanAddManagerForm();
   }
 
   public onCancelEditManager() {
+    this.getAllProjects();
     this.isClickOnEditManager = false;
     this.cleanEditManagerForm();
   }

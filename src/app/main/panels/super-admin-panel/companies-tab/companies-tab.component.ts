@@ -30,7 +30,8 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
       confirmPassword: ''
     }, {
       name: {
-        required: 'Name is required.'
+        required: 'Name is required.',
+        pattern: 'The name can not contain only spaces or spaces at the beginning of the line'
       },
       address: {
         required: 'Address is required.'
@@ -119,7 +120,7 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
 
   private createCompanySettingsForm(): void {
     this.companySettingsForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.pattern('(?=\\S)[^\\\\]+')]],
       address: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^[+]\\d+$|^\\d+$')]],
