@@ -151,7 +151,9 @@ export class CompaniesTabComponent extends ReactiveFormsBaseClass implements OnI
   onErrorHandle(error) {
     this.redirectService.checkRedirect(error.status, (message) => {
       if (message) {
-        this.infoMessage = 'Something wrong, please try again.';
+        this.infoMessage = (error.error.error == 'User with this email already registered in the system.'
+          || error.error.error == 'Invalid email format.')
+          ? error.error.error : message;
         $('#infoBox').modal('show');
       }
     });
