@@ -317,7 +317,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
 
   private resizeLogo(callback) {
     if (this.logo[0].name.indexOf('http') == -1) {
-      this.ng2ImgToolsService.resize([this.logo[0]], 4000, 2000).subscribe(result => {
+      this.ng2ImgToolsService.resize([this.logo[0]], 1280, 720).subscribe(result => {
         if (result) {
           new ImageCompressor(result, {
             quality: .85,
@@ -518,7 +518,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         case 'logo':
           this.logo[0] = event.target.files[0];
           this.projectForm.controls['logo'].setValue(this.logo[0] ? this.logo[0].name : '');
-
           break;
         case 'objectFile':
           this.objectFile = event.target.files[0];
