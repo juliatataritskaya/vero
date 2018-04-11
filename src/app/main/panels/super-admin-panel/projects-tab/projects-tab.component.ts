@@ -689,7 +689,8 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       && !this.isClickOnEditOrDeleteLayout) {
       this.infoMessage = 'You can add only ' + (this.savedProjectData['plansInfo'].length - 1)
         + ' plans. You can change count plans in common settings!';
-    } else if (foundPlanNameInListPlans &&  foundPlanNameInListPlans.planId != this.planIdForDeleteOrEdit) {
+    } else if (foundPlanNameInListPlans.length != 0 &&  foundPlanNameInListPlans.planId != this.planIdForDeleteOrEdit) {
+      console.log(foundPlanNameInListPlans, foundPlanNameInListPlans.planId , this.planIdForDeleteOrEdit)
       this.infoMessage = 'Plan with this name already exists!';
     } else {
       if (this.isClickOnEditOrDeleteLayout && this.planIdForDeleteOrEdit) {
@@ -719,15 +720,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
         this.isClickOnEditOrDeleteLayout = false;
       } else {
         if (this.planImg) {
-          const fr = new FileReader();
-          fr.onload = () => {
-            this.listPlans.push({
-              planName: foundPlanName.name,
-              planImg: this.planImg,
-              imgBase64: fr.result,
-              floorNumber: floorNumber
-            });
-          };
           const planFormData = new FormData();
           this.ng2ImgToolsService.resize([this.planImg], 4000, 2000).subscribe(result => {
             planFormData.append('plans', result);
@@ -741,7 +733,6 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
             }, error => {
               this.onErrorHandle(error);
             });
-            fr.readAsDataURL(result);
           });
         } else {
           this.infoMessage = 'Image is mandatory!';
@@ -807,11 +798,11 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#infoBox').modal('show');
     this.projectService.deletePlan(this.planIdForDeleteOrEdit).then((res) => {
       this.infoMessage = 'Plan was deleted';
+      this.getAllNewProjectData();
     }, error => {
       this.onErrorHandle(error);
     });
     this.planIdForDeleteOrEdit = null;
-    this.getAllNewProjectData();
   }
 
   onEditPlan(id) {
