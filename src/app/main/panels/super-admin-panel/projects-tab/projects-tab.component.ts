@@ -265,7 +265,7 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.projectForm.value['plansName'].length === 0) {
       this.infoMessage = 'Project data is invalid, please check it.';
     } else if (this.styles.length > 3) {
-      this.infoMessage = 'Max count interior styles are 3';
+      this.infoMessage = 'Max count interior styles is 3';
     } else {
       this.resizeLogo((img) => {
         projectData.miniImageUrl = img;
@@ -361,9 +361,15 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
     $('#infoBox').modal('show');
     const photosFormData = new FormData();
     const project = this.savedProjectData ? this.savedProjectData : this.selectedProject;
+    let countNotB64 = 0;
+    this.projectPhotos.forEach((photo) => {
+      if(photo.indexOf('base64') == -1){
+        countNotB64 = countNotB64 + 1;
+      }
+    });
     project['imageUrls'].forEach((img) => {
       this.projectPhotos.forEach((photo) => {
-        if (photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1) {
+        if ((photo.indexOf('base64') == -1 && this.projectPhotos.indexOf((environment.serverUrl + img)) == -1) || countNotB64 == 0) {
           photosFormData.append('deletedPhotosPaths', img);
         }
       });
@@ -690,14 +696,14 @@ export class ProjectsTabComponent extends ReactiveFormsBaseClass implements OnIn
       this.infoMessage = 'You can add only ' + (this.savedProjectData['plansInfo'].length - 1)
         + ' plans. You can change count plans in common settings!';
     } else if (foundPlanNameInListPlans.length != 0 &&  foundPlanNameInListPlans.planId != this.planIdForDeleteOrEdit) {
-      console.log(foundPlanNameInListPlans, foundPlanNameInListPlans.planId , this.planIdForDeleteOrEdit)
       this.infoMessage = 'Plan with this name already exists!';
     } else {
       if (this.isClickOnEditOrDeleteLayout && this.planIdForDeleteOrEdit) {
+        const planId = this.planIdForDeleteOrEdit;
         const appendForm = (result) => {
           const planFormData = new FormData();
           planFormData.append('plans', result);
-          planFormData.append('planId', this.planIdForDeleteOrEdit);
+          planFormData.append('planId', planId);
           planFormData.append('planInfoId', namePlanId);
           planFormData.append('floorNumber', floorNumber);
           planFormData.append('projectId', localStorage.getItem('projectId'));
